@@ -18,7 +18,7 @@ window.onscroll = () => {
         let height = sec.offsetHeight;
         let id = sec.getAttribute('id');
 
-        if(top >= offset && top < offset + height) {
+        if (top >= offset && top < offset + height) {
             navLinks.forEach(links => {
                 links.classList.remove('active');
                 document.querySelector('header nav a[href*=' + id + ']').classList.add('active');
@@ -56,3 +56,33 @@ const typed = new Typed('.multiple-text', {
     backDelay: 1000,
     loop: true
 });
+
+// Google Form Submission
+const contactForm = document.getElementById('contact-form');
+if (contactForm) {
+    contactForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const formData = new FormData(contactForm);
+        const actionUrl = contactForm.action;
+
+        // Display a loading state on the button
+        const submitBtn = contactForm.querySelector('input[type="submit"]');
+        const originalBtnText = submitBtn.value;
+        submitBtn.value = 'Sending...';
+
+        fetch(actionUrl, {
+            method: 'POST',
+            mode: 'no-cors',
+            body: formData
+        }).then(() => {
+            alert('Thank you! Your message has been sent successfully.');
+            contactForm.reset();
+            submitBtn.value = originalBtnText;
+        }).catch((error) => {
+            alert('Oops! Something went wrong. Please try again.');
+            console.error('Form submission error:', error);
+            submitBtn.value = originalBtnText;
+        });
+    });
+}
