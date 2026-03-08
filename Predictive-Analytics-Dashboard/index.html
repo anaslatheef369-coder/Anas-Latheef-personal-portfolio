@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predictive Analytics AI - 3 Week Forecast</title>
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Boxicons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <!-- Background Particles -->
+    <div id="tsparticles"></div>
+
+    <div class="dashboard-container glass-panel">
+        <header class="dashboard-header">
+            <div class="header-title">
+                <i class='bx bx-radar glow-icon'></i>
+                <div>
+                    <h1>Predictive Analytics AI</h1>
+                    <p>Live 3-Week Inventory Shortage Forecasting System</p>
+                </div>
+            </div>
+            <a href="../index.html#projects" class="back-btn"><i class='bx bx-arrow-back'></i> Return to Portfolio</a>
+        </header>
+
+        <div class="dashboard-grid">
+            <!-- Main Chart Area -->
+            <div class="chart-section glass-card">
+                <div class="section-header">
+                    <h2>Stock Trajectory Model</h2>
+                    <select id="item-selector" class="futuristic-select">
+                        <option value="microchips">AX-7 Microchips</option>
+                        <option value="displays">OLED Displays</option>
+                        <option value="batteries">Lithium Ion Cells</option>
+                    </select>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="forecastChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Risk Assessment Sidebar -->
+            <div class="risk-section glass-card">
+                <div class="section-header">
+                    <h2><i class='bx bx-error-alt text-danger'></i> Automated Risk Alerts</h2>
+                    <span class="pulse-indicator"></span>
+                </div>
+                <div class="risk-list" id="risk-list">
+                    <!-- Risks populated by JS -->
+                </div>
+
+                <div class="system-stats">
+                    <div class="stat-box">
+                        <p class="stat-label">AI Confidence</p>
+                        <h3 class="stat-value text-glow">97.4%</h3>
+                    </div>
+                    <div class="stat-box">
+                        <p class="stat-label">Model Update</p>
+                        <h3 class="stat-value">LIVE</h3>
+                    </div>
+                </div>
+
+                <button class="action-btn" id="reorder-btn"><i class='bx bx-cart-download'></i> Trigger
+                    Auto-Reorder</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- tsParticles -->
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@3.0.0/tsparticles.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="app.js"></script>
+</body>
+
+</html>
