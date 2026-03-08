@@ -174,45 +174,23 @@ function hideTypingIndicator() {
     }
 }
 
-// Enhanced Simulated AI Logic for Chatbot
-function getLogisticsResponse(message) {
-    const lowerMsg = message.toLowerCase();
+// Advanced Real-Time AI Logic via Pollinations.ai
+async function getLogisticsResponse(message) {
+    const systemPrompt = "You are a cutting-edge AI Logistics and Supply Chain Assistant for Anas Latheef's portfolio. You are an expert in warehousing, inventory, global freight, shrinkage, ETA tracking, and cost algorithms. Keep your answers extremely concise, professional, and slightly futuristic. Do not use markdown and keep answers under 3 sentences.";
 
-    // 1. Inventory / Stock
-    if (lowerMsg.includes('inventory') || lowerMsg.includes('stock')) {
-        return "I've analyzed the real-time inventory metrics. We are maintaining 94% availability across all global distribution centers utilizing our Just-In-Time (JIT) stock algorithms.";
+    try {
+        const response = await fetch(`https://text.pollinations.ai/prompt/${encodeURIComponent(message)}?systemPrompt=${encodeURIComponent(systemPrompt)}`);
+        if (!response.ok) throw new Error("API Error");
+        const aiText = await response.text();
+        return aiText;
+    } catch (error) {
+        console.error("AI Fetch Error:", error);
+        return "System error: Unable to connect to the global logistics mainframe at this time. Please try your query again later.";
     }
-    // 2. Shipment / ETA / Tracking
-    if (lowerMsg.includes('shipment') || lowerMsg.includes('eta') || lowerMsg.includes('track')) {
-        return "Analyzing transit routes... Shipment #4928X is slightly delayed due to port congestion, but the revised ETA is still within the acceptable delivery window (Expected: Tomorrow, 14:00 GMT).";
-    }
-    // 3. Shrinkage / Loss
-    if (lowerMsg.includes('shrinkage') || lowerMsg.includes('loss')) {
-        return "Since the implementation of the new automated tracking model, overall inventory shrinkage has dropped by exactly 31.4% this quarter compared to last year.";
-    }
-    // 4. Cost / Expensive
-    if (lowerMsg.includes('cost') || lowerMsg.includes('expensive') || lowerMsg.includes('save')) {
-        return "Running cost-reduction algorithms... I recommend rerouting our European freight through the secondary hub. This will save approximately $12,400 per month without impacting delivery timelines.";
-    }
-    // 5. Warehouse (Newly requested)
-    if (lowerMsg.includes('warehouse') || lowerMsg.includes('facility') || lowerMsg.includes('storage')) {
-        return "Our primary automated warehouse facility is currently operating at 82% capacity. The newly deployed robotic sorting floor has increased picker efficiency by 40% this week.";
-    }
-    // 6. Logistics (Newly requested)
-    if (lowerMsg.includes('logistic') || lowerMsg.includes('supply chain') || lowerMsg.includes('freight')) {
-        return "Logistics Operations Report: Global freight routing is currently stable. We are leveraging external carrier APIs to optimize last-mile delivery routes, reducing fuel consumption by 15%.";
-    }
-    // Greetings
-    if (lowerMsg.includes('hello') || lowerMsg.includes('hi') || lowerMsg.includes('hey')) {
-        return "Hello, Anas! I am your AI Logistics Assistant. How can I optimize your supply chain today? (Try asking about inventory, warehouses, or logistics).";
-    }
-
-    // Default Fallback
-    return "I'm sorry, my supply chain model didn't catch that. Could you specify if you need data on 'warehouse metrics', 'inventory', 'logistics routing', or 'costs'?";
 }
 
 // Handle Form Submission
-chatForm.addEventListener('submit', (e) => {
+chatForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const msg = messageInput.value.trim();
 
@@ -224,12 +202,11 @@ chatForm.addEventListener('submit', (e) => {
         // Show typing indicator
         showTypingIndicator();
 
-        // Simulate AI processing delay
-        setTimeout(() => {
-            hideTypingIndicator();
-            const aiResponse = getLogisticsResponse(msg);
-            appendMessage(aiResponse, 'bot');
-        }, 1000 + Math.random() * 1200);
+        // Fetch AI Response
+        const aiResponse = await getLogisticsResponse(msg);
+
+        hideTypingIndicator();
+        appendMessage(aiResponse, 'bot');
     }
 });
 
