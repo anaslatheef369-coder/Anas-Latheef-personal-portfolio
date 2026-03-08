@@ -128,10 +128,9 @@
                 <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=600&auto=format&fit=crop"
                     alt="Project 2">
                 <div class="portfolio-layer">
-                    <h4>AI Logistics Chatbot</h4>
-                    <p>Built a custom conversational AI handling 500+ daily internal supply chain queries.</p>
-                    <a href="AI-Logistics-Chatbot/index.html" target="_blank" rel="noopener noreferrer"><i
-                            class='bx bx-link-external'></i></a>
+                    <h4>Predictive Analytics AI</h4>
+                    <p>Designed a forecasting model that predicts inventory shortages up to 3 weeks in advance.</p>
+                    <a href="#"><i class='bx bx-link-external'></i></a>
                 </div>
             </div>
             <div class="portfolio-box">
@@ -200,6 +199,34 @@
             <a href="#home"><i class='bx bx-up-arrow-alt'></i></a>
         </div>
     </footer>
+
+    <!-- Chatbot Popup Widget -->
+    <div class="chatbot-toggler" id="chatbot-toggler">
+        <i class='bx bx-message-dots'></i>
+        <i class='bx bx-x'></i>
+    </div>
+
+    <div class="chat-popup glass-card" id="chat-popup">
+        <div class="chat-header">
+            <i class='bx bx-brain glow-icon'></i>
+            <div>
+                <h2>Logistics AI Core</h2>
+                <p>Status: <span class="status-online">Online</span></p>
+            </div>
+            <span class="close-chat" id="close-chat"><i class='bx bx-x'></i></span>
+        </div>
+
+        <div class="chat-box" id="chat-box">
+            <!-- Messages will be generated here -->
+        </div>
+
+        <form class="chat-input-area" id="chat-form">
+            <input type="text" id="message-input" placeholder="Enter supply chain query..." autocomplete="off" required>
+            <button type="submit" class="send-btn">
+                <i class='bx bx-send'></i>
+            </button>
+        </form>
+    </div>
 
     <!-- Typed JS -->
     <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>

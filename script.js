@@ -128,3 +128,123 @@ tsParticles.load("tsparticles", {
     },
     detectRetina: true
 });
+
+/* =========================================
+   Popup AI Chatbot Logic
+========================================= */
+
+const chatbotToggler = document.getElementById('chatbot-toggler');
+const closeChatBtn = document.getElementById('close-chat');
+const chatPopup = document.getElementById('chat-popup');
+const chatBox = document.getElementById('chat-box');
+const chatForm = document.getElementById('chat-form');
+const messageInput = document.getElementById('message-input');
+let chatInitialized = false;
+
+// Auto-scroll to bottom of chat
+function scrollChatToBottom() {
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+// Add message to chat box
+function appendMessage(msg, sender) {
+    const msgDiv = document.createElement('div');
+    msgDiv.classList.add('message');
+    msgDiv.classList.add(sender === 'bot' ? 'bot-msg' : 'user-msg');
+    msgDiv.textContent = msg;
+    chatBox.appendChild(msgDiv);
+    scrollChatToBottom();
+}
+
+// Typing indicator functionality
+let typingDiv = null;
+function showTypingIndicator() {
+    if (!typingDiv) {
+        typingDiv = document.createElement('div');
+        typingDiv.classList.add('typing-indicator');
+        typingDiv.textContent = "AI IS ANALYZING...";
+        chatBox.appendChild(typingDiv);
+        scrollChatToBottom();
+    }
+}
+function hideTypingIndicator() {
+    if (typingDiv) {
+        typingDiv.remove();
+        typingDiv = null;
+    }
+}
+
+// Enhanced Simulated AI Logic for Chatbot
+function getLogisticsResponse(message) {
+    const lowerMsg = message.toLowerCase();
+
+    // 1. Inventory / Stock
+    if (lowerMsg.includes('inventory') || lowerMsg.includes('stock')) {
+        return "I've analyzed the real-time inventory metrics. We are maintaining 94% availability across all global distribution centers utilizing our Just-In-Time (JIT) stock algorithms.";
+    }
+    // 2. Shipment / ETA / Tracking
+    if (lowerMsg.includes('shipment') || lowerMsg.includes('eta') || lowerMsg.includes('track')) {
+        return "Analyzing transit routes... Shipment #4928X is slightly delayed due to port congestion, but the revised ETA is still within the acceptable delivery window (Expected: Tomorrow, 14:00 GMT).";
+    }
+    // 3. Shrinkage / Loss
+    if (lowerMsg.includes('shrinkage') || lowerMsg.includes('loss')) {
+        return "Since the implementation of the new automated tracking model, overall inventory shrinkage has dropped by exactly 31.4% this quarter compared to last year.";
+    }
+    // 4. Cost / Expensive
+    if (lowerMsg.includes('cost') || lowerMsg.includes('expensive') || lowerMsg.includes('save')) {
+        return "Running cost-reduction algorithms... I recommend rerouting our European freight through the secondary hub. This will save approximately $12,400 per month without impacting delivery timelines.";
+    }
+    // 5. Warehouse (Newly requested)
+    if (lowerMsg.includes('warehouse') || lowerMsg.includes('facility') || lowerMsg.includes('storage')) {
+        return "Our primary automated warehouse facility is currently operating at 82% capacity. The newly deployed robotic sorting floor has increased picker efficiency by 40% this week.";
+    }
+    // 6. Logistics (Newly requested)
+    if (lowerMsg.includes('logistic') || lowerMsg.includes('supply chain') || lowerMsg.includes('freight')) {
+        return "Logistics Operations Report: Global freight routing is currently stable. We are leveraging external carrier APIs to optimize last-mile delivery routes, reducing fuel consumption by 15%.";
+    }
+    // Greetings
+    if (lowerMsg.includes('hello') || lowerMsg.includes('hi') || lowerMsg.includes('hey')) {
+        return "Hello, Anas! I am your AI Logistics Assistant. How can I optimize your supply chain today? (Try asking about inventory, warehouses, or logistics).";
+    }
+
+    // Default Fallback
+    return "I'm sorry, my supply chain model didn't catch that. Could you specify if you need data on 'warehouse metrics', 'inventory', 'logistics routing', or 'costs'?";
+}
+
+// Handle Form Submission
+chatForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const msg = messageInput.value.trim();
+
+    if (msg) {
+        // Show user message
+        appendMessage(msg, 'user');
+        messageInput.value = '';
+
+        // Show typing indicator
+        showTypingIndicator();
+
+        // Simulate AI processing delay
+        setTimeout(() => {
+            hideTypingIndicator();
+            const aiResponse = getLogisticsResponse(msg);
+            appendMessage(aiResponse, 'bot');
+        }, 1000 + Math.random() * 1200);
+    }
+});
+
+// Toggle Chatbot Window
+function toggleChatbot() {
+    document.body.classList.toggle('show-chatbot');
+
+    // Initialize welcome message only once when opened for the first time
+    if (document.body.classList.contains('show-chatbot') && !chatInitialized) {
+        chatInitialized = true;
+        setTimeout(() => {
+            appendMessage("System Online. Secure connection established. I am ready to process global supply chain queries.", 'bot');
+        }, 600);
+    }
+}
+
+chatbotToggler.addEventListener('click', toggleChatbot);
+closeChatBtn.addEventListener('click', () => document.body.classList.remove('show-chatbot'));
