@@ -507,10 +507,6 @@ span.multiple-text {
     backdrop-filter: blur(6px);
 }
 
-.portfolio-layer a::before {
-    content: 'Click to Preview';
-}
-
 .portfolio-layer a:hover {
     background: #fff;
     box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
