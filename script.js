@@ -175,7 +175,7 @@ function hideTypingIndicator() {
     }
 }
 
-async function getLogisticsResponse(message) {
+async function getLogisticsResponse(message, onTokenCallback) {
     // Add the new user message to history
     conversationHistory.push({
         role: "user",
@@ -184,7 +184,7 @@ async function getLogisticsResponse(message) {
 
     try {
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout for free AI
+        const timeoutId = setTimeout(() => controller.abort(), 60000); // 60s timeout for stream
 
         const systemInstruction = `You are an expert AI assistant in Logistics, Supply Chain, Warehousing, and Inventory Management. You are embedded in Anas Latheef's professional portfolio website.
 
@@ -212,13 +212,14 @@ Example: If asked "20ft container capacity", answer with the actual specs (33 CB
             ...conversationHistory
         ];
 
-        // Call Pollinations directly from the frontend (No API Key Required!)
-        const response = await fetch('https://text.pollinations.ai/', {
+        // Call Pollinations OpenAI-compatible endpoint with streaming enabled
+        const response = await fetch('https://text.pollinations.ai/openai', {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 messages: messages,
-                model: "openai"
+                model: "openai",
+                stream: true
             }),
             signal: controller.signal
         });
@@ -231,15 +232,40 @@ Example: If asked "20ft container capacity", answer with the actual specs (33 CB
             return "The AI service is currently busy. Please try again in a moment.";
         }
 
-        const replyText = await response.text();
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder("utf-8");
+        let fullReply = "";
 
-        if (replyText) {
+        while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+
+            const chunk = decoder.decode(value, { stream: true });
+            const lines = chunk.split('\n');
+
+            for (const line of lines) {
+                if (line.startsWith('data: ') && line.trim() !== 'data: [DONE]') {
+                    try {
+                        const data = JSON.parse(line.substring(6));
+                        if (data.choices && data.choices[0].delta && data.choices[0].delta.content) {
+                            const token = data.choices[0].delta.content;
+                            fullReply += token;
+                            onTokenCallback(token);
+                        }
+                    } catch (e) {
+                        console.error('Error parsing stream data', e);
+                    }
+                }
+            }
+        }
+
+        if (fullReply) {
             // Add bot reply to history for context
             conversationHistory.push({
                 role: "assistant",
-                content: replyText
+                content: fullReply
             });
-            return replyText;
+            return fullReply;
         } else {
             conversationHistory.pop();
             throw new Error("Invalid Response from AI");
@@ -269,11 +295,27 @@ chatForm.addEventListener('submit', async (e) => {
         // Show typing indicator
         showTypingIndicator();
 
-        // Fetch AI Response
-        const aiResponse = await getLogisticsResponse(msg);
+        // Prepare a new message element for streaming the bot's reply
+        const msgDiv = document.createElement('div');
+        msgDiv.classList.add('message', 'bot-msg');
+        let firstTokenReceived = false;
 
-        hideTypingIndicator();
-        appendMessage(aiResponse, 'bot');
+        // Fetch AI Response with realtime streaming callback
+        const aiResponse = await getLogisticsResponse(msg, (token) => {
+            if (!firstTokenReceived) {
+                hideTypingIndicator();
+                chatBox.appendChild(msgDiv);
+                firstTokenReceived = true;
+            }
+            msgDiv.textContent += token;
+            scrollChatToBottom();
+        });
+
+        // If no tokens were streamed, it means an error string was returned
+        if (!firstTokenReceived && aiResponse) {
+            hideTypingIndicator();
+            appendMessage(aiResponse, 'bot');
+        }
     }
 });
 
