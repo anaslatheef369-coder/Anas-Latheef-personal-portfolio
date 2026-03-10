@@ -12,12 +12,12 @@
 }
 
 :root {
-    --bg-color: #0d0a05;
-    --second-bg-color: rgba(26, 15, 2, 0.7);
-    --text-color: #fef3e0;
-    --main-color: #f5a623;
-    --accent-color: #e8650a;
-    --glass-border: rgba(245, 166, 35, 0.2);
+    --bg-color: #060a10;
+    --second-bg-color: rgba(8, 14, 26, 0.7);
+    --text-color: #e8f4ff;
+    --main-color: #1e90ff;
+    --accent-color: #00c8ff;
+    --glass-border: rgba(30, 144, 255, 0.2);
 }
 
 html {
@@ -60,7 +60,7 @@ section {
 
 .heading span {
     color: var(--main-color);
-    text-shadow: 0 0 15px rgba(245, 166, 35, 0.8), 0 0 30px rgba(245, 166, 35, 0.4);
+    text-shadow: 0 0 15px rgba(30, 144, 255, 0.8), 0 0 30px rgba(30, 144, 255, 0.4);
 }
 
 /* Navbar */
@@ -81,7 +81,7 @@ section {
 }
 
 .header.sticky {
-    box-shadow: 0 5px 20px rgba(245, 166, 35, 0.15);
+    box-shadow: 0 5px 20px rgba(30, 144, 255, 0.15);
     padding: 1.5rem 9%;
 }
 
@@ -173,7 +173,7 @@ section {
 
 span.multiple-text {
     color: var(--main-color);
-    text-shadow: 0 0 15px rgba(245, 166, 35, 0.7);
+    text-shadow: 0 0 15px rgba(30, 144, 255, 0.7);
 }
 
 .hero-content h1 {
@@ -206,7 +206,7 @@ span.multiple-text {
     width: 4.5rem;
     height: 4.5rem;
     background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(245, 166, 35, 0.3);
+    border: 1px solid rgba(30, 144, 255, 0.3);
     border-radius: 8px;
     /* High tech box instead of circle */
     font-size: 2.2rem;
@@ -217,8 +217,8 @@ span.multiple-text {
 }
 
 .social-media a:hover {
-    background: rgba(245, 166, 35, 0.1);
-    box-shadow: 0 0 20px rgba(245, 166, 35, 0.6), inset 0 0 10px rgba(245, 166, 35, 0.3);
+    background: rgba(30, 144, 255, 0.1);
+    box-shadow: 0 0 20px rgba(30, 144, 255, 0.6), inset 0 0 10px rgba(30, 144, 255, 0.3);
     transform: translateY(-5px);
     border-color: var(--main-color);
 }
@@ -230,7 +230,7 @@ span.multiple-text {
     border: 1px solid var(--main-color);
     border-radius: 4px;
     /* Techy sharp edges */
-    box-shadow: 0 0 10px rgba(245, 166, 35, 0.2), inset 0 0 5px rgba(245, 166, 35, 0.2);
+    box-shadow: 0 0 10px rgba(30, 144, 255, 0.2), inset 0 0 5px rgba(30, 144, 255, 0.2);
     font-size: 1.6rem;
     color: var(--main-color);
     letter-spacing: .2rem;
@@ -250,7 +250,7 @@ span.multiple-text {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(245, 166, 35, 0.4), transparent);
+    background: linear-gradient(90deg, transparent, rgba(30, 144, 255, 0.4), transparent);
     transition: 0.4s;
     z-index: -1;
 }
@@ -260,8 +260,8 @@ span.multiple-text {
 }
 
 .btn:hover {
-    background: rgba(245, 166, 35, 0.1);
-    box-shadow: 0 0 25px rgba(245, 166, 35, 0.8), inset 0 0 15px rgba(245, 166, 35, 0.5);
+    background: rgba(30, 144, 255, 0.1);
+    box-shadow: 0 0 25px rgba(30, 144, 255, 0.8), inset 0 0 15px rgba(30, 144, 255, 0.5);
     color: #fff;
     transform: scale(1.05);
 }
@@ -281,10 +281,10 @@ span.multiple-text {
     justify-content: center;
     align-items: center;
     /* High tech portrait container */
-    background: rgba(245, 166, 35, 0.1);
+    background: rgba(30, 144, 255, 0.1);
     border: 2px solid var(--main-color);
     border-radius: 12px;
-    box-shadow: 0 0 30px rgba(245, 166, 35, 0.4), inset 0 0 15px rgba(245, 166, 35, 0.2);
+    box-shadow: 0 0 30px rgba(30, 144, 255, 0.4), inset 0 0 15px rgba(30, 144, 255, 0.2);
     overflow: hidden;
 }
 
@@ -313,15 +313,15 @@ span.multiple-text {
     background: transparent;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    background: linear-gradient(90deg, rgba(26, 15, 2, 0.3), rgba(5, 8, 16, 0.9));
+    background: linear-gradient(90deg, rgba(8, 14, 26, 0.3), rgba(5, 8, 16, 0.9));
 }
 
 .about-img img {
     width: 35vw;
     border-radius: 8px;
     /* Sharp */
-    box-shadow: 0 0 30px rgba(232, 101, 10, 0.3);
-    border: 1px solid rgba(232, 101, 10, 0.5);
+    box-shadow: 0 0 30px rgba(0, 200, 255, 0.3);
+    border: 1px solid rgba(0, 200, 255, 0.5);
 }
 
 .about-content h2 {
@@ -356,7 +356,7 @@ span.multiple-text {
 }
 
 .skill-box {
-    background: rgba(26, 15, 2, 0.6);
+    background: rgba(8, 14, 26, 0.6);
     backdrop-filter: blur(10px);
     padding: 4rem 2rem;
     border-radius: 8px;
@@ -386,14 +386,14 @@ span.multiple-text {
 .skill-box:hover {
     border-color: var(--main-color);
     transform: translateY(-10px);
-    box-shadow: 0 10px 30px rgba(245, 166, 35, 0.15), inset 0 0 15px rgba(245, 166, 35, 0.05);
+    box-shadow: 0 10px 30px rgba(30, 144, 255, 0.15), inset 0 0 15px rgba(30, 144, 255, 0.05);
 }
 
 .skill-box i {
     font-size: 5rem;
     color: var(--main-color);
     margin-bottom: 2rem;
-    text-shadow: 0 0 15px rgba(245, 166, 35, 0.6);
+    text-shadow: 0 0 15px rgba(30, 144, 255, 0.6);
 }
 
 .skill-box h3 {
@@ -413,7 +413,7 @@ span.multiple-text {
 .projects {
     background: transparent;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
-    background: linear-gradient(180deg, rgba(5, 8, 16, 0.9), rgba(26, 15, 2, 0.4));
+    background: linear-gradient(180deg, rgba(5, 8, 16, 0.9), rgba(8, 14, 26, 0.4));
 }
 
 .portfolio-container {
@@ -434,7 +434,7 @@ span.multiple-text {
 
 .portfolio-box:hover {
     border-color: var(--accent-color);
-    box-shadow: 0 0 30px rgba(232, 101, 10, 0.3);
+    box-shadow: 0 0 30px rgba(0, 200, 255, 0.3);
 }
 
 .portfolio-box img {
@@ -456,7 +456,7 @@ span.multiple-text {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(rgba(5, 8, 16, 0.2), rgba(232, 101, 10, 0.9));
+    background: linear-gradient(rgba(5, 8, 16, 0.2), rgba(0, 200, 255, 0.9));
     display: flex;
     justify-content: center;
     align-items: center;
@@ -524,7 +524,7 @@ span.multiple-text {
 .services-box {
     background: rgba(255, 255, 255, 0.02);
     backdrop-filter: blur(12px);
-    border: 1px solid rgba(232, 101, 10, 0.2);
+    border: 1px solid rgba(0, 200, 255, 0.2);
     padding: 4rem 3rem;
     border-radius: 8px;
     text-align: center;
@@ -534,14 +534,14 @@ span.multiple-text {
 .services-box:hover {
     border-color: var(--accent-color);
     transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(232, 101, 10, 0.2), inset 0 0 20px rgba(232, 101, 10, 0.05);
+    box-shadow: 0 10px 30px rgba(0, 200, 255, 0.2), inset 0 0 20px rgba(0, 200, 255, 0.05);
 }
 
 .services-box i {
     font-size: 5rem;
     color: var(--accent-color);
     margin-bottom: 2rem;
-    text-shadow: 0 0 15px rgba(232, 101, 10, 0.5);
+    text-shadow: 0 0 15px rgba(0, 200, 255, 0.5);
 }
 
 .services-box h3 {
@@ -569,7 +569,7 @@ span.multiple-text {
     margin: 1rem auto;
     text-align: center;
     margin-bottom: 3rem;
-    background: rgba(26, 15, 2, 0.5);
+    background: rgba(8, 14, 26, 0.5);
     backdrop-filter: blur(10px);
     padding: 4rem;
     border-radius: 8px;
@@ -592,7 +592,7 @@ span.multiple-text {
     background: rgba(5, 8, 16, 0.8);
     border-radius: 4px;
     margin: .8rem 0;
-    border: 1px solid rgba(245, 166, 35, 0.1);
+    border: 1px solid rgba(30, 144, 255, 0.1);
     transition: 0.3s ease;
     font-family: 'Inter', sans-serif;
 }
@@ -604,7 +604,7 @@ span.multiple-text {
 .contact form input:focus,
 .contact form textarea:focus {
     border-color: var(--main-color);
-    box-shadow: 0 0 15px rgba(245, 166, 35, 0.2);
+    box-shadow: 0 0 15px rgba(30, 144, 255, 0.2);
     outline: none;
 }
 
@@ -649,8 +649,8 @@ span.multiple-text {
 }
 
 .footer-iconTop a:hover {
-    background: rgba(245, 166, 35, 0.1);
-    box-shadow: 0 0 20px rgba(245, 166, 35, 0.5);
+    background: rgba(30, 144, 255, 0.1);
+    box-shadow: 0 0 20px rgba(30, 144, 255, 0.5);
 }
 
 .footer-iconTop a i {
@@ -714,7 +714,7 @@ span.multiple-text {
         width: 100%;
         padding: 1rem 3%;
         background: rgba(5, 8, 16, 0.95);
-        border-top: .1rem solid rgba(245, 166, 35, 0.2);
+        border-top: .1rem solid rgba(30, 144, 255, 0.2);
         box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
         display: none;
         backdrop-filter: blur(10px);
@@ -755,14 +755,14 @@ span.multiple-text {
     border: 2px solid var(--main-color);
     transition: all 0.3s ease;
     z-index: 1000;
-    box-shadow: 0 0 20px rgba(245, 166, 35, 0.4), inset 0 0 10px rgba(245, 166, 35, 0.2);
+    box-shadow: 0 0 20px rgba(30, 144, 255, 0.4), inset 0 0 10px rgba(30, 144, 255, 0.2);
     backdrop-filter: blur(10px);
 }
 
 .chatbot-toggler:hover {
-    background: rgba(245, 166, 35, 0.1);
+    background: rgba(30, 144, 255, 0.1);
     transform: translateY(-5px);
-    box-shadow: 0 0 30px rgba(245, 166, 35, 0.6), inset 0 0 15px rgba(245, 166, 35, 0.3);
+    box-shadow: 0 0 30px rgba(30, 144, 255, 0.6), inset 0 0 15px rgba(30, 144, 255, 0.3);
 }
 
 body.show-chatbot .chatbot-toggler {
@@ -796,11 +796,11 @@ body.show-chatbot .chatbot-toggler i:last-child {
     max-height: 80vh;
     display: flex;
     flex-direction: column;
-    background: rgba(26, 15, 2, 0.85);
+    background: rgba(8, 14, 26, 0.85);
     backdrop-filter: blur(20px);
     border: 1px solid var(--glass-border);
     border-radius: 12px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(245, 166, 35, 0.2);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(30, 144, 255, 0.2);
     overflow: hidden;
     z-index: 1000;
     pointer-events: none;
@@ -827,7 +827,7 @@ body.show-chatbot .chat-popup {
 .chat-popup .glow-icon {
     font-size: 3rem;
     color: var(--main-color);
-    text-shadow: 0 0 15px rgba(245, 166, 35, 0.8);
+    text-shadow: 0 0 15px rgba(30, 144, 255, 0.8);
     margin-right: 1.5rem;
 }
 
@@ -903,18 +903,18 @@ body.show-chatbot .chat-popup {
 
 .chat-popup .bot-msg {
     align-self: flex-start;
-    background: rgba(245, 166, 35, 0.1);
-    border: 1px solid rgba(245, 166, 35, 0.3);
+    background: rgba(30, 144, 255, 0.1);
+    border: 1px solid rgba(30, 144, 255, 0.3);
     border-left: 3px solid var(--main-color);
-    box-shadow: 0 0 10px rgba(245, 166, 35, 0.1);
+    box-shadow: 0 0 10px rgba(30, 144, 255, 0.1);
 }
 
 .chat-popup .user-msg {
     align-self: flex-end;
-    background: rgba(232, 101, 10, 0.15);
-    border: 1px solid rgba(232, 101, 10, 0.3);
+    background: rgba(0, 200, 255, 0.15);
+    border: 1px solid rgba(0, 200, 255, 0.3);
     border-right: 3px solid var(--accent-color);
-    box-shadow: 0 0 10px rgba(232, 101, 10, 0.1);
+    box-shadow: 0 0 10px rgba(0, 200, 255, 0.1);
 }
 
 .chat-popup .typing-indicator {
@@ -961,7 +961,7 @@ body.show-chatbot .chat-popup {
     font-size: 2rem;
     cursor: pointer;
     transition: 0.3s;
-    box-shadow: 0 0 10px rgba(245, 166, 35, 0.2);
+    box-shadow: 0 0 10px rgba(30, 144, 255, 0.2);
 }
 
 .chat-popup .send-btn:hover {

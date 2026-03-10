@@ -15,12 +15,12 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
-            --bg-color: #0d0a05;
-            --main-color: #f5a623;
-            --accent-color: #e8650a;
-            --text-color: #fef3e0;
-            --glass-bg: rgba(26, 15, 2, 0.6);
-            --glass-border: rgba(245, 166, 35, 0.1);
+            --bg-color: #060a10;
+            --main-color: #1e90ff;
+            --accent-color: #00c8ff;
+            --text-color: #e8f4ff;
+            --glass-bg: rgba(8, 14, 26, 0.6);
+            --glass-border: rgba(30, 144, 255, 0.1);
         }
 
         * {
@@ -34,8 +34,8 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             background-image:
-                radial-gradient(circle at 15% 50%, rgba(232, 101, 10, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 85% 30%, rgba(245, 166, 35, 0.08) 0%, transparent 50%);
+                radial-gradient(circle at 15% 50%, rgba(0, 200, 255, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 85% 30%, rgba(30, 144, 255, 0.08) 0%, transparent 50%);
             min-height: 100vh;
             padding: 2rem;
         }
@@ -68,7 +68,7 @@
             border: 1px solid var(--main-color);
             border-radius: 4px;
             transition: 0.3s;
-            background: rgba(245, 166, 35, 0.1);
+            background: rgba(30, 144, 255, 0.1);
         }
 
         .back-btn:hover {
@@ -100,13 +100,13 @@
         .kpi-card:hover {
             border-color: var(--main-color);
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(245, 166, 35, 0.1);
+            box-shadow: 0 10px 25px rgba(30, 144, 255, 0.1);
         }
 
         .kpi-icon {
             font-size: 3.5rem;
             color: var(--accent-color);
-            text-shadow: 0 0 10px rgba(232, 101, 10, 0.5);
+            text-shadow: 0 0 10px rgba(0, 200, 255, 0.5);
         }
 
         .kpi-data h3 {
@@ -212,7 +212,7 @@
         </div>
         <div class="kpi-card">
             <i class='bx bx-check-shield kpi-icon'
-                style="color: var(--main-color); text-shadow: 0 0 10px rgba(245, 166, 35, 0.5);"></i>
+                style="color: var(--main-color); text-shadow: 0 0 10px rgba(30, 144, 255, 0.5);"></i>
             <div class="kpi-data">
                 <h3>On-Time Delivery (OTD)</h3>
                 <p>98.7%</p>
@@ -246,8 +246,8 @@
 
         // Gradient for line chart
         const gradientLine = ctxFreight.createLinearGradient(0, 0, 0, 400);
-        gradientLine.addColorStop(0, 'rgba(245, 166, 35, 0.5)');
-        gradientLine.addColorStop(1, 'rgba(245, 166, 35, 0.0)');
+        gradientLine.addColorStop(0, 'rgba(30, 144, 255, 0.5)');
+        gradientLine.addColorStop(1, 'rgba(30, 144, 255, 0.0)');
 
         new Chart(ctxFreight, {
             type: 'bar',
@@ -258,7 +258,7 @@
                         label: 'Units Shipped (Thousands)',
                         type: 'line',
                         data: [120, 135, 125, 145, 160, 155, 170, 185, 190, 210, 250, 280],
-                        borderColor: '#f5a623',
+                        borderColor: '#1e90ff',
                         backgroundColor: gradientLine,
                         borderWidth: 3,
                         tension: 0.4,
@@ -268,7 +268,7 @@
                     {
                         label: 'Freight Spend ($K)',
                         data: [450, 500, 480, 520, 550, 540, 580, 610, 620, 680, 800, 850],
-                        backgroundColor: 'rgba(232, 101, 10, 0.7)',
+                        backgroundColor: 'rgba(0, 200, 255, 0.7)',
                         borderRadius: 4,
                         yAxisID: 'y'
                     }
@@ -284,13 +284,13 @@
                 plugins: {
                     legend: {
                         position: 'top',
-                        labels: { color: '#fef3e0' }
+                        labels: { color: '#e8f4ff' }
                     },
                     tooltip: {
                         backgroundColor: 'rgba(5, 8, 16, 0.9)',
-                        titleColor: '#f5a623',
+                        titleColor: '#1e90ff',
                         bodyColor: '#fff',
-                        borderColor: 'rgba(245, 166, 35, 0.3)',
+                        borderColor: 'rgba(30, 144, 255, 0.3)',
                         borderWidth: 1,
                         padding: 10
                     }
@@ -303,14 +303,14 @@
                         type: 'linear',
                         display: true,
                         position: 'left',
-                        title: { display: true, text: 'Spend ($K)', color: '#e8650a' },
+                        title: { display: true, text: 'Spend ($K)', color: '#00c8ff' },
                         grid: { color: 'rgba(255, 255, 255, 0.05)' }
                     },
                     y1: {
                         type: 'linear',
                         display: true,
                         position: 'right',
-                        title: { display: true, text: 'Volume (K Units)', color: '#f5a623' },
+                        title: { display: true, text: 'Volume (K Units)', color: '#1e90ff' },
                         grid: { drawOnChartArea: false }
                     }
                 }
@@ -327,7 +327,7 @@
                     data: [65, 20, 10, 5],
                     backgroundColor: [
                         '#10b981', // Green
-                        '#f5a623', // Cyan
+                        '#1e90ff', // Cyan
                         '#f59e0b', // Yellow/Orange
                         '#ef4444'  // Red
                     ],
@@ -343,7 +343,7 @@
                     legend: {
                         position: 'bottom',
                         labels: {
-                            color: '#fef3e0',
+                            color: '#e8f4ff',
                             padding: 20
                         }
                     }
