@@ -175,35 +175,11 @@ function hideTypingIndicator() {
     }
 }
 
-// Advanced Real-Time AI Logic via Google Gemini API
+// Advanced Real-Time AI Logic via Google Gemini API (Proxied securely via Vercel)
 const conversationHistory = []; // Stores conversation context for better replies
 
 async function getLogisticsResponse(message) {
-    const API_KEY = "AIzaSyAdRfZwLy5SNW27rkW8I2EthB1HvngQgCk";
-    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
-
-    const systemInstruction = `You are an expert AI assistant in Logistics, Supply Chain, Warehousing, and Inventory Management. You are embedded in Anas Latheef's professional portfolio website.
-
-Your job is to answer the user's EXACT question with precision. Always directly address what was asked.
-
-Your core expertise includes:
-- Container specs & freight: TEU/FEU dimensions, weight capacities, FCL/LCL, Incoterms (FOB, CIF, DAP, DDP), port operations, customs, HS codes
-- Warehouse operations: slotting, pick paths, velocity analysis, cross-docking, inbound/outbound flow, WMS systems
-- Inventory management: ABC/XYZ analysis, EOQ, safety stock, reorder points, cycle counting, shrinkage
-- Supply chain: demand forecasting, S&OP, lead time optimization, vendor management, reverse logistics
-- ERP/WMS tools: Odoo, SAP, Oracle, Zoho, Microsoft D365, WMS integrations
-- Data & analytics: KPIs, OTIF, fill rate, inventory turnover, carrying cost
-
-CRITICAL RULES:
-1. Answer EXACTLY what was asked. Do not give generic advice.
-2. Be concise — maximum 3-4 sentences per answer.
-3. Do NOT use markdown (no asterisks, no bullet points, no headers).
-4. Do NOT mention "Anas Latheef" unless asked about the portfolio owner.
-5. If you don't know something, say so honestly.
-
-Example: If asked "20ft container capacity", answer with the actual specs (33 CBM, 28,000kg payload, 5.9m internal length).`;
-
-    // Add the new user message to history
+    // Add the new user message to history in Gemini format
     conversationHistory.push({
         role: "user",
         parts: [{ text: message }]
@@ -213,14 +189,12 @@ Example: If asked "20ft container capacity", answer with the actual specs (33 CB
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout
 
-        const response = await fetch(API_URL, {
+        // Call our secure Vercel Serverless Function instead of Google directly
+        const response = await fetch('/api/chat', {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                system_instruction: {
-                    parts: [{ text: systemInstruction }]
-                },
-                contents: conversationHistory // Send full conversation history
+                conversationHistory: conversationHistory
             }),
             signal: controller.signal
         });
@@ -228,39 +202,43 @@ Example: If asked "20ft container capacity", answer with the actual specs (33 CB
         clearTimeout(timeoutId);
 
         if (!response.ok) {
-            const errBody = await response.json().catch(() => ({}));
-            console.error("Gemini API Error:", response.status, errBody);
+            const errData = await response.json().catch(() => ({}));
+            console.error("Proxy API Error:", response.status, errData);
+            
             // Remove last user message from history on failure
             conversationHistory.pop();
+            
             if (response.status === 429) {
                 return "The AI is currently rate-limited. Please wait 30 seconds and try again.";
             }
-            return `API Error (${response.status}). Please try again in a moment.`;
+            if (response.status === 403) {
+                 return "AI Access Revoked: The API Key needs to be updated by the administrator.";
+            }
+            return errData.error || `Server Error (${response.status}). Please try again in a moment.`;
         }
 
         const data = await response.json();
 
-        if (data.candidates && data.candidates.length > 0 &&
-            data.candidates[0].content && data.candidates[0].content.parts.length > 0) {
-            const replyText = data.candidates[0].content.parts[0].text;
+        if (data.reply) {
             // Add bot reply to history for context in next message
             conversationHistory.push({
                 role: "model",
-                parts: [{ text: replyText }]
+                parts: [{ text: data.reply }]
             });
-            return replyText;
+            return data.reply;
         } else {
             conversationHistory.pop();
-            throw new Error("Invalid Gemini Response Structure");
+            throw new Error("Invalid Response Structure from Proxy");
         }
 
     } catch (error) {
         conversationHistory.pop(); // Don't save failed messages to history
         console.error("AI Fetch Error:", error);
+        
         if (error.name === 'AbortError') {
             return "Request timed out. Please check your connection and try again.";
         }
-        return "Unable to reach the AI server. Please try again in a moment.";
+        return "Unable to reach the AI proxy server. Please try again in a moment.";
     }
 }
 
