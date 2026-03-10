@@ -177,7 +177,7 @@ function hideTypingIndicator() {
 // Advanced Real-Time AI Logic via Google Gemini API
 async function getLogisticsResponse(message) {
     const API_KEY = "AIzaSyD2zxY-gIyF9mMlsK3uWtssCE8Y4mPCLbg"; // User's Gemini API Key
-    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`;
+    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
 
     // System instructions for the Gemini model
     const systemInstruction = "You are a cutting-edge AI Logistics and Supply Chain Assistant for Anas Latheef's portfolio. You are an expert in warehousing, inventory, global freight, shrinkage, ETA tracking, and cost algorithms. Keep your answers extremely concise, professional, and slightly futuristic. Do not use markdown and keep answers under 3 sentences.";
