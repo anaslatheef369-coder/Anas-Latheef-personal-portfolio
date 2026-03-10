@@ -218,7 +218,7 @@ function toggleChatbot() {
     if (document.body.classList.contains('show-chatbot') && !chatInitialized) {
         chatInitialized = true;
         setTimeout(() => {
-            appendMessage("System Online. Secure connection established. I am ready to process global supply chain queries.", 'bot');
+            appendMessage("⚡ LOGISTICS_MAINFRAME_V2.0_ONLINE ⚡ Access granted. I am the Advanced AI Interface for Anas Latheef. How can I optimize your supply chain today?", 'bot');
         }, 600);
     }
 }
