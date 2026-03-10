@@ -140,8 +140,7 @@
                 <div class="portfolio-layer">
                     <h4>Predictive Analytics AI</h4>
                     <p>Designed a forecasting model that predicts inventory shortages up to 3 weeks in advance.</p>
-                    <a href="Predictive-Analytics-Dashboard/index.html" target="_blank" rel="noopener noreferrer"><i
-                            class='bx bx-link-external'></i></a>
+                    <a href="javascript:void(0)" onclick="openModal('Predictive-Analytics-Dashboard/index.html')" title="View Project"><i class='bx bx-expand-alt'></i></a>
                 </div>
             </div>
             <div class="portfolio-box">
@@ -150,8 +149,7 @@
                     <h4>Data Pipeline Automation</h4>
                     <p>Integrated global vendor APIs to provide real-time error on dashboard using modern workflows.
                     </p>
-                    <a href="Data-Pipeline-Dashboard/index.html" target="_blank" rel="noopener noreferrer"><i
-                            class='bx bx-link-external'></i></a>
+                    <a href="javascript:void(0)" onclick="openModal('Data-Pipeline-Dashboard/index.html')" title="View Project"><i class='bx bx-expand-alt'></i></a>
                 </div>
             </div>
             <div class="portfolio-box">
@@ -170,8 +168,7 @@
                     <h4>Executive Freight Dashboard</h4>
                     <p>An interactive data visualization suite tracking global transit times, bottlenecks, warehouse
                         shrinkage, and cost-per-unit.</p>
-                    <a href="Project-Freight-Dashboard/index.html" target="_blank" rel="noopener noreferrer"><i
-                            class='bx bx-link-external'></i></a>
+                    <a href="javascript:void(0)" onclick="openModal('Project-Freight-Dashboard/index.html')" title="View Project"><i class='bx bx-expand-alt'></i></a>
                 </div>
             </div>
             <div class="portfolio-box">
@@ -180,8 +177,7 @@
                     <h4>Zero-Stock Automation Trigger</h4>
                     <p>An automated webhook system that monitors IMS metrics and proactively alerts procurement teams
                         before critical SKUs experience stockouts.</p>
-                    <a href="Project-Automation-Trigger/index.html" target="_blank" rel="noopener noreferrer"><i
-                            class='bx bx-link-external'></i></a>
+                    <a href="javascript:void(0)" onclick="openModal('Project-Automation-Trigger/index.html')" title="View Project"><i class='bx bx-expand-alt'></i></a>
                 </div>
             </div>
             <div class="portfolio-box">
@@ -190,8 +186,7 @@
                     <h4>Dynamic Fleet Routing Engine</h4>
                     <p>A predictive model designed to optimize multi-stop delivery routes, minimizing fuel consumption
                         and improving ETA accuracy.</p>
-                    <a href="Project-Fleet-Routing/index.html" target="_blank" rel="noopener noreferrer"><i
-                            class='bx bx-link-external'></i></a>
+                    <a href="javascript:void(0)" onclick="openModal('Project-Fleet-Routing/index.html')" title="View Project"><i class='bx bx-expand-alt'></i></a>
                 </div>
             </div>
             <div class="portfolio-box">
@@ -200,8 +195,7 @@
                     <h4>Velocity-Based Warehouse Slotting</h4>
                     <p>A strategic planning tool that reorganizes SKUs based on pick-velocity and seasonality,
                         drastically reducing picker travel time.</p>
-                    <a href="Project-Warehouse-Slotting/index.html" target="_blank" rel="noopener noreferrer"><i
-                            class='bx bx-link-external'></i></a>
+                    <a href="javascript:void(0)" onclick="openModal('Project-Warehouse-Slotting/index.html')" title="View Project"><i class='bx bx-expand-alt'></i></a>
                 </div>
             </div>
         </div>
@@ -328,11 +322,61 @@
     <!-- Typed JS -->
     <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
     <!-- Scroll Reveal -->
+    <!-- Project Preview Modal -->
+    <div id="project-modal" class="project-modal-overlay" onclick="handleModalClick(event)">
+        <div class="project-modal-box">
+            <div class="modal-header">
+                <span id="modal-title" class="modal-title">Project Preview</span>
+                <div class="modal-actions">
+                    <a id="modal-open-link" href="#" target="_blank" rel="noopener noreferrer" class="modal-open-btn" title="Open in New Tab">
+                        <i class='bx bx-link-external'></i>
+                    </a>
+                    <button class="modal-close-btn" onclick="closeModal()" title="Close">
+                        <i class='bx bx-x'></i>
+                    </button>
+                </div>
+            </div>
+            <iframe id="modal-iframe" src="" frameborder="0" allowfullscreen></iframe>
+        </div>
+    </div>
+
     <script src="https://unpkg.com/scrollreveal"></script>
     <!-- tsParticles -->
     <script src="https://cdn.jsdelivr.net/npm/tsparticles@3.0.0/tsparticles.bundle.min.js"></script>
     <!-- Custom JS -->
     <script src="script.js"></script>
+    <script>
+        // Project Modal Functions
+        function openModal(src) {
+            const modal = document.getElementById('project-modal');
+            const iframe = document.getElementById('modal-iframe');
+            const openLink = document.getElementById('modal-open-link');
+            iframe.src = src;
+            openLink.href = src;
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('project-modal');
+            const iframe = document.getElementById('modal-iframe');
+            modal.classList.remove('active');
+            iframe.src = '';
+            document.body.style.overflow = '';
+        }
+
+        function handleModalClick(e) {
+            // Close modal if clicking on the dark overlay behind the box
+            if (e.target === document.getElementById('project-modal')) {
+                closeModal();
+            }
+        }
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+    </script>
 </body>
 
 </html>
