@@ -176,37 +176,51 @@ function hideTypingIndicator() {
 }
 
 // Advanced Real-Time AI Logic via Google Gemini API
+const conversationHistory = []; // Stores conversation context for better replies
+
 async function getLogisticsResponse(message) {
-    const API_KEY = "AIzaSyAdRfZwLy5SNW27rkW8I2EthB1HvngQgCk"; // User's Gemini API Key
+    const API_KEY = "AIzaSyAdRfZwLy5SNW27rkW8I2EthB1HvngQgCk";
     const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`;
 
-    // System instructions for the Gemini model enriched with deep supply chain data
-    const systemInstruction = "You are a cutting-edge AI Logistics and Supply Chain Assistant for Anas Latheef's portfolio. You are an expert in warehousing, inventory management, global freight, shrinkage reduction, ETA tracking, cost algorithms, ERP integration (Odoo, Zoho), WMS/IMS systems, and supply chain predictability. Use your vast knowledge of international shipping routes, port lead times, cross-docking, reverse logistics, and capacity optimization to answer queries accurately. Keep your answers concise, highly professional, and slightly futuristic. Do not use markdown and keep answers under 3 sentences.";
+    const systemInstruction = `You are an expert AI assistant in Logistics, Supply Chain, Warehousing, and Inventory Management. You are embedded in Anas Latheef's professional portfolio website.
 
-    const fallbackResponses = [
-        "Analyzing metrics: Inventory optimization is critical for reducing overhead. I recommend implementing a Just-In-Time (JIT) workflow.",
-        "Based on current global freight data, predictive routing can reduce transit times by up to 14%. How can I assist with your supply chain?",
-        "Mainframe analysis complete. Automating your warehouse management systems (WMS) will significantly decrease shrinkage and improve ETA accuracy.",
-        "I am currently processing high volumes of supply chain node data. Data suggests integrating Odoo or Zoho ERPs for maximum efficiency.",
-        "Query received. Effective logistics strategy requires balancing cost reduction with fleet management scaling. Anas Latheef specializes perfectly in this domain."
-    ];
+Your job is to answer the user's EXACT question with precision. Always directly address what was asked.
+
+Your core expertise includes:
+- Container specs & freight: TEU/FEU dimensions, weight capacities, FCL/LCL, Incoterms (FOB, CIF, DAP, DDP), port operations, customs, HS codes
+- Warehouse operations: slotting, pick paths, velocity analysis, cross-docking, inbound/outbound flow, WMS systems
+- Inventory management: ABC/XYZ analysis, EOQ, safety stock, reorder points, cycle counting, shrinkage
+- Supply chain: demand forecasting, S&OP, lead time optimization, vendor management, reverse logistics
+- ERP/WMS tools: Odoo, SAP, Oracle, Zoho, Microsoft D365, WMS integrations
+- Data & analytics: KPIs, OTIF, fill rate, inventory turnover, carrying cost
+
+CRITICAL RULES:
+1. Answer EXACTLY what was asked. Do not give generic advice.
+2. Be concise — maximum 3-4 sentences per answer.
+3. Do NOT use markdown (no asterisks, no bullet points, no headers).
+4. Do NOT mention "Anas Latheef" unless asked about the portfolio owner.
+5. If you don't know something, say so honestly.
+
+Example: If asked "20ft container capacity", answer with the actual specs (33 CBM, 28,000kg payload, 5.9m internal length).`;
+
+    // Add the new user message to history
+    conversationHistory.push({
+        role: "user",
+        parts: [{ text: message }]
+    });
 
     try {
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout for Gemini
+        const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout
 
         const response = await fetch(API_URL, {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 system_instruction: {
                     parts: [{ text: systemInstruction }]
                 },
-                contents: [{
-                    parts: [{ text: message }]
-                }]
+                contents: conversationHistory // Send full conversation history
             }),
             signal: controller.signal
         });
@@ -214,22 +228,39 @@ async function getLogisticsResponse(message) {
         clearTimeout(timeoutId);
 
         if (!response.ok) {
-            console.error("Gemini API Error Status:", response.status);
-            throw new Error("API Error");
+            const errBody = await response.json().catch(() => ({}));
+            console.error("Gemini API Error:", response.status, errBody);
+            // Remove last user message from history on failure
+            conversationHistory.pop();
+            if (response.status === 429) {
+                return "The AI is currently rate-limited. Please wait 30 seconds and try again.";
+            }
+            return `API Error (${response.status}). Please try again in a moment.`;
         }
 
         const data = await response.json();
 
-        // Extract the text from Gemini's response structure
-        if (data.candidates && data.candidates.length > 0 && data.candidates[0].content && data.candidates[0].content.parts.length > 0) {
-            return data.candidates[0].content.parts[0].text;
+        if (data.candidates && data.candidates.length > 0 &&
+            data.candidates[0].content && data.candidates[0].content.parts.length > 0) {
+            const replyText = data.candidates[0].content.parts[0].text;
+            // Add bot reply to history for context in next message
+            conversationHistory.push({
+                role: "model",
+                parts: [{ text: replyText }]
+            });
+            return replyText;
         } else {
+            conversationHistory.pop();
             throw new Error("Invalid Gemini Response Structure");
         }
 
     } catch (error) {
-        console.error("AI Fetch Error/Timeout:", error);
-        return fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
+        conversationHistory.pop(); // Don't save failed messages to history
+        console.error("AI Fetch Error:", error);
+        if (error.name === 'AbortError') {
+            return "Request timed out. Please check your connection and try again.";
+        }
+        return "Unable to reach the AI server. Please try again in a moment.";
     }
 }
 
