@@ -174,10 +174,13 @@ function hideTypingIndicator() {
     }
 }
 
-// Advanced Real-Time AI Logic via Pollinations.ai
-// Advanced Real-Time AI Logic via Pollinations.ai with Fallback
+// Advanced Real-Time AI Logic via Google Gemini API
 async function getLogisticsResponse(message) {
-    const systemPrompt = "You are a cutting-edge AI Logistics Assistant. Keep your answers extremely concise, professional, and slightly futuristic. Do not use markdown and keep answers under 3 sentences.";
+    const API_KEY = "AIzaSyD2zxY-gIyF9mMlsK3uWtssCE8Y4mPCLbg"; // User's Gemini API Key
+    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`;
+
+    // System instructions for the Gemini model
+    const systemInstruction = "You are a cutting-edge AI Logistics and Supply Chain Assistant for Anas Latheef's portfolio. You are an expert in warehousing, inventory, global freight, shrinkage, ETA tracking, and cost algorithms. Keep your answers extremely concise, professional, and slightly futuristic. Do not use markdown and keep answers under 3 sentences.";
 
     const fallbackResponses = [
         "Analyzing metrics: Inventory optimization is critical for reducing overhead. I recommend implementing a Just-In-Time (JIT) workflow.",
@@ -188,26 +191,43 @@ async function getLogisticsResponse(message) {
     ];
 
     try {
-        // Adding a 5-second timeout controller so the UI doesn't hang if the API is slow
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 6000);
+        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout for Gemini
 
-        const response = await fetch(`https://text.pollinations.ai/prompt/${encodeURIComponent(message)}?systemPrompt=${encodeURIComponent(systemPrompt)}`, {
+        const response = await fetch(API_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                system_instruction: {
+                    parts: [{ text: systemInstruction }]
+                },
+                contents: [{
+                    parts: [{ text: message }]
+                }]
+            }),
             signal: controller.signal
         });
 
         clearTimeout(timeoutId);
 
-        if (!response.ok) throw new Error("API Error");
-        const aiText = await response.text();
+        if (!response.ok) {
+            console.error("Gemini API Error Status:", response.status);
+            throw new Error("API Error");
+        }
 
-        // Prevent empty or extremely long error dumps
-        if (!aiText || aiText.length > 500 || aiText.includes("502 Bad Gateway")) throw new Error("Invalid Output");
+        const data = await response.json();
 
-        return aiText;
+        // Extract the text from Gemini's response structure
+        if (data.candidates && data.candidates.length > 0 && data.candidates[0].content && data.candidates[0].content.parts.length > 0) {
+            return data.candidates[0].content.parts[0].text;
+        } else {
+            throw new Error("Invalid Gemini Response Structure");
+        }
+
     } catch (error) {
         console.error("AI Fetch Error/Timeout:", error);
-        // Fallback to realistic response if API fails
         return fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
     }
 }
