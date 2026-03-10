@@ -180,7 +180,7 @@ const conversationHistory = []; // Stores conversation context for better replie
 
 async function getLogisticsResponse(message) {
     const API_KEY = "AIzaSyAdRfZwLy5SNW27rkW8I2EthB1HvngQgCk";
-    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`;
+    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
 
     const systemInstruction = `You are an expert AI assistant in Logistics, Supply Chain, Warehousing, and Inventory Management. You are embedded in Anas Latheef's professional portfolio website.
 
