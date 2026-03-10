@@ -980,3 +980,16 @@ body.show-chatbot .chat-popup {
         border-radius: 0;
     }
 }
+
+@media (max-width: 768px) {
+    .chatbot-toggler {
+        right: 20px;
+        bottom: 20px;
+        height: 50px;
+        width: 50px;
+    }
+
+    .chatbot-toggler i {
+        font-size: 2.2rem;
+    }
+}
