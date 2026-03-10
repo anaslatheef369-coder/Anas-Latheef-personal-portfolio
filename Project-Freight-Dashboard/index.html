@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Executive Freight & Shrinkage Dashboard | Anas Latheef</title>
+    <!-- Box Icons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Inter:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg-color: #050810;
+            --main-color: #00f3ff;
+            --accent-color: #bd00ff;
+            --text-color: #e2e8f0;
+            --glass-bg: rgba(12, 16, 28, 0.6);
+            --glass-border: rgba(0, 243, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            background-image:
+                radial-gradient(circle at 15% 50%, rgba(189, 0, 255, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 85% 30%, rgba(0, 243, 255, 0.08) 0%, transparent 50%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            color: white;
+            text-shadow: 0 0 10px var(--main-color);
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--main-color);
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 600;
+            padding: 0.8rem 1.5rem;
+            border: 1px solid var(--main-color);
+            border-radius: 4px;
+            transition: 0.3s;
+            background: rgba(0, 243, 255, 0.1);
+        }
+
+        .back-btn:hover {
+            background: var(--main-color);
+            color: var(--bg-color);
+            box-shadow: 0 0 15px var(--main-color);
+        }
+
+        .kpi-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .kpi-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: 0.3s;
+        }
+
+        .kpi-card:hover {
+            border-color: var(--main-color);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 243, 255, 0.1);
+        }
+
+        .kpi-icon {
+            font-size: 3.5rem;
+            color: var(--accent-color);
+            text-shadow: 0 0 10px rgba(189, 0, 255, 0.5);
+        }
+
+        .kpi-data h3 {
+            font-size: 1.1rem;
+            color: #94a3b8;
+            margin-bottom: 0.5rem;
+            font-weight: 400;
+        }
+
+        .kpi-data p {
+            font-size: 2rem;
+            font-weight: 700;
+            font-family: 'Orbitron', sans-serif;
+            color: white;
+        }
+
+        .kpi-trend {
+            font-size: 0.9rem;
+            margin-top: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .trend-up {
+            color: #10b981;
+        }
+
+        .trend-down {
+            color: #ef4444;
+        }
+
+        .charts-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+
+        .chart-box {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .chart-box h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+            color: white;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            height: 350px;
+            width: 100%;
+        }
+
+        @media (max-width: 991px) {
+            .charts-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <h1>Executive Freight Dashboard</h1>
+        <a href="../index.html#projects" class="back-btn"><i class='bx bx-arrow-back'></i> Back to Portfolio</a>
+    </header>
+
+    <div class="kpi-cards">
+        <div class="kpi-card">
+            <i class='bx bx-time-five kpi-icon'></i>
+            <div class="kpi-data">
+                <h3>Avg Global Transit Time</h3>
+                <p>14.2 Days</p>
+                <div class="kpi-trend trend-up"><i class='bx bx-trending-down'></i> 12% vs Last Quarter</div>
+            </div>
+        </div>
+        <div class="kpi-card">
+            <i class='bx bx-error-circle kpi-icon'
+                style="color: #ef4444; text-shadow: 0 0 10px rgba(239, 68, 68, 0.5);"></i>
+            <div class="kpi-data">
+                <h3>Warehouse Shrinkage</h3>
+                <p>0.48%</p>
+                <div class="kpi-trend trend-up"><i class='bx bx-trending-down'></i> Optimized by WMS</div>
+            </div>
+        </div>
+        <div class="kpi-card">
+            <i class='bx bx-dollar-circle kpi-icon'
+                style="color: #10b981; text-shadow: 0 0 10px rgba(16, 185, 129, 0.5);"></i>
+            <div class="kpi-data">
+                <h3>Logistics Cost / Unit</h3>
+                <p>$3.24</p>
+                <div class="kpi-trend trend-down"><i class='bx bx-trending-down'></i> $0.41 reduction</div>
+            </div>
+        </div>
+        <div class="kpi-card">
+            <i class='bx bx-check-shield kpi-icon'
+                style="color: var(--main-color); text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);"></i>
+            <div class="kpi-data">
+                <h3>On-Time Delivery (OTD)</h3>
+                <p>98.7%</p>
+                <div class="kpi-trend trend-up"><i class='bx bx-trending-up'></i> Above 95% Target</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="charts-container">
+        <div class="chart-box">
+            <h3>Monthly Freight Spend vs. Volume Processed</h3>
+            <div class="chart-wrapper">
+                <canvas id="freightChart"></canvas>
+            </div>
+        </div>
+        <div class="chart-box">
+            <h3>Carrier Performance (ETA Variance)</h3>
+            <div class="chart-wrapper">
+                <canvas id="carrierChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Chart.js Global Defaults for Cyberpunk Theme
+        Chart.defaults.color = '#94a3b8';
+        Chart.defaults.font.family = 'Inter';
+
+        // 1. Freight Spend vs Volume Chart (Mixed/Bar & Line)
+        const ctxFreight = document.getElementById('freightChart').getContext('2d');
+
+        // Gradient for line chart
+        const gradientLine = ctxFreight.createLinearGradient(0, 0, 0, 400);
+        gradientLine.addColorStop(0, 'rgba(0, 243, 255, 0.5)');
+        gradientLine.addColorStop(1, 'rgba(0, 243, 255, 0.0)');
+
+        new Chart(ctxFreight, {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                datasets: [
+                    {
+                        label: 'Units Shipped (Thousands)',
+                        type: 'line',
+                        data: [120, 135, 125, 145, 160, 155, 170, 185, 190, 210, 250, 280],
+                        borderColor: '#00f3ff',
+                        backgroundColor: gradientLine,
+                        borderWidth: 3,
+                        tension: 0.4,
+                        fill: true,
+                        yAxisID: 'y1'
+                    },
+                    {
+                        label: 'Freight Spend ($K)',
+                        data: [450, 500, 480, 520, 550, 540, 580, 610, 620, 680, 800, 850],
+                        backgroundColor: 'rgba(189, 0, 255, 0.7)',
+                        borderRadius: 4,
+                        yAxisID: 'y'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: { color: '#e2e8f0' }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(5, 8, 16, 0.9)',
+                        titleColor: '#00f3ff',
+                        bodyColor: '#fff',
+                        borderColor: 'rgba(0, 243, 255, 0.3)',
+                        borderWidth: 1,
+                        padding: 10
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' }
+                    },
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        title: { display: true, text: 'Spend ($K)', color: '#bd00ff' },
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' }
+                    },
+                    y1: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        title: { display: true, text: 'Volume (K Units)', color: '#00f3ff' },
+                        grid: { drawOnChartArea: false }
+                    }
+                }
+            }
+        });
+
+        // 2. Carrier Performance Chart (Doughnut)
+        const ctxCarrier = document.getElementById('carrierChart').getContext('2d');
+        new Chart(ctxCarrier, {
+            type: 'doughnut',
+            data: {
+                labels: ['Maersk (On Time)', 'MSC (+1 Day)', 'CMA CGM (+3 Days)', 'Hapag-Lloyd (Delayed)'],
+                datasets: [{
+                    data: [65, 20, 10, 5],
+                    backgroundColor: [
+                        '#10b981', // Green
+                        '#00f3ff', // Cyan
+                        '#f59e0b', // Yellow/Orange
+                        '#ef4444'  // Red
+                    ],
+                    borderWidth: 0,
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '75%',
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: '#e2e8f0',
+                            padding: 20
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

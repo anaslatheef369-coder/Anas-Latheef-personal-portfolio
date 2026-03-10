@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Velocity-Based Warehouse Slotting | Anas Latheef</title>
+    <!-- Box Icons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Share+Tech+Mono&family=Inter:wght@300;400;600&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #050810;
+            --main-color: #00f3ff;
+            --accent-color: #bd00ff;
+            --text-color: #e2e8f0;
+            --fast-sku: #10b981;
+            /* Green */
+            --med-sku: #f59e0b;
+            /* Yellow */
+            --slow-sku: #ef4444;
+            /* Red */
+            --glass-bg: rgba(12, 16, 28, 0.7);
+            --glass-border: rgba(0, 243, 255, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            background-image:
+                radial-gradient(circle at 10% 20%, rgba(189, 0, 255, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(0, 243, 255, 0.05) 0%, transparent 40%);
+            min-height: 100vh;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            color: white;
+            text-shadow: 0 0 10px var(--main-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--main-color);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 0.8rem 1.5rem;
+            border: 1px solid var(--main-color);
+            border-radius: 4px;
+            background: rgba(0, 243, 255, 0.1);
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            background: var(--main-color);
+            color: var(--bg-color);
+            box-shadow: 0 0 15px var(--main-color);
+        }
+
+        .app-container {
+            display: grid;
+            grid-template-columns: 1fr 3fr;
+            gap: 2rem;
+            width: 100%;
+            min-height: 500px;
+        }
+
+        /* Sidebar Control Panel */
+        .controls {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .data-panel h3 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--main-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .data-panel p {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .legend {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .color-box {
+            width: 16px;
+            height: 16px;
+            border-radius: 3px;
+        }
+
+        .fast-color {
+            background: var(--fast-sku);
+            box-shadow: 0 0 8px var(--fast-sku);
+        }
+
+        .med-color {
+            background: var(--med-sku);
+            box-shadow: 0 0 8px var(--med-sku);
+        }
+
+        .slow-color {
+            background: var(--slow-sku);
+            box-shadow: 0 0 8px var(--slow-sku);
+        }
+
+        .metric-box {
+            margin-top: 1rem;
+        }
+
+        .metric-box span {
+            display: block;
+            font-size: 0.8rem;
+            color: #64748b;
+            text-transform: uppercase;
+        }
+
+        .metric-box strong {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            margin-top: 5px;
+            font-family: 'Share Tech Mono', monospace;
+        }
+
+        .action-btn {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(189, 0, 255, 0.1);
+            color: var(--accent-color);
+            border: 1px solid var(--accent-color);
+            border-radius: 4px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: auto;
+        }
+
+        .action-btn:hover {
+            background: var(--accent-color);
+            color: white;
+            box-shadow: 0 0 15px var(--accent-color);
+        }
+
+        /* Warehouse Grid */
+        .warehouse-wrapper {
+            background: #0a0e17;
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            padding: 2rem;
+            position: relative;
+            box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .loading-dock {
+            width: 100%;
+            height: 40px;
+            background: rgba(0, 243, 255, 0.1);
+            border: 1px dashed var(--main-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Orbitron', sans-serif;
+            color: var(--main-color);
+            letter-spacing: 2px;
+            margin-bottom: 2rem;
+            border-radius: 4px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 10px;
+            flex: 1;
+        }
+
+        .pallet {
+            aspect-ratio: 1;
+            border-radius: 4px;
+            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+            /* Smooth slotting animation */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+        }
+
+        .pallet.fast {
+            background: rgba(16, 185, 129, 0.3);
+            border-color: var(--fast-sku);
+        }
+
+        .pallet.med {
+            background: rgba(245, 158, 11, 0.3);
+            border-color: var(--med-sku);
+        }
+
+        .pallet.slow {
+            background: rgba(239, 68, 68, 0.3);
+            border-color: var(--slow-sku);
+        }
+
+        .pallet.empty {
+            background: transparent;
+            border: 1px dashed rgba(255, 255, 255, 0.1);
+            color: transparent;
+        }
+
+        @media (max-width: 991px) {
+            .app-container {
+                grid-template-columns: 1fr;
+            }
+
+            .grid-container {
+                grid-template-columns: repeat(6, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <h1><i class='bx bx-grid-alt'></i> AI Warehouse Slotting Optimizer</h1>
+        <a href="../index.html#projects" class="back-btn"><i class='bx bx-arrow-back'></i> Back</a>
+    </header>
+
+    <div class="app-container">
+
+        <!-- Sidebar Controls -->
+        <div class="controls">
+            <div class="data-panel">
+                <h3>Zone: Alpha-Grid</h3>
+                <p>Status: Unoptimized (Chaotic)</p>
+            </div>
+
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="color-box fast-color"></div> Fast Movers (High Pick Velocity)
+                </div>
+                <div class="legend-item">
+                    <div class="color-box med-color"></div> Medium Movers
+                </div>
+                <div class="legend-item">
+                    <div class="color-box slow-color"></div> Slow Movers (Dead Stock)
+                </div>
+            </div>
+
+            <div class="metric-box">
+                <span>Avg Picker Travel Distance</span>
+                <strong id="dist-val" style="color: #ef4444;">184 Meters / Pick</strong>
+            </div>
+
+            <button class="action-btn" id="optimize-btn" onclick="runOptimization()">
+                <i class='bx bx-sort-z-a'></i> Execute AI Slotting
+            </button>
+        </div>
+
+        <!-- Interactive Grid -->
+        <div class="warehouse-wrapper">
+            <div class="loading-dock"><i class='bx bx-down-arrow-alt'></i> PACKING & SHIPPING DOCK <i
+                    class='bx bx-down-arrow-alt'></i></div>
+
+            <div class="grid-container" id="grid">
+                <!-- Javascript will inject pallets here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const grid = document.getElementById('grid');
+        // We will generate 60 pallets.
+        // Fast: 15, Med: 20, Slow: 15, Empty: 10
+        let pallets = Array(15).fill('fast')
+            .concat(Array(20).fill('med'))
+            .concat(Array(15).fill('slow'))
+            .concat(Array(10).fill('empty'));
+
+        // Shuffle array to represent an unorganized warehouse
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        shuffleArray(pallets);
+
+        // Render Grid
+        function renderGrid(palletLevels) {
+            grid.innerHTML = '';
+            palletLevels.forEach((level, index) => {
+                const p = document.createElement('div');
+                p.className = `pallet ${level}`;
+                if (level !== 'empty') {
+                    p.innerHTML = `SKU<br>${Math.floor(Math.random() * 90) + 10}`;
+                }
+                grid.appendChild(p);
+            });
+        }
+
+        renderGrid(pallets);
+
+        // Run Optimization (Sort by Velocity)
+        function runOptimization() {
+            const btn = document.getElementById('optimize-btn');
+            btn.disabled = true;
+            btn.innerHTML = "<i class='bx bx-loader-alt bx-spin'></i> Reorganizing Floor Plan...";
+
+            // The algorithm logic: Sort Fast -> Med -> Slow -> Empty
+            // Because the packing dock is at the TOP of the screen, FAST items need to be rendered FIRST (top rows).
+            setTimeout(() => {
+                const sorted = [];
+                const fast = pallets.filter(p => p === 'fast');
+                const med = pallets.filter(p => p === 'med');
+                const slow = pallets.filter(p => p === 'slow');
+                const empty = pallets.filter(p => p === 'empty');
+
+                sorted.push(...fast, ...med, ...slow, ...empty);
+                renderGrid(sorted);
+
+                // Update UI elements
+                document.querySelector('.data-panel p').innerText = "Status: Fully Optimized";
+
+                const distVal = document.getElementById('dist-val');
+                distVal.innerText = "42 Meters / Pick";
+                distVal.style.color = "#10b981";
+                distVal.style.textShadow = "0 0 10px #10b981";
+
+                btn.innerHTML = "<i class='bx bx-check'></i> Floor Plan Optimized";
+                btn.style.background = "rgba(16, 185, 129, 0.2)";
+                btn.style.borderColor = "#10b981";
+                btn.style.color = "#10b981";
+            }, 1000);
+        }
+    </script>
+</body>
+
+</html>

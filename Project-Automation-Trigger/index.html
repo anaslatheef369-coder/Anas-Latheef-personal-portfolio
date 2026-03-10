@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zero-Stock Automation Trigger | Anas Latheef</title>
+    <!-- Box Icons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Share+Tech+Mono&family=Inter:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #050810;
+            --main-color: #00f3ff;
+            --accent-color: #bd00ff;
+            --text-color: #e2e8f0;
+            --alert-color: #ef4444;
+            --glass-bg: rgba(12, 16, 28, 0.7);
+            --glass-border: rgba(0, 243, 255, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            background-image:
+                linear-gradient(rgba(0, 243, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 243, 255, 0.05) 1px, transparent 1px);
+            background-size: 30px 30px;
+            min-height: 100vh;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            width: 100%;
+            max-width: 1000px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            color: white;
+            text-shadow: 0 0 10px var(--accent-color);
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--main-color);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 0.8rem 1.5rem;
+            border: 1px solid var(--main-color);
+            border-radius: 4px;
+            transition: 0.3s;
+            background: rgba(0, 243, 255, 0.1);
+        }
+
+        .back-btn:hover {
+            background: var(--main-color);
+            color: var(--bg-color);
+            box-shadow: 0 0 15px var(--main-color);
+        }
+
+        .terminal-container {
+            width: 100%;
+            max-width: 1000px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(0, 243, 255, 0.05);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        /* Server Log Side */
+        .log-section {
+            padding: 2rem;
+            border-right: 1px solid var(--glass-border);
+            height: 500px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .log-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            font-family: 'Share Tech Mono', monospace;
+            color: var(--main-color);
+            border-bottom: 1px solid rgba(0, 243, 255, 0.2);
+            padding-bottom: 0.5rem;
+        }
+
+        .terminal-window {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 4px;
+            padding: 1rem;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.9rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .terminal-window::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .terminal-window::-webkit-scrollbar-thumb {
+            background: var(--main-color);
+            border-radius: 4px;
+        }
+
+        .log-line {
+            color: #10b981;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .log-line.warning {
+            color: #f59e0b;
+        }
+
+        .log-line.critical {
+            color: var(--alert-color);
+            text-shadow: 0 0 8px var(--alert-color);
+            font-weight: bold;
+        }
+
+        /* SKU Monitor Side */
+        .monitor-section {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sku-card {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 2rem;
+            width: 100%;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .sku-card h2 {
+            font-family: 'Orbitron', sans-serif;
+            color: white;
+            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        .sku-card p {
+            color: #94a3b8;
+            margin-bottom: 1.5rem;
+        }
+
+        .stock-level {
+            font-size: 5rem;
+            font-weight: 900;
+            font-family: 'Orbitron', sans-serif;
+            color: var(--main-color);
+            text-shadow: 0 0 20px var(--main-color);
+            transition: color 0.3s, text-shadow 0.3s;
+        }
+
+        .critical-flash {
+            animation: redAlert 0.8s infinite alternate;
+        }
+
+        @keyframes redAlert {
+            from {
+                border-color: var(--alert-color);
+                box-shadow: 0 0 20px rgba(239, 68, 68, 0.2);
+            }
+
+            to {
+                border-color: var(--alert-color);
+                box-shadow: 0 0 40px rgba(239, 68, 68, 0.6), inset 0 0 20px rgba(239, 68, 68, 0.4);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .action-btn {
+            margin-top: 2rem;
+            background: transparent;
+            color: var(--accent-color);
+            border: 1px solid var(--accent-color);
+            padding: 1rem 2rem;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: 0.3s;
+        }
+
+        .action-btn:hover {
+            background: var(--accent-color);
+            color: white;
+            box-shadow: 0 0 20px var(--accent-color);
+        }
+
+        .action-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        /* Alert Overlay */
+        .alert-modal {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            background: rgba(5, 8, 16, 0.95);
+            border: 2px solid var(--alert-color);
+            box-shadow: 0 0 50px rgba(239, 68, 68, 0.6);
+            padding: 2rem 3rem;
+            border-radius: 8px;
+            text-align: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.3s;
+            z-index: 100;
+        }
+
+        .alert-modal.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .alert-modal h2 {
+            color: var(--alert-color);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .alert-modal p {
+            color: white;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .terminal-container {
+                grid-template-columns: 1fr;
+            }
+
+            .log-section {
+                height: 300px;
+                border-right: none;
+                border-bottom: 1px solid var(--glass-border);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <h1>Zero-Stock Webhook Trigger</h1>
+        <a href="../index.html#projects" class="back-btn"><i class='bx bx-arrow-back'></i> Back to Portfolio</a>
+    </header>
+
+    <div class="terminal-container" id="main-container">
+
+        <div class="log-section">
+            <div class="log-header">
+                <span><i class='bx bx-terminal'></i> IMS_LIVE_FEED_v4.2</span>
+                <span id="system-status" style="color: #10b981;">STATUS: SCANNING</span>
+            </div>
+            <div class="terminal-window" id="terminal">
+                <div class="log-line">>> Initialization complete. Listening for webhook events...</div>
+            </div>
+        </div>
+
+        <div class="monitor-section">
+            <div class="sku-card" id="sku-card">
+                <h2>SKU: MAC-M3-PRO</h2>
+                <p>Warehouse ID: WH-DXB-04</p>
+                <div class="stock-level" id="stock-level">24</div>
+                <p style="margin-top: 1rem; color: #475569;">Reorder Threshold: 5</p>
+            </div>
+
+            <button class="action-btn" id="simulate-btn" onclick="startSimulation()">
+                <i class='bx bx-play'></i> Run Live Simulation
+            </button>
+        </div>
+    </div>
+
+    <!-- Alert Modal -->
+    <div class="alert-modal" id="alert-modal">
+        <h2><i class='bx bx-error'></i> AUTOMATED ALERT SENT</h2>
+        <p>Stock dropped to 0! A webhook has automatically triggered a purchase order via <strong>Odoo API</strong> to
+            Supplier [SUP-892].</p>
+        <button class="action-btn" style="border-color: var(--main-color); color: var(--main-color);"
+            onclick="resetSimulation()">Acknowledge & Reset</button>
+    </div>
+
+    <script>
+        const terminal = document.getElementById('terminal');
+        const stockDisplay = document.getElementById('stock-level');
+        const skuCard = document.getElementById('sku-card');
+        const sysStatus = document.getElementById('system-status');
+        const modal = document.getElementById('alert-modal');
+        const simBtn = document.getElementById('simulate-btn');
+
+        let currentStock = 24;
+        let simInterval;
+
+        function addLog(message, type = 'normal') {
+            const time = new Date().toISOString().split('T')[1].substring(0, 12);
+            const line = document.createElement('div');
+            line.className = `log-line ${type}`;
+            line.textContent = `[${time}] ${message}`;
+            terminal.appendChild(line);
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+
+        function startSimulation() {
+            simBtn.disabled = true;
+            addLog(">> Connecting to Warehouse Database...", "normal");
+
+            setTimeout(() => {
+                addLog(">> Database connected. Monitoring outbound orders.", "normal");
+
+                simInterval = setInterval(() => {
+                    // Random order sizes to deplete stock
+                    const deduction = Math.floor(Math.random() * 3) + 1;
+                    currentStock -= deduction;
+
+                    if (currentStock <= 0) currentStock = 0;
+
+                    stockDisplay.textContent = currentStock;
+
+                    if (currentStock > 5) {
+                        addLog(`Picked ${deduction} units for outbound delivery. Remaining: ${currentStock}`);
+                    }
+                    else if (currentStock <= 5 && currentStock > 0) {
+                        addLog(`WARNING: Threshold breached. Remaining: ${currentStock}`, "warning");
+                        stockDisplay.style.color = "#f59e0b";
+                        stockDisplay.style.textShadow = "0 0 20px #f59e0b";
+                        skuCard.style.borderColor = "#f59e0b";
+                    }
+                    else if (currentStock === 0) {
+                        clearInterval(simInterval);
+                        triggerZeroStock();
+                    }
+                }, 800); // 800ms between sales
+
+            }, 1000);
+        }
+
+        function triggerZeroStock() {
+            sysStatus.textContent = "STATUS: ALERT TRIGGERED";
+            sysStatus.style.color = "#ef4444";
+
+            stockDisplay.style.color = "#ef4444";
+            stockDisplay.style.textShadow = "0 0 30px #ef4444";
+
+            skuCard.classList.add('critical-flash');
+
+            addLog("CRITICAL: ZERO STOCK DETECTED. INITIATING WEBHOOK.", "critical");
+
+            setTimeout(() => {
+                addLog(">> POST https://api.odoo.com/v1/purchase_orders", "warning");
+                addLog(">> Payload: { sku: 'MAC-M3-PRO', qty: 100, is_urgent: true }", "warning");
+            }, 600);
+
+            setTimeout(() => {
+                addLog(">> Response 201: PO created successfully.", "normal");
+                addLog(">> Sending Slack notification to Procurement channel...", "normal");
+            }, 1400);
+
+            setTimeout(() => {
+                modal.classList.add('show');
+            }, 2500);
+        }
+
+        function resetSimulation() {
+            currentStock = 24;
+            stockDisplay.textContent = currentStock;
+
+            stockDisplay.style.color = "var(--main-color)";
+            stockDisplay.style.textShadow = "0 0 20px var(--main-color)";
+
+            skuCard.classList.remove('critical-flash');
+            skuCard.style.borderColor = "rgba(255, 255, 255, 0.1)";
+
+            sysStatus.textContent = "STATUS: SCANNING";
+            sysStatus.style.color = "#10b981";
+
+            modal.classList.remove('show');
+            simBtn.disabled = false;
+
+            terminal.innerHTML = '<div class="log-line">>> System reset manually. Listening for webhook events...</div>';
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Fleet Routing Engine | Anas Latheef</title>
+    <!-- Box Icons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Share+Tech+Mono&family=Inter:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <!-- Leaflet CSS for Maps -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <style>
+        :root {
+            --bg-color: #050810;
+            --main-color: #00f3ff;
+            --accent-color: #bd00ff;
+            --text-color: #e2e8f0;
+            --glass-bg: rgba(12, 16, 28, 0.7);
+            --glass-border: rgba(0, 243, 255, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            background-image:
+                radial-gradient(circle at 10% 20%, rgba(189, 0, 255, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(0, 243, 255, 0.05) 0%, transparent 40%);
+            min-height: 100vh;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            color: white;
+            text-shadow: 0 0 10px var(--main-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--main-color);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 0.8rem 1.5rem;
+            border: 1px solid var(--main-color);
+            border-radius: 4px;
+            background: rgba(0, 243, 255, 0.1);
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            background: var(--main-color);
+            color: var(--bg-color);
+            box-shadow: 0 0 15px var(--main-color);
+        }
+
+        .app-container {
+            display: grid;
+            grid-template-columns: 1fr 3fr;
+            gap: 2rem;
+            width: 100%;
+            height: 70vh;
+            min-height: 600px;
+        }
+
+        /* Sidebar Control Panel */
+        .controls {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .data-panel h3 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--main-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .data-panel p {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .metric-box {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+
+        .metric-box span {
+            display: block;
+            font-size: 0.8rem;
+            color: #64748b;
+            text-transform: uppercase;
+        }
+
+        .metric-box strong {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            margin-top: 5px;
+            font-family: 'Share Tech Mono', monospace;
+        }
+
+        .action-btn {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(189, 0, 255, 0.1);
+            color: var(--accent-color);
+            border: 1px solid var(--accent-color);
+            border-radius: 4px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: auto;
+        }
+
+        .action-btn:hover {
+            background: var(--accent-color);
+            color: white;
+            box-shadow: 0 0 15px var(--accent-color);
+        }
+
+        /* Map Section */
+        #map {
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.1);
+            background: #000;
+            /* Dark background for maps */
+        }
+
+        /* Custom Leaflet Pulse Icon */
+        .hub-node {
+            background-color: var(--main-color);
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            box-shadow: 0 0 15px var(--main-color), 0 0 30px var(--main-color);
+            animation: pulse 2s infinite;
+        }
+
+        .truck-node {
+            background-color: #10b981;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #10b981;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.5);
+                opacity: 0.6;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 991px) {
+            .app-container {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+
+            #map {
+                height: 500px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <h1><i class='bx bx-trip'></i> Dynamic Route Optimization Engine</h1>
+        <a href="../index.html#projects" class="back-btn"><i class='bx bx-arrow-back'></i> Back</a>
+    </header>
+
+    <div class="app-container">
+
+        <!-- Sidebar Controls -->
+        <div class="controls">
+            <div class="data-panel">
+                <h3>Vessel: TITAN-9</h3>
+                <p>Status: Awaiting Route Calculation</p>
+            </div>
+
+            <div class="metric-box">
+                <span>Estimated Distance</span>
+                <strong id="dist-val">-- km</strong>
+            </div>
+
+            <div class="metric-box">
+                <span>Fuel Projection</span>
+                <strong id="fuel-val">-- Liters</strong>
+            </div>
+
+            <div class="metric-box">
+                <span>Algorithm Efficiency</span>
+                <strong id="eff-val" style="color: #10b981;">-- % Saved</strong>
+            </div>
+
+            <button class="action-btn" id="optimize-btn" onclick="runOptimization()">
+                <i class='bx bx-radar'></i> Execute AI Routing
+            </button>
+        </div>
+
+        <!-- Interactive Map -->
+        <div id="map"></div>
+    </div>
+
+    <script>
+        // Dark theme map tiles (CartoDB Dark Matter)
+        const map = L.map('map').setView([45.0, 10.0], 3); // Center over Europe/Middle East
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; CartoDB',
+            subdomains: 'abcd',
+            maxZoom: 19
+        }).addTo(map);
+
+        // Define Warehouse Hubs (Lat, Lng)
+        const hubs = [
+            { name: "Dubai Port (HQ)", coords: [25.0, 55.0] },
+            { name: "Hamburg Hub", coords: [53.5, 10.0] },
+            { name: "Shanghai Port", coords: [31.2, 121.5] },
+            { name: "New York Hub", coords: [40.7, -74.0] }
+        ];
+
+        // Create glowing markers for hubs
+        const hubIcon = L.divIcon({ className: 'hub-node', iconSize: [14, 14] });
+
+        hubs.forEach(hub => {
+            L.marker(hub.coords, { icon: hubIcon })
+                .addTo(map)
+                .bindPopup(`<strong style="color:black;">${hub.name}</strong>`);
+        });
+
+        // The polyline that will show the route
+        let routeLine;
+
+        function runOptimization() {
+            const btn = document.getElementById('optimize-btn');
+            btn.disabled = true;
+            btn.innerHTML = "<i class='bx bx-loader-alt bx-spin'></i> Calculating Path...";
+            btn.style.borderColor = "var(--main-color)";
+            btn.style.color = "var(--main-color)";
+
+            // Fake calculation delay
+            setTimeout(() => {
+                drawOptimizedRoute();
+                updateMetrics();
+
+                btn.innerHTML = "<i class='bx bx-check'></i> Route Optimized";
+                btn.style.background = "rgba(16, 185, 129, 0.2)";
+                btn.style.borderColor = "#10b981";
+                btn.style.color = "#10b981";
+            }, 1500);
+        }
+
+        function drawOptimizedRoute() {
+            // Remove old line if exists
+            if (routeLine) { map.removeLayer(routeLine); }
+
+            // Connect coords sequentially (Shanghai -> Dubai -> Hamburg -> NY)
+            const orderedCoords = [
+                hubs[2].coords, // Shanghai
+                hubs[0].coords, // Dubai
+                hubs[1].coords, // Hamburg
+                hubs[3].coords  // NY
+            ];
+
+            // Draw glowing cyan line
+            routeLine = L.polyline(orderedCoords, {
+                color: '#00f3ff', // Cyan
+                weight: 4,
+                opacity: 0.8,
+                dashArray: '10, 10', // Dashed line effect
+                lineJoin: 'round'
+            }).addTo(map);
+
+            // Fit map to show the whole route
+            map.fitBounds(routeLine.getBounds(), { padding: [50, 50] });
+
+            // Animate dashes to look like flowing traffic
+            let dashOffset = 0;
+            setInterval(() => {
+                dashOffset -= 1;
+                routeLine.setStyle({ dashOffset: dashOffset.toString() });
+            }, 50);
+        }
+
+        function updateMetrics() {
+            document.getElementById('dist-val').innerText = "24,850 km";
+            document.getElementById('dist-val').style.color = "white";
+
+            document.getElementById('fuel-val').innerText = "142,000 L";
+            document.getElementById('fuel-val').style.color = "white";
+
+            document.getElementById('eff-val').innerText = "14.2% Saved";
+            document.getElementById('eff-val').style.textShadow = "0 0 10px #10b981";
+        }
+    </script>
+</body>
+
+</html>
