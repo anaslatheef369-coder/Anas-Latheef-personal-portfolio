@@ -10,15 +10,8 @@ export default async function handler(req, res) {
             return res.status(400).json({ error: 'Missing conversation history' });
         }
 
-        // Securely pull API key from Vercel Environment Variables
-        const API_KEY = process.env.GEMINI_API_KEY;
-        
-        if (!API_KEY) {
-            console.error("Missing GEMINI_API_KEY environment variable");
-            return res.status(500).json({ error: "Server Configuration Error" });
-        }
-
-        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+        // We use Pollinations AI, completely free and requires no API Key
+        const API_URL = `https://text.pollinations.ai/`;
 
         // The strict system prompt forcing professional, concise logistics answers
         const systemInstruction = `You are an expert AI assistant in Logistics, Supply Chain, Warehousing, and Inventory Management. You are embedded in Anas Latheef's professional portfolio website.
@@ -42,39 +35,39 @@ CRITICAL RULES:
 
 Example: If asked "20ft container capacity", answer with the actual specs (33 CBM, 28,000kg payload, 5.9m internal length).`;
 
+        // Map the Gemini conversation history format to standard OpenAI messages format for Pollinations
+        const messages = [
+            { role: "system", content: systemInstruction }
+        ];
+
+        for (const msg of conversationHistory) {
+            // Gemini roles are 'user' and 'model'. Convert 'model' to 'assistant'
+            const role = msg.role === 'model' ? 'assistant' : 'user';
+            const content = msg.parts.map(p => p.text).join(' ');
+            messages.push({ role, content });
+        }
+
         const response = await fetch(API_URL, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                system_instruction: {
-                    parts: [{ text: systemInstruction }]
-                },
-                contents: conversationHistory // Forward the full conversation Array
+                messages: messages,
+                model: "openai" // Specifically request the fast openai-compatible format from Pollinations
             })
         });
 
         if (!response.ok) {
-            const errBody = await response.json().catch(() => ({}));
-            console.error("Gemini API Error from Vercel:", response.status, errBody);
-            
-            if (response.status === 429) {
-                return res.status(429).json({ error: "The AI is currently rate-limited. Please wait 30 seconds and try again." });
-            }
-            if (response.status === 403) {
-                 return res.status(403).json({ error: "API Key Permission Error. The owner's API key may be invalid or exhausted." });
-            }
+            console.error("Pollinations API Error:", response.status);
             return res.status(502).json({ error: `API upstream error (${response.status})` });
         }
 
-        const data = await response.json();
+        const replyText = await response.text();
 
-        if (data.candidates && data.candidates.length > 0 &&
-            data.candidates[0].content && data.candidates[0].content.parts.length > 0) {
-            const replyText = data.candidates[0].content.parts[0].text;
+        if (replyText) {
             return res.status(200).json({ reply: replyText });
         } else {
-            console.error("Invalid response layout from Gemini", data);
-            return res.status(502).json({ error: "Received malformed data from AI." });
+            console.error("Empty response from AI");
+            return res.status(502).json({ error: "Received empty data from AI." });
         }
 
     } catch (error) {
