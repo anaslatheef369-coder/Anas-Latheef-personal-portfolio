@@ -849,16 +849,24 @@ body.show-chatbot .chat-popup {
     text-shadow: 0 0 8px #10b981;
 }
 
+.chat-popup .chat-header-actions {
+    margin-left: auto;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.chat-popup .refresh-chat,
 .chat-popup .close-chat {
     border: none;
     color: var(--text-color);
     font-size: 2.5rem;
     background: transparent;
     cursor: pointer;
-    margin-left: auto;
     transition: 0.3s;
 }
 
+.chat-popup .refresh-chat:hover,
 .chat-popup .close-chat:hover {
     color: var(--accent-color);
     text-shadow: 0 0 10px var(--accent-color);

@@ -135,6 +135,7 @@ tsParticles.load("tsparticles", {
 
 const chatbotToggler = document.getElementById('chatbot-toggler');
 const closeChatBtn = document.getElementById('close-chat');
+const refreshChatBtn = document.getElementById('refresh-chat');
 const chatPopup = document.getElementById('chat-popup');
 const chatBox = document.getElementById('chat-box');
 const chatForm = document.getElementById('chat-form');
@@ -179,8 +180,8 @@ async function getLogisticsResponse(message) {
     const API_KEY = "AIzaSyD2zxY-gIyF9mMlsK3uWtssCE8Y4mPCLbg"; // User's Gemini API Key
     const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
 
-    // System instructions for the Gemini model
-    const systemInstruction = "You are a cutting-edge AI Logistics and Supply Chain Assistant for Anas Latheef's portfolio. You are an expert in warehousing, inventory, global freight, shrinkage, ETA tracking, and cost algorithms. Keep your answers extremely concise, professional, and slightly futuristic. Do not use markdown and keep answers under 3 sentences.";
+    // System instructions for the Gemini model enriched with deep supply chain data
+    const systemInstruction = "You are a cutting-edge AI Logistics and Supply Chain Assistant for Anas Latheef's portfolio. You are an expert in warehousing, inventory management, global freight, shrinkage reduction, ETA tracking, cost algorithms, ERP integration (Odoo, Zoho), WMS/IMS systems, and supply chain predictability. Use your vast knowledge of international shipping routes, port lead times, cross-docking, reverse logistics, and capacity optimization to answer queries accurately. Keep your answers concise, highly professional, and slightly futuristic. Do not use markdown and keep answers under 3 sentences.";
 
     const fallbackResponses = [
         "Analyzing metrics: Inventory optimization is critical for reducing overhead. I recommend implementing a Just-In-Time (JIT) workflow.",
@@ -268,3 +269,8 @@ function toggleChatbot() {
 
 chatbotToggler.addEventListener('click', toggleChatbot);
 closeChatBtn.addEventListener('click', () => document.body.classList.remove('show-chatbot'));
+
+refreshChatBtn.addEventListener('click', () => {
+    chatBox.innerHTML = '';
+    appendMessage("⚡ LOGISTICS_MAINFRAME_V2.0_ONLINE ⚡ Access granted. I am the Advanced AI Interface for Anas Latheef. How can I optimize your supply chain today?", 'bot');
+});
