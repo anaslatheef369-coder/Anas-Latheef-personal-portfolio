@@ -175,26 +175,50 @@ function hideTypingIndicator() {
     }
 }
 
-// Advanced Real-Time AI Logic via Google Gemini API (Proxied securely via Vercel)
-const conversationHistory = []; // Stores conversation context for better replies
-
 async function getLogisticsResponse(message) {
-    // Add the new user message to history in Gemini format
+    // Add the new user message to history
     conversationHistory.push({
         role: "user",
-        parts: [{ text: message }]
+        content: message
     });
 
     try {
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout
+        const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout for free AI
 
-        // Call our secure Vercel Serverless Function instead of Google directly
-        const response = await fetch('/api/chat', {
+        const systemInstruction = `You are an expert AI assistant in Logistics, Supply Chain, Warehousing, and Inventory Management. You are embedded in Anas Latheef's professional portfolio website.
+
+Your job is to answer the user's EXACT question with precision. Always directly address what was asked.
+
+Your core expertise includes:
+- Container specs & freight: TEU/FEU dimensions, weight capacities, FCL/LCL, Incoterms
+- Warehouse operations: slotting, pick paths, velocity analysis, cross-docking, WMS systems
+- Inventory management: ABC/XYZ analysis, EOQ, safety stock, reorder points, shrinkage
+- Supply chain: demand forecasting, S&OP, lead time optimization, vendor management
+- ERP/WMS tools: Odoo, SAP, Oracle, Zoho, Microsoft D365, WMS integrations
+- Data & analytics: KPIs, OTIF, fill rate, inventory turnover, carrying cost
+
+CRITICAL RULES:
+1. Answer EXACTLY what was asked. Do not give generic advice.
+2. Be concise — maximum 3-4 sentences per answer.
+3. Do NOT use markdown (no asterisks, no bullet points, no headers).
+4. Do NOT mention "Anas Latheef" unless asked about the portfolio owner.
+5. If you don't know something, say so honestly.
+
+Example: If asked "20ft container capacity", answer with the actual specs (33 CBM, 28,000kg payload, 5.9m internal length).`;
+
+        const messages = [
+            { role: "system", content: systemInstruction },
+            ...conversationHistory
+        ];
+
+        // Call Pollinations directly from the frontend (No API Key Required!)
+        const response = await fetch('https://text.pollinations.ai/', {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-                conversationHistory: conversationHistory
+                messages: messages,
+                model: "openai"
             }),
             signal: controller.signal
         });
@@ -202,33 +226,23 @@ async function getLogisticsResponse(message) {
         clearTimeout(timeoutId);
 
         if (!response.ok) {
-            const errData = await response.json().catch(() => ({}));
-            console.error("Proxy API Error:", response.status, errData);
-            
-            // Remove last user message from history on failure
+            console.error("Pollinations API Error:", response.status);
             conversationHistory.pop();
-            
-            if (response.status === 429) {
-                return "The AI is currently rate-limited. Please wait 30 seconds and try again.";
-            }
-            if (response.status === 403) {
-                 return "AI Access Revoked: The API Key needs to be updated by the administrator.";
-            }
-            return errData.error || `Server Error (${response.status}). Please try again in a moment.`;
+            return "The AI service is currently busy. Please try again in a moment.";
         }
 
-        const data = await response.json();
+        const replyText = await response.text();
 
-        if (data.reply) {
-            // Add bot reply to history for context in next message
+        if (replyText) {
+            // Add bot reply to history for context
             conversationHistory.push({
-                role: "model",
-                parts: [{ text: data.reply }]
+                role: "assistant",
+                content: replyText
             });
-            return data.reply;
+            return replyText;
         } else {
             conversationHistory.pop();
-            throw new Error("Invalid Response Structure from Proxy");
+            throw new Error("Invalid Response from AI");
         }
 
     } catch (error) {
@@ -236,9 +250,9 @@ async function getLogisticsResponse(message) {
         console.error("AI Fetch Error:", error);
         
         if (error.name === 'AbortError') {
-            return "Request timed out. Please check your connection and try again.";
+            return "Request timed out. The AI is taking too long to think properly. Please try again.";
         }
-        return "Unable to reach the AI proxy server. Please try again in a moment.";
+        return "Unable to reach the AI server. Please check your connection and try again.";
     }
 }
 
