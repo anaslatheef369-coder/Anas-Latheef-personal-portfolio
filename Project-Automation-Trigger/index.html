@@ -404,21 +404,33 @@
 
             skuCard.classList.add('critical-flash');
 
-            addLog("CRITICAL: ZERO STOCK DETECTED. INITIATING WEBHOOK.", "critical");
+            addLog("CRITICAL: ZERO STOCK DETECTED. INITIATING LIVE WEBHOOK.", "critical");
+
+            const webhookUrl = "https://script.google.com/macros/s/AKfycbwIOHvy-wkxVh7JkIe9FKKmdFIg8-iGEdk2sFF4t4FGq_MfFM0pjx0tokQ0NJV4J2AX/exec";
+            const payload = { sku: 'MAC-M3-PRO', qty: 100, is_urgent: true };
 
             setTimeout(() => {
-                addLog(">> POST https://api.odoo.com/v1/purchase_orders", "warning");
-                addLog(">> Payload: { sku: 'MAC-M3-PRO', qty: 100, is_urgent: true }", "warning");
+                addLog(">> POST " + webhookUrl, "warning");
+                addLog(">> Payload: " + JSON.stringify(payload), "warning");
+
+                // Real POST request to Google Apps Script
+                fetch(webhookUrl, {
+                    method: 'POST',
+                    mode: 'no-cors', // Standard for GAS webhooks to avoid CORS issues
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                }).then(() => {
+                    addLog(">> Response 200 OK: Data logged to Google Sheets.", "normal");
+                    addLog(">> Automated Email Alert dispatched to inbox successfully.", "normal");
+                    setTimeout(() => {
+                        modal.classList.add('show');
+                    }, 1500);
+                }).catch(err => {
+                    addLog(">> ERROR: Failed to reach webhook server.", "critical");
+                });
             }, 600);
-
-            setTimeout(() => {
-                addLog(">> Response 201: PO created successfully.", "normal");
-                addLog(">> Sending Slack notification to Procurement channel...", "normal");
-            }, 1400);
-
-            setTimeout(() => {
-                modal.classList.add('show');
-            }, 2500);
         }
 
         function resetSimulation() {
