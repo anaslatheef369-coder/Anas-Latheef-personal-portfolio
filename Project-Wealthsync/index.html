@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WealthSync – Master Your Money, Without the Math</title>
+  <meta name="description" content="Sync your accounts, automate your budget, and watch your net worth grow with the smartest personal finance dashboard built for modern professionals." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════ NAVBAR ═══════════════════════════ -->
+  <header class="navbar" id="navbar">
+    <div class="container nav-inner">
+      <a href="#" class="nav-logo">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="28" height="28" rx="8" fill="#10B981"/>
+          <path d="M7 18L11.5 13L14.5 16L18 11L21 14" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>WealthSync</span>
+      </a>
+      <nav class="nav-links" id="navLinks">
+        <a href="#features">Features</a>
+        <a href="#how-it-works">How it Works</a>
+        <a href="#testimonials">Reviews</a>
+        <a href="#pricing">Pricing</a>
+      </nav>
+      <div class="nav-cta">
+        <a href="#" class="btn-ghost">Log In</a>
+        <a href="#" class="btn-primary btn-sm" id="navCtaBtn">Start Free Trial</a>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ═══════════════════════════ HERO ═══════════════════════════ -->
+    <section class="hero" id="hero">
+      <div class="hero-bg-glow"></div>
+      <div class="container hero-inner">
+        <div class="hero-text" data-animate="fade-up">
+          <div class="eyebrow">🚀 Join 10,000+ taking control of their finances</div>
+          <h1 class="hero-headline">Master Your Money,<br /><span class="gradient-text">Without the Math.</span></h1>
+          <p class="hero-sub">Sync your accounts, automate your budget, and watch your net worth grow with the smartest personal finance dashboard built for modern professionals.</p>
+          <div class="hero-cta-group">
+            <a href="#" class="btn-primary btn-lg" id="heroCtaBtn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+              Start Your Free 14-Day Trial
+            </a>
+            <p class="cta-subtext">No credit card required. Setup takes 2 minutes.</p>
+          </div>
+          <div class="hero-stats">
+            <div class="stat-pill">
+              <span class="stat-dot"></span>
+              <span><strong>4.9★</strong> App Store</span>
+            </div>
+            <div class="stat-pill">
+              <span class="stat-dot"></span>
+              <span><strong>256-bit</strong> Encrypted</span>
+            </div>
+            <div class="stat-pill">
+              <span class="stat-dot"></span>
+              <span><strong>SOC 2</strong> Certified</span>
+            </div>
+          </div>
+        </div>
+        <div class="hero-visual" data-animate="fade-left">
+          <div class="mockup-wrapper">
+            <div class="mockup-glow"></div>
+            <div class="dashboard-card glass-card">
+              <!-- Header -->
+              <div class="dash-header">
+                <div>
+                  <div class="dash-label">Total Balance</div>
+                  <div class="dash-balance">$48,250<span>.00</span></div>
+                  <div class="dash-trend positive">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+                    +12.4% this month
+                  </div>
+                </div>
+                <div class="dash-avatar-group">
+                  <div class="dash-icon-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                  </div>
+                  <div class="dash-avatar">AJ</div>
+                </div>
+              </div>
+
+              <!-- Chart -->
+              <div class="dash-chart-area">
+                <svg viewBox="0 0 320 100" class="sparkline-chart" preserveAspectRatio="none">
+                  <defs>
+                    <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#10B981" stop-opacity="0.4"/>
+                      <stop offset="100%" stop-color="#10B981" stop-opacity="0"/>
+                    </linearGradient>
+                  </defs>
+                  <path d="M0 80 C40 75 60 65 90 60 C120 55 140 70 160 55 C180 40 200 45 220 35 C240 25 270 20 320 10" fill="none" stroke="#10B981" stroke-width="2.5" stroke-linecap="round"/>
+                  <path d="M0 80 C40 75 60 65 90 60 C120 55 140 70 160 55 C180 40 200 45 220 35 C240 25 270 20 320 10 L320 100 L0 100 Z" fill="url(#chartGrad)"/>
+                  <!-- Data point markers -->
+                  <circle cx="90" cy="60" r="3" fill="#10B981"/>
+                  <circle cx="160" cy="55" r="3" fill="#10B981"/>
+                  <circle cx="220" cy="35" r="3" fill="#10B981"/>
+                  <circle cx="320" cy="10" r="4" fill="#10B981" stroke="white" stroke-width="1.5"/>
+                </svg>
+                <div class="chart-labels">
+                  <span>Jan</span><span>Mar</span><span>May</span><span>Jul</span><span>Now</span>
+                </div>
+              </div>
+
+              <!-- Budget Bars -->
+              <div class="dash-section-label">Budget Overview</div>
+              <div class="budget-bars">
+                <div class="budget-item">
+                  <div class="budget-meta">
+                    <span class="budget-cat">
+                      <span class="budget-emoji">🛒</span> Groceries
+                    </span>
+                    <span class="budget-amount">$390 / $600</span>
+                  </div>
+                  <div class="budget-track">
+                    <div class="budget-fill green" style="width: 65%;"></div>
+                  </div>
+                </div>
+                <div class="budget-item">
+                  <div class="budget-meta">
+                    <span class="budget-cat">
+                      <span class="budget-emoji">🍜</span> Dining
+                    </span>
+                    <span class="budget-amount warn">$240 / $300</span>
+                  </div>
+                  <div class="budget-track">
+                    <div class="budget-fill amber" style="width: 80%;"></div>
+                  </div>
+                </div>
+                <div class="budget-item">
+                  <div class="budget-meta">
+                    <span class="budget-cat">
+                      <span class="budget-emoji">🚇</span> Transport
+                    </span>
+                    <span class="budget-amount">$45 / $150</span>
+                  </div>
+                  <div class="budget-track">
+                    <div class="budget-fill green" style="width: 30%;"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Stat Pills -->
+              <div class="dash-stats-row">
+                <div class="mini-stat">
+                  <div class="mini-stat-label">Savings Rate</div>
+                  <div class="mini-stat-value positive">23%</div>
+                </div>
+                <div class="mini-stat">
+                  <div class="mini-stat-label">Goals Active</div>
+                  <div class="mini-stat-value">3</div>
+                </div>
+                <div class="mini-stat">
+                  <div class="mini-stat-label">Linked Accounts</div>
+                  <div class="mini-stat-value">5</div>
+                </div>
+              </div>
+
+              <!-- Floating notification badge -->
+              <div class="float-badge">
+                <span>🎉</span>
+                <span>Under budget! Great job this week.</span>
+              </div>
+            </div>
+            <!-- Secondary floating card -->
+            <div class="float-card float-card-goal glass-card-sm">
+              <div class="fc-icon">🏠</div>
+              <div class="fc-info">
+                <div class="fc-title">House Fund</div>
+                <div class="fc-sub">$18,450 / $30,000</div>
+                <div class="fc-bar-track"><div class="fc-bar-fill" style="width:62%"></div></div>
+              </div>
+              <div class="fc-pct">62%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Scroll indicator -->
+      <div class="scroll-hint">
+        <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════ SOCIAL PROOF BAND ═══════════════════════════ -->
+    <section class="social-proof" id="social-proof">
+      <div class="container">
+        <p class="sp-label">Trusted by users from top companies</p>
+        <div class="logo-strip">
+          <!-- Google -->
+          <svg class="logo-item" viewBox="0 0 74 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Google">
+            <path d="M15.4 12.2c0-.6-.1-1.2-.2-1.8H7.8v3.4h4.3c-.2 1-.8 1.8-1.6 2.4v2h2.6c1.5-1.4 2.3-3.5 2.3-6z" fill="currentColor" opacity=".5"/>
+            <path d="M7.8 18c2.2 0 4-0.7 5.3-1.9l-2.6-2c-.7.5-1.6.8-2.7.8-2.1 0-3.8-1.4-4.5-3.3H.7v2.1C2 16.8 4.8 18 7.8 18z" fill="currentColor" opacity=".5"/>
+            <path d="M3.3 11.6c-.2-.5-.3-1-.3-1.6s.1-1.1.3-1.6V6.3H.7A8 8 0 000 10c0 1.3.3 2.5.7 3.7l2.6-2.1z" fill="currentColor" opacity=".5"/>
+            <path d="M7.8 5.1c1.2 0 2.3.4 3.1 1.2l2.3-2.3C11.8 2.7 9.9 2 7.8 2 4.8 2 2 3.2.7 6.3l2.6 2c.7-1.9 2.4-3.2 4.5-3.2z" fill="currentColor" opacity=".5"/>
+            <text x="19" y="16" fill="currentColor" font-family="Arial" font-size="12" font-weight="600" opacity=".4">Google</text>
+          </svg>
+          <!-- Stripe -->
+          <svg class="logo-item" viewBox="0 0 60 24" xmlns="http://www.w3.org/2000/svg" aria-label="Stripe">
+            <text x="0" y="18" fill="currentColor" font-family="Arial" font-size="17" font-weight="700" opacity=".4">stripe</text>
+          </svg>
+          <!-- Notion -->
+          <svg class="logo-item" viewBox="0 0 70 24" xmlns="http://www.w3.org/2000/svg" aria-label="Notion">
+            <rect x="0" y="4" width="16" height="16" rx="3" fill="currentColor" opacity=".15"/>
+            <text x="1.5" y="16.5" fill="currentColor" font-family="Arial" font-size="11" font-weight="700" opacity=".5">N</text>
+            <text x="22" y="17" fill="currentColor" font-family="Arial" font-size="13" font-weight="600" opacity=".4">Notion</text>
+          </svg>
+          <!-- Shopify -->
+          <svg class="logo-item" viewBox="0 0 76 24" xmlns="http://www.w3.org/2000/svg" aria-label="Shopify">
+            <text x="0" y="17" fill="currentColor" font-family="Arial" font-size="13" font-weight="600" opacity=".4">Shopify</text>
+          </svg>
+          <!-- Linear -->
+          <svg class="logo-item" viewBox="0 0 65 24" xmlns="http://www.w3.org/2000/svg" aria-label="Linear">
+            <circle cx="10" cy="12" r="7" fill="none" stroke="currentColor" stroke-width="1.5" opacity=".35"/>
+            <path d="M10 5 L10 19 M5 10 L15 14" stroke="currentColor" stroke-width="1.5" opacity=".35"/>
+            <text x="22" y="17" fill="currentColor" font-family="Arial" font-size="13" font-weight="600" opacity=".4">Linear</text>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════ FEATURES BENTO ═══════════════════════════ -->
+    <section class="features" id="features">
+      <div class="container">
+        <div class="section-header" data-animate="fade-up">
+          <div class="section-tag">Features</div>
+          <h2>Everything you need to build wealth,<br /><span class="gradient-text">in one place.</span></h2>
+        </div>
+        <div class="bento-grid">
+          <!-- Card 1: Full-width top -->
+          <div class="bento-card bento-card-wide" data-animate="fade-up" data-delay="0">
+            <div class="bento-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            </div>
+            <h3>Autopilot Budgeting</h3>
+            <p>Connect your bank accounts once. We automatically categorize your spending in real-time so you always know where your money goes.</p>
+            <div class="bento-visual autopilot-visual">
+              <div class="ap-tag tag-green">🛒 Groceries — $45.20</div>
+              <div class="ap-tag tag-blue">☕ Coffee — $6.50</div>
+              <div class="ap-tag tag-purple">🚇 Transport — $3.00</div>
+              <div class="ap-tag tag-amber">🍔 Dining — $28.00</div>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="bento-card" data-animate="fade-up" data-delay="1">
+            <div class="bento-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <h3>Goal Tracking</h3>
+            <p>Saving for a house, a vacation, or an emergency fund? Set custom goals and watch your progress bars fill up automatically.</p>
+            <div class="bento-visual goal-visual">
+              <div class="goal-item">
+                <div class="goal-row"><span>🏖️ Vacation</span><span>$3,200 / $5,000</span></div>
+                <div class="goal-track"><div class="goal-fill" style="width:64%"></div></div>
+              </div>
+              <div class="goal-item">
+                <div class="goal-row"><span>🆘 Emergency</span><span>$8,400 / $10,000</span></div>
+                <div class="goal-track"><div class="goal-fill" style="width:84%"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="bento-card" data-animate="fade-up" data-delay="2">
+            <div class="bento-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            </div>
+            <h3>Net Worth Sync</h3>
+            <p>Track your assets, investments, and liabilities in a single, beautiful chart. See your true financial picture instantly.</p>
+            <div class="bento-visual networth-visual">
+              <svg viewBox="0 0 200 60" class="nw-chart">
+                <defs>
+                  <linearGradient id="nwGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#10B981" stop-opacity="0.3"/>
+                    <stop offset="100%" stop-color="#10B981" stop-opacity="0"/>
+                  </linearGradient>
+                </defs>
+                <path d="M0 55 C30 50 50 42 80 35 C110 28 140 38 160 25 C175 16 190 8 200 5" fill="none" stroke="#10B981" stroke-width="2"/>
+                <path d="M0 55 C30 50 50 42 80 35 C110 28 140 38 160 25 C175 16 190 8 200 5 L200 60 L0 60 Z" fill="url(#nwGrad)"/>
+              </svg>
+              <div class="nw-val">$48,250 <span class="positive-sm">+12.4%</span></div>
+            </div>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="bento-card bento-card-bottom" data-animate="fade-up" data-delay="3">
+            <div class="bento-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+            </div>
+            <h3>Smart Insights</h3>
+            <p>Get gentle, AI-driven nudges when you're close to your spending limits, and celebrate when you stay under budget.</p>
+            <div class="bento-visual insights-visual">
+              <div class="insight-card">
+                <span class="insight-icon">⚠️</span>
+                <span>Dining is at 80% of budget</span>
+              </div>
+              <div class="insight-card insight-celebrate">
+                <span class="insight-icon">🎉</span>
+                <span>Transport: 70% remaining!</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════ HOW IT WORKS ═══════════════════════════ -->
+    <section class="how-it-works" id="how-it-works">
+      <div class="container">
+        <div class="section-header" data-animate="fade-up">
+          <div class="section-tag">Process</div>
+          <h2>Financial clarity in <span class="gradient-text">three simple steps.</span></h2>
+        </div>
+        <div class="steps-row">
+          <div class="step-card" data-animate="fade-up" data-delay="0">
+            <div class="step-number">01</div>
+            <div class="step-icon-wrap">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </div>
+            <h3>Connect</h3>
+            <p>Securely link your bank accounts with bank-level 256-bit encryption. Your credentials are never stored.</p>
+            <div class="step-badge">🔒 Bank-Grade Security</div>
+          </div>
+          <div class="step-connector" aria-hidden="true">
+            <svg viewBox="0 0 60 20" fill="none">
+              <path d="M0 10 Q30 2 60 10" stroke="#10B981" stroke-width="1.5" stroke-dasharray="5 3"/>
+              <polygon points="55,6 65,10 55,14" fill="#10B981" opacity="0.6"/>
+            </svg>
+          </div>
+          <div class="step-card" data-animate="fade-up" data-delay="1">
+            <div class="step-number">02</div>
+            <div class="step-icon-wrap">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M3 12s3-7 9-7 9 7 9 7-3 7-9 7-9-7-9-7z"/></svg>
+            </div>
+            <h3>Customize</h3>
+            <p>Set your monthly limits and financial goals. Tailor every category to match your real lifestyle and ambitions.</p>
+            <div class="step-badge">🎯 Your Rules</div>
+          </div>
+          <div class="step-connector" aria-hidden="true">
+            <svg viewBox="0 0 60 20" fill="none">
+              <path d="M0 10 Q30 2 60 10" stroke="#10B981" stroke-width="1.5" stroke-dasharray="5 3"/>
+              <polygon points="55,6 65,10 55,14" fill="#10B981" opacity="0.6"/>
+            </svg>
+          </div>
+          <div class="step-card" data-animate="fade-up" data-delay="2">
+            <div class="step-number">03</div>
+            <div class="step-icon-wrap">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            </div>
+            <h3>Grow</h3>
+            <p>Let the app track your progress while you focus on living your life. Watch your wealth build on autopilot.</p>
+            <div class="step-badge step-badge-green">📈 Watch It Compound</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════ TESTIMONIALS ═══════════════════════════ -->
+    <section class="testimonials" id="testimonials">
+      <div class="container">
+        <div class="section-header" data-animate="fade-up">
+          <div class="section-tag">Reviews</div>
+          <h2>Don't just take <span class="gradient-text">our word for it.</span></h2>
+          <p class="section-sub">Join thousands of professionals who've already transformed their finances.</p>
+        </div>
+        <div class="testimonial-grid">
+          <div class="testimonial-card" data-animate="fade-up" data-delay="0">
+            <div class="tcard-stars">★★★★★</div>
+            <blockquote>"I used to track everything in spreadsheets. WealthSync gave me my Sundays back and helped me save <mark>15% more each month.</mark>"</blockquote>
+            <div class="tcard-author">
+              <div class="tcard-avatar" style="background: linear-gradient(135deg, #6366f1, #8b5cf6);">ST</div>
+              <div class="tcard-meta">
+                <strong>Sarah T.</strong>
+                <span>Marketing Director</span>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card testimonial-card-featured" data-animate="fade-up" data-delay="1">
+            <div class="tcard-stars">★★★★★</div>
+            <blockquote>"The cleanest UI of any finance app I've ever used. It actually makes <mark>checking my budget enjoyable.</mark>"</blockquote>
+            <div class="tcard-author">
+              <div class="tcard-avatar" style="background: linear-gradient(135deg, #10B981, #059669);">MJ</div>
+              <div class="tcard-meta">
+                <strong>Marcus J.</strong>
+                <span>Software Engineer</span>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card" data-animate="fade-up" data-delay="2">
+            <div class="tcard-stars">★★★★★</div>
+            <blockquote>"Finally, a finance app that doesn't feel like a chore. I hit my <mark>vacation savings goal</mark> 2 months early!"</blockquote>
+            <div class="tcard-author">
+              <div class="tcard-avatar" style="background: linear-gradient(135deg, #f59e0b, #d97706);">PL</div>
+              <div class="tcard-meta">
+                <strong>Priya L.</strong>
+                <span>Product Manager</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="rating-bar" data-animate="fade-up">
+          <div class="rating-stars">★★★★★</div>
+          <div class="rating-text"><strong>4.9 / 5</strong> from over 2,400 reviews</div>
+          <div class="rating-logos">
+            <span class="rating-source">App Store</span>
+            <span class="rating-sep">·</span>
+            <span class="rating-source">Google Play</span>
+            <span class="rating-sep">·</span>
+            <span class="rating-source">ProductHunt</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════ FINAL CTA ═══════════════════════════ -->
+    <section class="final-cta" id="pricing">
+      <div class="container">
+        <div class="cta-dark-box" data-animate="fade-up">
+          <div class="cta-glow-orb cta-orb-1"></div>
+          <div class="cta-glow-orb cta-orb-2"></div>
+          <div class="section-tag section-tag-dark">Get Started Today</div>
+          <h2>Stop wondering where<br />your money went.</h2>
+          <p>Join today and get a clear picture of your financial future.</p>
+          <a href="#" class="btn-primary btn-lg btn-cta-big" id="finalCtaBtn">
+            Get Started for Free
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <p class="cta-sub-small">Cancel anytime. Bank-level security. 14-day free trial.</p>
+          <div class="cta-trust-row">
+            <div class="trust-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              256-bit SSL Encrypted
+            </div>
+            <div class="trust-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              SOC 2 Compliant
+            </div>
+            <div class="trust-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              No Credit Card Needed
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════════════════════ FOOTER ═══════════════════════════ -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <a href="#" class="nav-logo">
+          <svg width="24" height="24" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="28" height="28" rx="8" fill="#10B981"/>
+            <path d="M7 18L11.5 13L14.5 16L18 11L21 14" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>WealthSync</span>
+        </a>
+        <p class="footer-copy">&copy; 2026 WealthSync. All rights reserved.</p>
+      </div>
+      <nav class="footer-links">
+        <a href="#">Privacy Policy</a>
+        <span class="footer-sep">|</span>
+        <a href="#">Terms of Service</a>
+        <span class="footer-sep">|</span>
+        <a href="#">Contact Us</a>
+        <span class="footer-sep">|</span>
+        <a href="#">Security</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
