@@ -22,9 +22,10 @@
     --bg-card: #1A1A1A;
     --text-color: #FFFFFF;
     --text-muted: #888888;
-    --main-color: #FFC900;     /* Bold Yellow Accent */
-    --main-dark: #CC9F00;
-    --glass-border: rgba(255, 201, 0, 0.15);
+    --main-color: #38BDF8;     /* Light Blue Accent */
+    --main-dark: #0EA5E9;
+    --second-color: #16A34A;   /* Dark Green Accent */
+    --glass-border: rgba(56, 189, 248, 0.15);
 }
 
 html {
@@ -216,7 +217,7 @@ span.multiple-text {
     background: var(--main-color);
     border-radius: 4px;
     font-size: 1.5rem;
-    color: #0F0F0F;
+    color: #ffffff;
     font-weight: 700;
     font-family: 'Space Grotesk', sans-serif;
     letter-spacing: 0.5px;
@@ -260,11 +261,11 @@ span.multiple-text {
 }
 
 .social-media a:hover {
-    background: var(--main-color);
-    color: #0F0F0F;
-    border-color: var(--main-color);
+    background: var(--second-color);
+    color: #ffffff;
+    border-color: var(--second-color);
     transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(255, 201, 0, 0.3);
+    box-shadow: 0 8px 25px rgba(22, 163, 74, 0.3);
 }
 
 /* Hero Image */
@@ -297,7 +298,7 @@ span.multiple-text {
     bottom: 0; left: 0;
     width: 100%;
     height: 35%;
-    background: var(--main-color);
+    background: var(--second-color);
     z-index: 0;
     border-radius: 0;
 }
@@ -533,26 +534,26 @@ span.multiple-text {
     font-family: 'Space Grotesk', sans-serif;
     font-size: 1.4rem;
     font-weight: 700;
-    color: #0F0F0F;
+    color: #ffffff;
     letter-spacing: 0;
     text-transform: capitalize;
     backdrop-filter: none;
 }
 
 .portfolio-layer a:hover {
-    background: #fff;
-    color: #0F0F0F;
-    box-shadow: 0 6px 20px rgba(255, 201, 0, 0.4);
+    background: var(--second-color);
+    color: #ffffff;
+    box-shadow: 0 6px 20px rgba(22, 163, 74, 0.4);
     transform: none;
 }
 
 .portfolio-layer a i {
     font-size: 1.6rem;
-    color: #0F0F0F;
+    color: #ffffff;
 }
 
 .portfolio-layer a:hover i {
-    color: #0F0F0F;
+    color: #ffffff;
 }
 
 /* =========================================================
@@ -736,8 +737,8 @@ span.multiple-text {
     top: -10px;
     left: 50%;
     transform: translateX(-50%);
-    background: var(--main-color);
-    color: #0F0F0F;
+    background: var(--second-color);
+    color: #ffffff;
     font-family: 'Space Grotesk', sans-serif;
     font-size: 1rem;
     font-weight: 900;
@@ -745,14 +746,14 @@ span.multiple-text {
     border-radius: 20px;
     letter-spacing: 2px;
     z-index: 10;
-    box-shadow: 0 0 14px rgba(255, 201, 0, 0.6);
+    box-shadow: 0 0 14px rgba(22, 163, 74, 0.6);
     pointer-events: none;
     animation: badgePulse 2s infinite;
 }
 
 @keyframes badgePulse {
-    0%, 100% { box-shadow: 0 0 8px rgba(255, 201, 0, 0.5); }
-    50% { box-shadow: 0 0 20px rgba(255, 201, 0, 0.9); }
+    0%, 100% { box-shadow: 0 0 8px rgba(22, 163, 74, 0.5); }
+    50% { box-shadow: 0 0 20px rgba(22, 163, 74, 0.9); }
 }
 
 .chatbot-toggler {
@@ -764,23 +765,23 @@ span.multiple-text {
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    background: var(--main-color);
+    background: var(--second-color);
     border: none;
     transition: all 0.3s ease;
     z-index: 1000;
-    box-shadow: 0 8px 30px rgba(255, 201, 0, 0.4);
+    box-shadow: 0 8px 30px rgba(22, 163, 74, 0.4);
 }
 
 .chatbot-toggler:hover {
-    background: var(--main-dark);
-    box-shadow: 0 10px 40px rgba(255, 201, 0, 0.6);
+    background: #15803d;
+    box-shadow: 0 10px 40px rgba(22, 163, 74, 0.6);
     transform: scale(1.08);
 }
 
 .chatbot-toggler i {
     position: absolute;
     font-size: 2.4rem;
-    color: #0F0F0F;
+    color: #ffffff;
     transition: all 0.3s ease;
 }
 
@@ -928,7 +929,7 @@ span.multiple-text {
 
 .outgoing .message-bubble {
     background: var(--main-color);
-    color: #0F0F0F;
+    color: #ffffff;
     font-weight: 600;
     border-bottom-right-radius: 4px;
 }
@@ -971,7 +972,7 @@ span.multiple-text {
     height: 4.5rem;
     border-radius: 8px;
     background: var(--main-color);
-    color: #0F0F0F;
+    color: #ffffff;
     border: none;
     cursor: pointer;
     font-size: 2rem;
