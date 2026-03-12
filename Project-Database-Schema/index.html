@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Warehouse Database Schema | Anas Latheef</title>
+    <!-- Box Icons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Highlight.js for SQL syntax highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/sql.min.js"></script>
+    
+    <style>
+        :root {
+            --bg-color: #0d1117; /* GitHub Dark */
+            --main-color: #58a6ff;
+            --accent-color: #3fb950;
+            --text-color: #c9d1d9;
+            --glass-bg: rgba(22, 27, 34, 0.7);
+            --glass-border: rgba(48, 54, 61, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            background-image: 
+                linear-gradient(rgba(88, 166, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(88, 166, 255, 0.03) 1px, transparent 1px);
+            background-size: 30px 30px;
+            min-height: 100vh;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--main-color);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 0.8rem 1.5rem;
+            border: 1px solid var(--glass-border);
+            border-radius: 6px;
+            transition: 0.3s;
+            background: var(--glass-bg);
+        }
+
+        .back-btn:hover {
+            border-color: var(--main-color);
+            box-shadow: 0 0 15px rgba(88, 166, 255, 0.2);
+        }
+
+        .content-container {
+            width: 100%;
+            max-width: 1200px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .info-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            padding: 2rem;
+        }
+
+        .info-card h2 {
+            font-family: 'Orbitron', sans-serif;
+            color: white;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            border-bottom: 1px solid var(--glass-border);
+            padding-bottom: 0.5rem;
+        }
+
+        .info-card p, .info-card ul {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .info-card ul {
+            list-style-type: disc;
+            padding-left: 1.5rem;
+            color: var(--main-color);
+        }
+
+        .info-card li span {
+            color: var(--text-color);
+        }
+
+        .code-container {
+            background: #011627;
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            background: #112233;
+            border-bottom: 1px solid var(--glass-border);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: #8b9eb0;
+        }
+
+        .dot-group {
+            display: flex;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .dot.red { background-color: #ff5f56; }
+        .dot.yellow { background-color: #ffbd2e; }
+        .dot.green { background-color: #27c93f; }
+
+        .copy-btn {
+            background: transparent;
+            border: 1px solid #8b9eb0;
+            color: #8b9eb0;
+            padding: 0.2rem 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .copy-btn:hover {
+            color: white;
+            border-color: white;
+        }
+
+        pre {
+            margin: 0;
+            padding: 1.5rem;
+            overflow-x: auto;
+            max-height: 700px;
+            overflow-y: auto;
+        }
+
+        pre::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        pre::-webkit-scrollbar-thumb {
+            background: #112233;
+            border-radius: 4px;
+        }
+
+        code {
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <h1><i class='bx bx-data'></i> PostgreSQL: Smart Warehouse DB</h1>
+        <a href="../index.html#projects" class="back-btn"><i class='bx bx-arrow-back'></i> Back to Portfolio</a>
+    </header>
+
+    <div class="content-container">
+        <div class="info-card">
+            <h2>Architectural Overview</h2>
+            <p>This is a production-ready, highly normalized <strong>PostgreSQL</strong> schema designed for scalable Warehouse Management Systems (WMS). It strictly adheres to 3NF standards to eliminate data redundancy while maintaining audit tracks for complex supply chains.</p>
+            <ul>
+                <li><span><strong>Location Granularity:</strong> Models multi-warehouse networks down to precisely localized bin geometries (Aisle/Rack/Shelf). Enables A* snake-routing algorithms for pickers.</span></li>
+                <li><span><strong>Ledger Paradigm:</strong> Tracks inventory state through immutable <code>Inventory_Transactions</code> ensuring perfect referential and historical integrity over <code>Stock_Levels</code>.</span></li>
+                <li><span><strong>Analytics Ready:</strong> Uses an optimized <code>MATERIALIZED VIEW</code> for BI platforms like Power BI, aggregating daily KPI metrics (capacity utilization, reorder threshold triggers) natively within the database to ensure sub-second rendering.</span></li>
+            </ul>
+        </div>
+
+        <div class="code-container">
+            <div class="code-header">
+                <div class="dot-group">
+                    <div class="dot red"></div>
+                    <div class="dot yellow"></div>
+                    <div class="dot green"></div>
+                </div>
+                <span>init_warehouse_schema.sql</span>
+                <button class="copy-btn" id="copyBtn" onclick="copyCode()"><i class='bx bx-copy'></i> Copy</button>
+            </div>
+            <pre><code class="language-sql" id="sqlCode">-- Create custom enum for zone types
+CREATE TYPE zone_type_enum AS ENUM ('AMBIENT', 'COLD_STORAGE', 'HAZARDOUS', 'HIGH_VALUE');
+
+CREATE TABLE Warehouses (
+    warehouse_id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE,
+    location_code VARCHAR(10) NOT NULL UNIQUE,
+    address TEXT NOT NULL,
+    total_capacity_cbm NUMERIC(10, 2) NOT NULL, -- Total Cubic Meters available
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE Storage_Zones (
+    zone_id SERIAL PRIMARY KEY,
+    warehouse_id INT NOT NULL REFERENCES Warehouses(warehouse_id) ON DELETE CASCADE,
+    zone_code VARCHAR(20) NOT NULL,
+    zone_type zone_type_enum NOT NULL DEFAULT 'AMBIENT',
+    temperature_range VARCHAR(50), -- E.g., "-18C to -20C"
+    capacity_cbm NUMERIC(10, 2) NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(warehouse_id, zone_code)
+);
+
+CREATE TABLE Bin_Locations (
+    bin_id SERIAL PRIMARY KEY,
+    zone_id INT NOT NULL REFERENCES Storage_Zones(zone_id) ON DELETE CASCADE,
+    aisle VARCHAR(10) NOT NULL,
+    rack VARCHAR(10) NOT NULL,
+    shelf VARCHAR(10) NOT NULL,
+    bin_position VARCHAR(10) NOT NULL,
+    barcode VARCHAR(50) NOT NULL UNIQUE,
+    max_weight_kg NUMERIC(8, 2),
+    volume_cbm NUMERIC(8, 4),
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(zone_id, aisle, rack, shelf, bin_position)
+);
+
+CREATE TYPE uom_enum AS ENUM ('EACH', 'BOX', 'PALLET', 'KG', 'LITER');
+
+CREATE TABLE Products (
+    product_id SERIAL PRIMARY KEY,
+    sku VARCHAR(50) NOT NULL UNIQUE,
+    name VARCHAR(255) NOT NULL,
+    category VARCHAR(100) NOT NULL,
+    description TEXT,
+    uom uom_enum NOT NULL DEFAULT 'EACH',
+    unit_weight_kg NUMERIC(8, 2) NOT NULL,
+    unit_volume_cbm NUMERIC(8, 4) NOT NULL,
+    reorder_point INT NOT NULL DEFAULT 0,
+    requires_cold_chain BOOLEAN DEFAULT FALSE,
+    is_hazardous BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tracks real-time precise location of inventory
+CREATE TABLE Stock_Levels (
+    stock_id SERIAL PRIMARY KEY,
+    product_id INT NOT NULL REFERENCES Products(product_id),
+    bin_id INT NOT NULL REFERENCES Bin_Locations(bin_id),
+    quantity INT NOT NULL CHECK (quantity >= 0),
+    batch_number VARCHAR(100),
+    expiry_date DATE,
+    last_counted_at TIMESTAMP WITH TIME ZONE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(product_id, bin_id, batch_number) -- A specific batch of a product in a specific bin
+);
+
+CREATE TYPE transaction_type_enum AS ENUM ('RECEIPT', 'PICK', 'PUTAWAY', 'ADJUSTMENT_UP', 'ADJUSTMENT_DOWN', 'TRANSFER');
+
+-- Immutable ledger of all inventory movements
+CREATE TABLE Inventory_Transactions (
+    transaction_id SERIAL PRIMARY KEY,
+    product_id INT NOT NULL REFERENCES Products(product_id),
+    from_bin_id INT REFERENCES Bin_Locations(bin_id), -- Null if external receipt
+    to_bin_id INT REFERENCES Bin_Locations(bin_id),   -- Null if external shipment
+    transaction_type transaction_type_enum NOT NULL,
+    quantity INT NOT NULL CHECK (quantity > 0),
+    reference_id VARCHAR(100), -- E.g., PO Number or SO Number
+    performed_by INT, -- References Employees table (defined later)
+    transaction_date TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TYPE order_status_enum AS ENUM ('DRAFT', 'PENDING', 'PROCESSING', 'SHIPPED', 'DELIVERED', 'CANCELLED');
+
+-- Supplier side (Inbound)
+CREATE TABLE Suppliers (
+    supplier_id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    contact_email VARCHAR(255),
+    lead_time_days INT NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE Purchase_Orders (
+    po_id SERIAL PRIMARY KEY,
+    po_number VARCHAR(50) NOT NULL UNIQUE,
+    supplier_id INT NOT NULL REFERENCES Suppliers(supplier_id),
+    destination_warehouse_id INT NOT NULL REFERENCES Warehouses(warehouse_id),
+    status order_status_enum NOT NULL DEFAULT 'PENDING',
+    expected_delivery_date DATE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE PO_Lines (
+    po_line_id SERIAL PRIMARY KEY,
+    po_id INT NOT NULL REFERENCES Purchase_Orders(po_id) ON DELETE CASCADE,
+    product_id INT NOT NULL REFERENCES Products(product_id),
+    quantity_ordered INT NOT NULL CHECK (quantity_ordered > 0),
+    quantity_received INT NOT NULL DEFAULT 0 CHECK (quantity_received >= 0),
+    unit_cost NUMERIC(10, 2) NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Customer side (Outbound)
+CREATE TABLE Sales_Orders (
+    so_id SERIAL PRIMARY KEY,
+    so_number VARCHAR(50) NOT NULL UNIQUE,
+    customer_name VARCHAR(255) NOT NULL,
+    shipping_address TEXT NOT NULL,
+    origin_warehouse_id INT NOT NULL REFERENCES Warehouses(warehouse_id),
+    status order_status_enum NOT NULL DEFAULT 'PENDING',
+    priority_level INT DEFAULT 3, -- 1 is highest
+    required_ship_date DATE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE SO_Lines (
+    so_line_id SERIAL PRIMARY KEY,
+    so_id INT NOT NULL REFERENCES Sales_Orders(so_id) ON DELETE CASCADE,
+    product_id INT NOT NULL REFERENCES Products(product_id),
+    quantity_ordered INT NOT NULL CHECK (quantity_ordered > 0),
+    quantity_picked INT NOT NULL DEFAULT 0 CHECK (quantity_picked >= 0),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TYPE role_enum AS ENUM ('MANAGER', 'SUPERVISOR', 'PICKER', 'RECEIVER', 'FORKLIFT_OP');
+CREATE TYPE task_status_enum AS ENUM ('PENDING', 'IN_PROGRESS', 'COMPLETED', 'BLOCKED');
+CREATE TYPE task_type_enum AS ENUM ('PICK', 'PUTAWAY', 'CYCLE_COUNT', 'REPLENISHMENT');
+
+CREATE TABLE Employees (
+    employee_id SERIAL PRIMARY KEY,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
+    role role_enum NOT NULL,
+    primary_warehouse_id INT REFERENCES Warehouses(warehouse_id),
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Add foreign key back to Inventory_Transactions now that Employees exist
+ALTER TABLE Inventory_Transactions 
+ADD CONSTRAINT fk_performed_by 
+FOREIGN KEY (performed_by) REFERENCES Employees(employee_id);
+
+CREATE TABLE Task_Assignments (
+    task_id SERIAL PRIMARY KEY,
+    task_type task_type_enum NOT NULL,
+    status task_status_enum NOT NULL DEFAULT 'PENDING',
+    assigned_to INT REFERENCES Employees(employee_id),
+    related_order_id INT, -- Can link to PO or SO depending on context
+    target_bin_id INT REFERENCES Bin_Locations(bin_id),
+    product_id INT REFERENCES Products(product_id),
+    required_quantity INT,
+    completed_at TIMESTAMP WITH TIME ZONE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE Carriers (
+    carrier_id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE,
+    scac_code VARCHAR(10), -- Standard Carrier Alpha Code
+    contact_number VARCHAR(50),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE Shipments (
+    shipment_id SERIAL PRIMARY KEY,
+    so_id INT NOT NULL REFERENCES Sales_Orders(so_id),
+    carrier_id INT NOT NULL REFERENCES Carriers(carrier_id),
+    tracking_number VARCHAR(100) UNIQUE,
+    total_weight_kg NUMERIC(10, 2),
+    estimated_delivery DATE,
+    actual_freight_cost NUMERIC(10, 2),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Materialized View for Daily Inventory Turnover and Capacity metrics
+CREATE MATERIALIZED VIEW mv_warehouse_analytics AS
+SELECT 
+    DATE(CURRENT_DATE) as report_date,
+    w.warehouse_id,
+    w.name AS warehouse_name,
+    w.total_capacity_cbm,
+    SUM(sl.quantity * p.unit_volume_cbm) AS current_utilized_cbm,
+    ROUND((SUM(sl.quantity * p.unit_volume_cbm) / w.total_capacity_cbm) * 100, 2) AS utilization_percentage,
+    COUNT(DISTINCT sl.product_id) AS distinct_skus_in_stock,
+    SUM(CASE WHEN sl.quantity <= p.reorder_point THEN 1 ELSE 0 END) AS skus_below_reorder_point
+FROM 
+    Warehouses w
+JOIN 
+    Storage_Zones sz ON w.warehouse_id = sz.warehouse_id
+JOIN 
+    Bin_Locations bl ON sz.zone_id = bl.zone_id
+LEFT JOIN 
+    Stock_Levels sl ON bl.bin_id = sl.bin_id
+LEFT JOIN 
+    Products p ON sl.product_id = p.product_id
+GROUP BY 
+    w.warehouse_id, w.name, w.total_capacity_cbm;
+
+-- Create an index on the materialized view for fast BI querying
+CREATE UNIQUE INDEX idx_mv_analytics_wh ON mv_warehouse_analytics(report_date, warehouse_id);
+</code></pre>
+        </div>
+    </div>
+
+    <script>
+        // Initialize highlight.js
+        hljs.highlightAll();
+
+        function copyCode() {
+            const code = document.getElementById('sqlCode').innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                const btn = document.getElementById('copyBtn');
+                btn.innerHTML = "<i class='bx bx-check'></i> Copied!";
+                setTimeout(() => {
+                    btn.innerHTML = "<i class='bx bx-copy'></i> Copy";
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>

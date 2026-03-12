@@ -1,462 +1,291 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zero-Stock Automation Trigger | Anas Latheef</title>
-    <!-- Box Icons -->
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <!-- Google Fonts -->
-    <link
-        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Share+Tech+Mono&family=Inter:wght@300;400;600&display=swap"
-        rel="stylesheet">
-    <style>
-        :root {
-            --bg-color: #060a10;
-            --main-color: #1e90ff;
-            --accent-color: #00c8ff;
-            --text-color: #e8f4ff;
-            --alert-color: #ef4444;
-            --glass-bg: rgba(8, 14, 26, 0.7);
-            --glass-border: rgba(30, 144, 255, 0.2);
-        }
+    <title>Inventory Management System | Anas Latheef</title>
+    
+    <!-- SEO Best Practices -->
+    <meta name="description" content="Automated Inventory Management System and real-time webhook alerting. A project showcase blending deep logistics expertise with modern technical execution.">
+    <meta name="author" content="Anas Latheef">
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            background-image:
-                linear-gradient(rgba(30, 144, 255, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(30, 144, 255, 0.05) 1px, transparent 1px);
-            background-size: 30px 30px;
-            min-height: 100vh;
-            padding: 2rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .header {
-            width: 100%;
-            max-width: 1000px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--glass-border);
-        }
-
-        .header h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2rem;
-            color: white;
-            text-shadow: 0 0 10px var(--accent-color);
-        }
-
-        .back-btn {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--main-color);
-            text-decoration: none;
-            font-size: 1rem;
-            font-weight: 600;
-            padding: 0.8rem 1.5rem;
-            border: 1px solid var(--main-color);
-            border-radius: 4px;
-            transition: 0.3s;
-            background: rgba(30, 144, 255, 0.1);
-        }
-
-        .back-btn:hover {
-            background: var(--main-color);
-            color: var(--bg-color);
-            box-shadow: 0 0 15px var(--main-color);
-        }
-
-        .terminal-container {
-            width: 100%;
-            max-width: 1000px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(30, 144, 255, 0.05);
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-        }
-
-        /* Server Log Side */
-        .log-section {
-            padding: 2rem;
-            border-right: 1px solid var(--glass-border);
-            height: 500px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .log-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-            font-family: 'Share Tech Mono', monospace;
-            color: var(--main-color);
-            border-bottom: 1px solid rgba(30, 144, 255, 0.2);
-            padding-bottom: 0.5rem;
-        }
-
-        .terminal-window {
-            flex: 1;
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 4px;
-            padding: 1rem;
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 0.9rem;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .terminal-window::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .terminal-window::-webkit-scrollbar-thumb {
-            background: var(--main-color);
-            border-radius: 4px;
-        }
-
-        .log-line {
-            color: #10b981;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .log-line.warning {
-            color: #f59e0b;
-        }
-
-        .log-line.critical {
-            color: var(--alert-color);
-            text-shadow: 0 0 8px var(--alert-color);
-            font-weight: bold;
-        }
-
-        /* SKU Monitor Side */
-        .monitor-section {
-            padding: 2rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .sku-card {
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            padding: 2rem;
-            width: 100%;
-            text-align: center;
-            transition: 0.3s;
-        }
-
-        .sku-card h2 {
-            font-family: 'Orbitron', sans-serif;
-            color: white;
-            margin-bottom: 0.5rem;
-            font-size: 1.5rem;
-        }
-
-        .sku-card p {
-            color: #94a3b8;
-            margin-bottom: 1.5rem;
-        }
-
-        .stock-level {
-            font-size: 5rem;
-            font-weight: 900;
-            font-family: 'Orbitron', sans-serif;
-            color: var(--main-color);
-            text-shadow: 0 0 20px var(--main-color);
-            transition: color 0.3s, text-shadow 0.3s;
-        }
-
-        .critical-flash {
-            animation: redAlert 0.8s infinite alternate;
-        }
-
-        @keyframes redAlert {
-            from {
-                border-color: var(--alert-color);
-                box-shadow: 0 0 20px rgba(239, 68, 68, 0.2);
-            }
-
-            to {
-                border-color: var(--alert-color);
-                box-shadow: 0 0 40px rgba(239, 68, 68, 0.6), inset 0 0 20px rgba(239, 68, 68, 0.4);
-            }
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(5px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .action-btn {
-            margin-top: 2rem;
-            background: transparent;
-            color: var(--accent-color);
-            border: 1px solid var(--accent-color);
-            padding: 1rem 2rem;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.2rem;
-            cursor: pointer;
-            border-radius: 4px;
-            transition: 0.3s;
-        }
-
-        .action-btn:hover {
-            background: var(--accent-color);
-            color: white;
-            box-shadow: 0 0 20px var(--accent-color);
-        }
-
-        .action-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            pointer-events: none;
-        }
-
-        /* Alert Overlay */
-        .alert-modal {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0.8);
-            background: rgba(5, 8, 16, 0.95);
-            border: 2px solid var(--alert-color);
-            box-shadow: 0 0 50px rgba(239, 68, 68, 0.6);
-            padding: 2rem 3rem;
-            border-radius: 8px;
-            text-align: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: 0.3s;
-            z-index: 100;
-        }
-
-        .alert-modal.show {
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1);
-        }
-
-        .alert-modal h2 {
-            color: var(--alert-color);
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 1rem;
-        }
-
-        .alert-modal p {
-            color: white;
-            font-size: 1.1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        @media (max-width: 768px) {
-            .terminal-container {
-                grid-template-columns: 1fr;
-            }
-
-            .log-section {
-                height: 300px;
-                border-right: none;
-                border-bottom: 1px solid var(--glass-border);
-            }
-        }
-    </style>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-    <header class="header">
-        <h1>Zero-Stock Webhook Trigger</h1>
-        <a href="../index.html#projects" class="back-btn"><i class='bx bx-arrow-back'></i> Back to Portfolio</a>
+    <!-- Header / Nav -->
+    <header class="navbar glass-effect">
+        <div class="container navbar-content">
+            <div class="logo">
+                <span class="logo-light">AL</span><span class="logo-divider"> | </span><span class="logo-text">Projects</span>
+            </div>
+            <nav class="nav-links">
+                <a href="#overview" class="nav-link">Overview</a>
+                <a href="#architecture" class="nav-link">Architecture</a>
+                <a href="#live-dashboard" class="nav-link">Live Dashboard</a>
+                <a href="#contact" class="nav-link btn-secondary-sm">Contact</a>
+            </nav>
+        </div>
     </header>
 
-    <div class="terminal-container" id="main-container">
-
-        <div class="log-section">
-            <div class="log-header">
-                <span><i class='bx bx-terminal'></i> IMS_LIVE_FEED_v4.2</span>
-                <span id="system-status" style="color: #10b981;">STATUS: SCANNING</span>
+    <!-- Hero Section -->
+    <section id="hero" class="hero-section">
+        <!-- Background Grid Pattern -->
+        <div class="bg-grid"></div>
+        <div class="glow-orb orb-primary"></div>
+        
+        <div class="container hero-container">
+            <div class="hero-content">
+                <p class="eyebrow">Project Showcase: Inventory Management System</p>
+                <h1 class="main-headline">Stop Stockouts Before <br><span class="text-gradient">They Happen.</span></h1>
+                <p class="sub-headline">
+                    An automated, real-time webhook alerting system bridging the gap between raw warehouse data and proactive procurement. Built to ensure continuous stock inventory control and zero supply chain disruptions.
+                </p>
+                <div class="cta-group">
+                    <a href="#architecture" class="btn btn-primary">View Project Architecture</a>
+                    <a href="#live-dashboard" class="btn btn-secondary">See the Power BI Dashboard</a>
+                </div>
+                
+                <div class="tech-stack">
+                    <span class="badge badge-python">Python</span>
+                    <span class="badge badge-webhook">Webhooks</span>
+                    <span class="badge badge-powerbi">Power BI</span>
+                    <span class="badge badge-dax">DAX</span>
+                    <span class="badge badge-logistics">Logistics</span>
+                </div>
             </div>
-            <div class="terminal-window" id="terminal">
-                <div class="log-line">>> Initialization complete. Listening for webhook events...</div>
+
+            <!-- Hero Mockup Images / Visuals -->
+            <div class="hero-visual">
+                <div class="mockup-container">
+                    <div class="dashboard-mockup glass-card glowing-border">
+                        <!-- We will embed an image here later -->
+                        <div class="browser-bar">
+                            <span class="dot close"></span>
+                            <span class="dot minimize"></span>
+                            <span class="dot expand"></span>
+                        </div>
+                        <img src="dashboard_mockup.png" alt="Dashboard Mockup" class="mockup-img" id="hero-img">
+                    </div>
+                    <div class="code-snippet-mockup glass-card floating">
+                        <pre><code class="language-json">{
+  "event": "stockout_alert",
+  "sku": "WH-909-BX",
+  "current_stock": 14,
+  "reorder_point": 25,
+  "lead_time": "12 days",
+  "status": "CRITICAL"
+}</code></pre>
+                    </div>
+                </div>
             </div>
         </div>
+    </section>
 
-        <div class="monitor-section">
-            <div class="sku-card" id="sku-card">
-                <h2>SKU: MAC-M3-PRO</h2>
-                <p>Warehouse ID: WH-DXB-04</p>
-                <div class="stock-level" id="stock-level">24</div>
-                <p style="margin-top: 1rem; color: #475569;">Reorder Threshold: 5</p>
+    <!-- The Problem & Solution Section -->
+    <section id="overview" class="problem-solution-section">
+        <div class="container">
+            <div class="split-layout">
+                <div class="problem-col">
+                    <div class="icon-wrapper red">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                    </div>
+                    <h2 class="section-title">The High Cost of Reactive Inventory</h2>
+                    <p class="body-text">
+                        Traditional supply chains rely on manual reports and delayed metrics. By the time a critical SKU is flagged, the stockout has already occurred, halting operations and costing money.
+                    </p>
+                </div>
+                
+                <div class="solution-col glass-card glowing-border-blue">
+                    <div class="icon-wrapper blue">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
+                    </div>
+                    <h3 class="callout-title">The Solution: Proactive Webhook Alerting</h3>
+                    <p class="body-text">
+                        This system continuously monitors daily consumption rates against dynamic lead times. The moment current stock dips below the mathematical Reorder Point (ROP), an automated payload is fired directly to the procurement team&mdash;days before the bin goes empty.
+                    </p>
+                </div>
             </div>
+        </div>
+    </section>
 
-            <button class="action-btn" id="simulate-btn" onclick="startSimulation()">
-                <i class='bx bx-play'></i> Run Live Simulation
-            </button>
+    <!-- Technical Architecture Section -->
+    <section id="architecture" class="architecture-section">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="section-title">Under the Hood: How It Works</h2>
+            </div>
+            
+            <div class="feature-grid">
+                <!-- Grid Item 1 -->
+                <div class="feature-card glass-card hover-glow">
+                    <div class="feature-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
+                    </div>
+                    <h3 class="feature-title">Dynamic Data Simulation</h3>
+                    <p class="feature-text">
+                        A Python-driven engine generating live, fluctuating consumption metrics across 50+ critical SKUs to stress-test the alerting logic.
+                    </p>
+                </div>
+
+                <!-- Grid Item 2 -->
+                <div class="feature-card glass-card hover-glow">
+                    <div class="feature-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#eab308" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>
+                    </div>
+                    <h3 class="feature-title">Real-Time Webhooks</h3>
+                    <p class="feature-text">
+                        Node.js listeners calculate dynamic safety stocks and trigger instant JSON payloads the millisecond an item hits its custom Reorder Point.
+                    </p>
+                </div>
+
+                <!-- Grid Item 3 -->
+                <div class="feature-card glass-card hover-glow">
+                    <div class="feature-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                    </div>
+                    <h3 class="feature-title">Power BI Integration</h3>
+                    <p class="feature-text">
+                        Live streaming datasets translated through advanced DAX formulas to provide a bird's-eye view of 'Total Value at Risk' and 'Days Until Stockout'.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Live Demo / Metrics Section -->
+    <section id="live-dashboard" class="live-demo-section">
+        <div class="container container-sm">
+            <div class="demo-wrapper glass-card">
+                <div class="demo-header">
+                    <h3>Live System Simulation - SKU: WH-909-BX</h3>
+                    <div class="status-indicator" id="system-status">System Active</div>
+                </div>
+                
+                <div class="metrics-display">
+                    <div class="metric-box">
+                        <span class="metric-label">Current Stock</span>
+                        <span class="metric-value font-mono" id="current-stock">105</span>
+                    </div>
+                    <div class="metric-box">
+                        <span class="metric-label">Reorder Point (ROP)</span>
+                        <span class="metric-value font-mono">25</span>
+                    </div>
+                    <div class="metric-box">
+                        <span class="metric-label">Daily Consumption</span>
+                        <span class="metric-value font-mono">~10/day</span>
+                    </div>
+                </div>
+
+                <div class="gauge-container">
+                    <div class="gauge-track">
+                        <div class="gauge-fill" id="gauge-fill" style="width: 100%;"></div>
+                        <div class="rop-marker" style="left: 25%;"></div>
+                    </div>
+                </div>
+                
+                <!-- Simulated Alert Payload -->
+                <div class="alert-box" id="alert-box" style="display: none;">
+                    <div class="alert-header">
+                        <span class="alert-icon">⚠️</span>
+                        <span>CRITICAL: STOCKOUT ALERT FIRED</span>
+                    </div>
+                    <pre><code class="language-json" id="live-payload"></code></pre>
+                </div>
+
+                <button class="btn btn-primary demo-btn" id="run-sim-btn">Run Time-Lapse Simulation</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Code Highlight Section -->
+    <section class="code-highlight-section">
+        <div class="container">
+            <div class="split-layout code-split">
+                <div class="text-col">
+                    <h2 class="section-title">Clean, Modular, and Scalable Logic</h2>
+                    <p class="body-text">
+                        A look at the automated webhook trigger logic bridging the warehouse to the buyers.
+                    </p>
+                </div>
+                
+                <div class="code-col">
+                    <div class="terminal-window glass-card">
+                        <div class="browser-bar">
+                            <span class="dot close"></span>
+                            <span class="dot minimize"></span>
+                            <span class="dot expand"></span>
+                            <span class="filename">webhook_trigger.py</span>
+                        </div>
+                        <pre><code class="language-python"># Automated Webhook Trigger Logic
+import requests
+import json
+
+def check_stock_levels(sku_data):
+    for item in sku_data:
+        if item['current_stock'] <= item['reorder_point']:
+            payload = {
+                "event": "stockout_alert",
+                "sku": item['sku'],
+                "current_stock": item['current_stock'],
+                "reorder_point": item['reorder_point'],
+                "lead_time": f"{item['lead_time_days']} days",
+                "status": "CRITICAL"
+            }
+            # Fire webhook to procurement channel
+            response = requests.post(WEBHOOK_URL, json=payload)
+            print(f"Alert sent for {item['sku']}: {response.status_code}")
+
+# Execution bridging warehouse data to buyers
+check_stock_levels(warehouse_inventory_stream)</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer / Final CTA -->
+    <footer id="contact" class="footer-cta glass-effect">
+        <div class="container text-center">
+            <h2 class="section-title">Ready to Optimize Your Operations?</h2>
+            <p class="body-text cta-sub">
+                This system is just one example of how I blend deep logistics expertise with modern technical execution to solve complex supply chain bottlenecks.
+            </p>
+            <div class="footer-actions">
+                <!-- Assuming standard LinkedIn placeholder -->
+                <a href="https://linkedin.com/in/anaslatheef" target="_blank" class="btn btn-primary btn-lg">Let's Connect on LinkedIn</a>
+            </div>
+            <div class="footer-links">
+                <a href="../index.html" class="text-link">&larr; Return to www.anaslatheef.com</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Alert Modal Structure -->
+    <div class="modal-overlay" id="alert-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-icon">✓</div>
+                <h3 class="modal-title">Success: Alert Configured</h3>
+            </div>
+            <div class="modal-body">
+                <p>The system has successfully dispatched a webhook payload to the procurement channel. A new purchase order has been automatically generated.</p>
+                <a href="https://docs.google.com/spreadsheets/d/1U4l7Z9232JmK6k_GZz5994Lp4pUKiV4TzWqO3u944Y/edit?usp=sharing" target="_blank" class="modal-link">
+                    View Live Spreadsheet
+                </a>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-outline" onclick="closeModalAndReset()">Acknowledge & Close</button>
+            </div>
         </div>
     </div>
 
-    <!-- Alert Modal -->
-    <div class="alert-modal" id="alert-modal">
-        <h2><i class='bx bx-error'></i> AUTOMATED ALERT SENT</h2>
-        <p>Stock dropped to 0! A webhook has automatically triggered a purchase order via <strong>Odoo API</strong> to
-            Supplier [SUP-892].</p>
-        <button class="action-btn" style="border-color: var(--main-color); color: var(--main-color);"
-            onclick="resetSimulation()">Acknowledge & Reset</button>
-    </div>
-
-    <script>
-        const terminal = document.getElementById('terminal');
-        const stockDisplay = document.getElementById('stock-level');
-        const skuCard = document.getElementById('sku-card');
-        const sysStatus = document.getElementById('system-status');
-        const modal = document.getElementById('alert-modal');
-        const simBtn = document.getElementById('simulate-btn');
-
-        let currentStock = 24;
-        let simInterval;
-
-        function addLog(message, type = 'normal') {
-            const time = new Date().toISOString().split('T')[1].substring(0, 12);
-            const line = document.createElement('div');
-            line.className = `log-line ${type}`;
-            line.textContent = `[${time}] ${message}`;
-            terminal.appendChild(line);
-            terminal.scrollTop = terminal.scrollHeight;
-        }
-
-        function startSimulation() {
-            simBtn.disabled = true;
-            addLog(">> Connecting to Warehouse Database...", "normal");
-
-            setTimeout(() => {
-                addLog(">> Database connected. Monitoring outbound orders.", "normal");
-
-                simInterval = setInterval(() => {
-                    // Random order sizes to deplete stock
-                    const deduction = Math.floor(Math.random() * 3) + 1;
-                    currentStock -= deduction;
-
-                    if (currentStock <= 0) currentStock = 0;
-
-                    stockDisplay.textContent = currentStock;
-
-                    if (currentStock > 5) {
-                        addLog(`Picked ${deduction} units for outbound delivery. Remaining: ${currentStock}`);
-                    }
-                    else if (currentStock <= 5 && currentStock > 0) {
-                        addLog(`WARNING: Threshold breached. Remaining: ${currentStock}`, "warning");
-                        stockDisplay.style.color = "#f59e0b";
-                        stockDisplay.style.textShadow = "0 0 20px #f59e0b";
-                        skuCard.style.borderColor = "#f59e0b";
-                    }
-                    else if (currentStock === 0) {
-                        clearInterval(simInterval);
-                        triggerZeroStock();
-                    }
-                }, 800); // 800ms between sales
-
-            }, 1000);
-        }
-
-        function triggerZeroStock() {
-            sysStatus.textContent = "STATUS: ALERT TRIGGERED";
-            sysStatus.style.color = "#ef4444";
-
-            stockDisplay.style.color = "#ef4444";
-            stockDisplay.style.textShadow = "0 0 30px #ef4444";
-
-            skuCard.classList.add('critical-flash');
-
-            addLog("CRITICAL: ZERO STOCK DETECTED. INITIATING LIVE WEBHOOK.", "critical");
-
-            const webhookUrl = "https://script.google.com/macros/s/AKfycbwIOHvy-wkxVh7JkIe9FKKmdFIg8-iGEdk2sFF4t4FGq_MfFM0pjx0tokQ0NJV4J2AX/exec";
-            const payload = { sku: 'MAC-M3-PRO', qty: 100, is_urgent: true };
-
-            setTimeout(() => {
-                addLog(">> POST " + webhookUrl, "warning");
-                addLog(">> Payload: " + JSON.stringify(payload), "warning");
-
-                // Real POST request to Google Apps Script using URLSearchParams
-                // This is required because GAS blocks application/json in no-cors mode
-                const formData = new URLSearchParams();
-                formData.append('sku', payload.sku);
-                formData.append('qty', payload.qty);
-
-                fetch(webhookUrl, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: formData
-                }).then(() => {
-                    addLog(">> Response 200 OK: Data logged to Google Sheets.", "normal");
-                    addLog(">> Automated Email Alert dispatched to inbox successfully.", "normal");
-                    setTimeout(() => {
-                        modal.classList.add('show');
-                    }, 1500);
-                }).catch(err => {
-                    addLog(">> ERROR: Failed to reach webhook server.", "critical");
-                });
-            }, 600);
-        }
-
-        function resetSimulation() {
-            currentStock = 24;
-            stockDisplay.textContent = currentStock;
-
-            stockDisplay.style.color = "var(--main-color)";
-            stockDisplay.style.textShadow = "0 0 20px var(--main-color)";
-
-            skuCard.classList.remove('critical-flash');
-            skuCard.style.borderColor = "rgba(255, 255, 255, 0.1)";
-
-            sysStatus.textContent = "STATUS: SCANNING";
-            sysStatus.style.color = "#10b981";
-
-            modal.classList.remove('show');
-            simBtn.disabled = false;
-
-            terminal.innerHTML = '<div class="log-line">>> System reset manually. Listening for webhook events...</div>';
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
-
 </html>
