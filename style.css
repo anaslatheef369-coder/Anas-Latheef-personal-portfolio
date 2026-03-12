@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=Orbitron:wght@400;500;700;900&family=Outfit:wght@300;400;600;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;700&display=swap');
 
 /* =========================================================
    ORIGINAL LAYOUT - OFF WHITE THEME + LIGHTING EFFECTS
@@ -59,7 +59,7 @@ section {
 .heading {
     text-align: center;
     font-size: 4.5rem;
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'DM Sans', sans-serif;
     margin-bottom: 3rem;
     letter-spacing: 2px;
     text-transform: uppercase;
@@ -99,7 +99,7 @@ section {
     font-size: 2.8rem;
     color: var(--text-color);
     font-weight: 800;
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'DM Sans', sans-serif;
     cursor: default;
     letter-spacing: 2px;
     position: relative;
@@ -130,7 +130,7 @@ section {
     margin-left: 4rem;
     transition: all 0.3s ease;
     font-weight: 600;
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'DM Sans', sans-serif;
     text-transform: uppercase;
     letter-spacing: 1px;
     position: relative;
@@ -183,7 +183,7 @@ section {
 .hero-content h3 {
     font-size: 3.2rem;
     font-weight: 700;
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'DM Sans', sans-serif;
     color: var(--text-color);
 }
 
@@ -200,7 +200,7 @@ span.multiple-text {
     font-size: 5.8rem;
     font-weight: 900;
     margin: 1rem 0;
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'DM Sans', sans-serif;
     background: linear-gradient(90deg, var(--text-color), var(--main-color), var(--accent-color));
     -webkit-background-clip: text;
     background-clip: text;
@@ -255,7 +255,7 @@ span.multiple-text {
     color: #fff;
     letter-spacing: .2rem;
     font-weight: 600;
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'DM Sans', sans-serif;
     text-transform: uppercase;
     transition: 0.4s ease;
     cursor: pointer;
@@ -354,7 +354,7 @@ span.multiple-text {
 
 .about-content h3 {
     font-size: 2.6rem;
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'DM Sans', sans-serif;
     color: var(--text-color);
     margin-bottom: 2rem;
     letter-spacing: 1px;
@@ -427,7 +427,7 @@ span.multiple-text {
 .skill-box h3 {
     font-size: 2.2rem;
     margin-bottom: 1.5rem;
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'DM Sans', sans-serif;
     letter-spacing: 1px;
     color: var(--text-color);
 }
@@ -510,7 +510,7 @@ span.multiple-text {
 
 .portfolio-layer h4 {
     font-size: 2.2rem;
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'DM Sans', sans-serif;
     color: #fff;
     margin-bottom: 1rem;
     letter-spacing: 1px;
@@ -533,7 +533,7 @@ span.multiple-text {
     border: 1.5px solid var(--main-color);
     border-radius: 50px;
     transition: 0.3s;
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'DM Sans', sans-serif;
     font-size: 1.4rem;
     font-weight: 600;
     color: #fff;
@@ -609,7 +609,7 @@ span.multiple-text {
 
 .services-box h3 {
     font-size: 2.4rem;
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'DM Sans', sans-serif;
     margin-bottom: 1.5rem;
     letter-spacing: 1px;
     color: var(--text-color);
@@ -698,7 +698,7 @@ span.multiple-text {
 .footer-text p {
     font-size: 1.6rem;
     color: var(--text-muted);
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'DM Sans', sans-serif;
 }
 
 .footer-iconTop a {
@@ -736,7 +736,7 @@ span.multiple-text {
     transform: translateX(-50%);
     background: var(--accent-color);
     color: #fff;
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'DM Sans', sans-serif;
     font-size: 1rem;
     font-weight: 900;
     padding: 2px 8px;
@@ -839,7 +839,7 @@ span.multiple-text {
     font-size: 1.8rem;
     font-weight: 700;
     color: #fff;
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'DM Sans', sans-serif;
 }
 
 .chat-header p {
