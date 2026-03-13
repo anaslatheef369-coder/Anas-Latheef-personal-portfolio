@@ -64,6 +64,11 @@ section {
     letter-spacing: 2px;
     text-transform: uppercase;
     color: var(--text-color);
+    display: inline-block;
+    background: #EDE8F5;
+    padding: 0.6rem 2.5rem;
+    border-radius: 8px;
+    width: 100%;
 }
 
 .heading span {
@@ -201,10 +206,7 @@ span.multiple-text {
     font-weight: 900;
     margin: 1rem 0;
     font-family: 'DM Sans', sans-serif;
-    background: linear-gradient(90deg, var(--text-color), var(--main-color), var(--accent-color));
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: var(--text-color);
     text-transform: uppercase;
     letter-spacing: 3px;
 }
