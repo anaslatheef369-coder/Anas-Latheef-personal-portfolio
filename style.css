@@ -17,12 +17,12 @@
 }
 
 :root {
-    --bg-color: #F5F5F0;          /* Off-White */
-    --second-bg-color: #EBEBE5;   /* Slightly darker off-white */
+    --bg-color: #7BE9D0;          /* Mint Teal */
+    --second-bg-color: #60DFC4;   /* Slightly deeper teal */
     --card-bg: #FFFFFF;
     --text-color: #1a1a2e;        /* Dark navy for contrast */
-    --text-muted: #55667a;
-    --main-color: #0077CC;        /* Rich blue (readable on light bg) */
+    --text-muted: #2d5a50;
+    --main-color: #0077CC;        /* Rich blue */
     --accent-color: #16A34A;      /* Dark Green */
     --glass-border: rgba(0, 119, 204, 0.2);
     --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
@@ -84,7 +84,7 @@ section {
     top: 0; left: 0;
     width: 100%;
     padding: 2rem 9%;
-    background: rgba(245, 245, 240, 0.85);
+    background: rgba(123, 233, 208, 0.88);
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
     border-bottom: 1px solid rgba(0, 119, 204, 0.12);
