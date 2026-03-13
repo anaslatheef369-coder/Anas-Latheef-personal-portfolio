@@ -73,7 +73,6 @@ section {
 
 .heading span {
     color: var(--main-color);
-    text-shadow: 0 0 15px rgba(0, 119, 204, 0.4), 0 0 30px rgba(0, 119, 204, 0.2);
 }
 
 /* =========================================================
@@ -112,7 +111,6 @@ section {
 
 .logo span {
     color: var(--main-color);
-    text-shadow: 0 0 10px rgba(0, 119, 204, 0.5);
 }
 
 .logo:hover {
@@ -165,7 +163,6 @@ section {
 .navbar a:hover,
 .navbar a.active {
     color: var(--main-color);
-    text-shadow: 0 0 12px rgba(0, 119, 204, 0.6), 0 0 24px rgba(0, 119, 204, 0.3);
 }
 
 #menu-icon {
@@ -198,7 +195,6 @@ section {
 
 span.multiple-text {
     color: var(--main-color);
-    text-shadow: 0 0 15px rgba(0, 119, 204, 0.5);
 }
 
 .hero-content h1 {
@@ -242,7 +238,6 @@ span.multiple-text {
     background: var(--main-color);
     color: #fff;
     border-color: var(--main-color);
-    box-shadow: 0 0 20px rgba(0, 119, 204, 0.5), 0 0 40px rgba(0, 119, 204, 0.2);
     transform: translateY(-5px);
 }
 
@@ -263,7 +258,6 @@ span.multiple-text {
     cursor: pointer;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 4px 20px rgba(0, 119, 204, 0.35);
 }
 
 .btn::before {
@@ -283,7 +277,6 @@ span.multiple-text {
 .btn:hover {
     background: transparent;
     color: var(--main-color);
-    box-shadow: 0 0 25px rgba(0, 119, 204, 0.6), inset 0 0 15px rgba(0, 119, 204, 0.1);
     transform: scale(1.05);
 }
 
@@ -305,13 +298,12 @@ span.multiple-text {
     background: rgba(0, 119, 204, 0.08);
     border: 2px solid rgba(0, 119, 204, 0.3);
     border-radius: 12px;
-    box-shadow: 0 0 30px rgba(0, 119, 204, 0.2), inset 0 0 15px rgba(0, 119, 204, 0.05);
     overflow: hidden;
-    transition: box-shadow 0.4s ease;
+    transition: all 0.4s ease;
 }
 
 .hero-img .blob-wrapper:hover {
-    box-shadow: 0 0 50px rgba(0, 119, 204, 0.4), inset 0 0 25px rgba(0, 119, 204, 0.1);
+    border-color: rgba(0, 119, 204, 0.5);
 }
 
 .hero-img .blob {
@@ -418,13 +410,9 @@ span.multiple-text {
     font-size: 5rem;
     color: var(--main-color);
     margin-bottom: 2rem;
-    text-shadow: 0 0 15px rgba(0, 119, 204, 0.4);
-    transition: text-shadow 0.3s;
+    transition: none;
 }
 
-.skill-box:hover i {
-    text-shadow: 0 0 25px rgba(0, 119, 204, 0.7), 0 0 50px rgba(0, 119, 204, 0.3);
-}
 
 .skill-box h3 {
     font-size: 2.2rem;
@@ -601,13 +589,9 @@ span.multiple-text {
     font-size: 5rem;
     color: var(--accent-color);
     margin-bottom: 2rem;
-    text-shadow: 0 0 15px rgba(22, 163, 74, 0.4);
-    transition: text-shadow 0.3s;
+    transition: none;
 }
 
-.services-box:hover i {
-    text-shadow: 0 0 25px rgba(22, 163, 74, 0.7), 0 0 50px rgba(22, 163, 74, 0.3);
-}
 
 .services-box h3 {
     font-size: 2.4rem;
@@ -745,14 +729,12 @@ span.multiple-text {
     border-radius: 20px;
     letter-spacing: 2px;
     z-index: 10;
-    box-shadow: 0 0 10px rgba(22, 163, 74, 0.7);
     pointer-events: none;
-    animation: badgePulse 2s infinite;
 }
 
 @keyframes badgePulse {
-    0%, 100% { box-shadow: 0 0 8px rgba(22, 163, 74, 0.5); }
-    50% { box-shadow: 0 0 18px rgba(22, 163, 74, 1); }
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.85; }
 }
 
 .chatbot-toggler {
@@ -770,12 +752,12 @@ span.multiple-text {
     border: none;
     transition: all 0.3s ease;
     z-index: 1000;
-    box-shadow: 0 0 20px rgba(0, 119, 204, 0.5), 0 4px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .chatbot-toggler:hover {
-    box-shadow: 0 0 35px rgba(0, 119, 204, 0.8);
     transform: scale(1.08);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
 }
 
 .chatbot-toggler i {
