@@ -63,7 +63,7 @@ section {
     margin-bottom: 3rem;
     letter-spacing: 2px;
     text-transform: uppercase;
-    color: var(--text-color);
+    color: #333333;
     display: inline-block;
     background: #EDE8F5;
     padding: 0.6rem 2.5rem;
