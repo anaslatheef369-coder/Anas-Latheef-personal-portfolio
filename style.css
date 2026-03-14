@@ -17,15 +17,15 @@
 }
 
 :root {
-    --bg-color: #0F172A;          /* Deep Navy Slate */
-    --second-bg-color: #1E293B;   /* Slate 800 */
-    --card-bg: #1E293B;
-    --text-color: #F8FAFC;        /* Near White */
-    --text-muted: #94A3B8;        /* Slate 400 */
-    --main-color: #818CF8;        /* Indigo 400 - modern & premium */
-    --accent-color: #34D399;      /* Emerald 400 */
-    --glass-border: rgba(129, 140, 248, 0.2);
-    --shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+    --bg-color: #F8FAFC;          /* Light Slate */
+    --second-bg-color: #F1F5F9;   /* Lighter Slate */
+    --card-bg: #FFFFFF;
+    --text-color: #0F172A;        /* Dark Navy */
+    --text-muted: #64748B;        /* Slate 500 */
+    --main-color: #6366F1;        /* Indigo 500 */
+    --accent-color: #059669;      /* Emerald 600 */
+    --glass-border: rgba(99, 102, 241, 0.2);
+    --shadow: 0 4px 20px rgba(0, 0, 0, 0.07);
 }
 
 html {
@@ -63,17 +63,17 @@ section {
     margin-bottom: 3rem;
     letter-spacing: 2px;
     text-transform: uppercase;
-    color: var(--text-color);
+    color: #FFFFFF;
     display: inline-block;
-    background: rgba(129, 140, 248, 0.12);
-    border: 1px solid rgba(129, 140, 248, 0.2);
+    background: var(--main-color);
+    border: 1px solid rgba(99, 102, 241, 0.3);
     padding: 0.6rem 2.5rem;
     border-radius: 8px;
     width: 100%;
 }
 
 .heading span {
-    color: var(--main-color);
+    color: #e0e7ff;
 }
 
 /* =========================================================
@@ -84,10 +84,10 @@ section {
     top: 0; left: 0;
     width: 100%;
     padding: 2rem 9%;
-    background: rgba(15, 23, 42, 0.92);
+    background: rgba(248, 250, 252, 0.9);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(129, 140, 248, 0.1);
+    border-bottom: 1px solid rgba(99, 102, 241, 0.1);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -97,7 +97,7 @@ section {
 
 .header.sticky {
     padding: 1.5rem 9%;
-    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
 }
 
 .logo {
@@ -337,8 +337,8 @@ span.multiple-text {
 .about-img img {
     width: 35vw;
     border-radius: 8px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
-    border: 1px solid rgba(129, 140, 248, 0.15);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(99, 102, 241, 0.15);
 }
 
 .about-content h2 {
@@ -526,7 +526,7 @@ span.multiple-text {
     font-family: 'DM Sans', sans-serif;
     font-size: 1.4rem;
     font-weight: 600;
-    color: #0F172A;
+    color: #fff;
     letter-spacing: 1px;
     text-transform: uppercase;
 }
@@ -535,12 +535,12 @@ span.multiple-text {
     background: var(--accent-color);
     border-color: var(--accent-color);
     transform: scale(1.05);
-    color: #0F172A;
+    color: #fff;
 }
 
 .portfolio-layer a i {
     font-size: 1.8rem;
-    color: #0F172A;
+    color: #fff;
 }
 
 /* =========================================================
@@ -707,7 +707,7 @@ span.multiple-text {
 }
 
 .footer-iconTop a:hover i {
-    color: #0F172A;
+    color: #fff;
 }
 
 /* =========================================================
@@ -1096,9 +1096,9 @@ span.multiple-text {
         top: 100%; left: 0;
         width: 100%;
         padding: 1rem 3%;
-        background: rgba(15, 23, 42, 0.98);
-        border-top: 1px solid rgba(129, 140, 248, 0.1);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        background: rgba(248, 250, 252, 0.98);
+        border-top: 1px solid rgba(99, 102, 241, 0.1);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         display: none;
     }
     .navbar.active { display: block; }
