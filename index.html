@@ -350,6 +350,8 @@
     <script src="https://unpkg.com/scrollreveal"></script>
     <!-- tsParticles -->
     <script src="https://cdn.jsdelivr.net/npm/tsparticles@3.0.0/tsparticles.bundle.min.js"></script>
+    <!-- Typed.js -->
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.1.0/dist/typed.umd.js"></script>
     <!-- Custom JS -->
     <script src="script.js" defer></script>
     <script>
@@ -409,6 +411,139 @@
             </form>
         </div>
     </div>
+
+    <!-- Chatbot Self-Contained Script -->
+    <script>
+    (function() {
+        const toggler = document.getElementById('chatbot-toggler');
+        const closeBtn = document.getElementById('close-chat');
+        const refreshBtn = document.getElementById('refresh-chat');
+        const chatPopup = document.getElementById('chat-popup');
+        const chatBox = document.getElementById('chat-box');
+        const chatForm = document.getElementById('chat-form');
+        const messageInput = document.getElementById('message-input');
+
+        if (!toggler || !chatBox || !chatForm) return;
+
+        let initialized = false;
+        let history = [];
+
+        function scrollToBottom() {
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function addMessage(text, sender) {
+            const div = document.createElement('div');
+            div.className = 'message ' + (sender === 'bot' ? 'incoming' : 'outgoing');
+            const bubble = document.createElement('div');
+            bubble.className = 'message-bubble';
+            bubble.textContent = text;
+            div.appendChild(bubble);
+            chatBox.appendChild(div);
+            scrollToBottom();
+            return bubble;
+        }
+
+        function showTyping() {
+            const div = document.createElement('div');
+            div.className = 'message incoming typing-msg';
+            div.innerHTML = '<div class="message-bubble">DeepSeek is thinking...</div>';
+            chatBox.appendChild(div);
+            scrollToBottom();
+            return div;
+        }
+
+        async function getAIReply(userMsg) {
+            history.push({ role: 'user', content: userMsg });
+
+            const systemPrompt = `You are an expert AI assistant in Logistics, Supply Chain, Warehousing, and Inventory Management, embedded in Anas Latheef's portfolio. Answer concisely (2-4 sentences), no markdown, answer exactly what was asked.`;
+
+            const messages = [{ role: 'system', content: systemPrompt }, ...history];
+            const MODELS = ['deepseek', 'openai'];
+
+            for (const model of MODELS) {
+                try {
+                    const res = await fetch('https://text.pollinations.ai/openai', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ messages, model, stream: true })
+                    });
+                    if (!res.ok) continue;
+
+                    const reader = res.body.getReader();
+                    const decoder = new TextDecoder();
+                    let reply = '';
+                    let bubble = null;
+                    const typingEl = chatBox.querySelector('.typing-msg');
+
+                    while (true) {
+                        const { done, value } = await reader.read();
+                        if (done) break;
+                        const chunk = decoder.decode(value, { stream: true });
+                        for (const line of chunk.split('\n')) {
+                            if (line.startsWith('data: ') && line.trim() !== 'data: [DONE]') {
+                                try {
+                                    const data = JSON.parse(line.slice(6));
+                                    const token = data?.choices?.[0]?.delta?.content;
+                                    if (token) {
+                                        if (!bubble) {
+                                            if (typingEl) typingEl.remove();
+                                            bubble = addMessage('', 'bot');
+                                        }
+                                        reply += token;
+                                        bubble.textContent = reply;
+                                        scrollToBottom();
+                                    }
+                                } catch(e) {}
+                            }
+                        }
+                    }
+                    if (reply) {
+                        history.push({ role: 'assistant', content: reply });
+                        return;
+                    }
+                } catch(e) { console.warn('Model ' + model + ' failed:', e); }
+            }
+            const tEl = chatBox.querySelector('.typing-msg');
+            if (tEl) tEl.remove();
+            addMessage('Sorry, the AI service is temporarily unavailable. Please try again.', 'bot');
+        }
+
+        function openChat() {
+            document.body.classList.add('show-chatbot');
+            if (!initialized) {
+                initialized = true;
+                setTimeout(() => addMessage('👋 Hi! I am your DeepSeek AI assistant — a logistics & supply chain specialist. Ask me anything!', 'bot'), 400);
+            }
+        }
+
+        function closeChat() {
+            document.body.classList.remove('show-chatbot');
+        }
+
+        toggler.addEventListener('click', () => {
+            document.body.classList.contains('show-chatbot') ? closeChat() : openChat();
+        });
+
+        if (closeBtn) closeBtn.addEventListener('click', closeChat);
+
+        if (refreshBtn) refreshBtn.addEventListener('click', () => {
+            chatBox.innerHTML = '';
+            history = [];
+            addMessage('👋 Chat refreshed! Ask me anything about logistics or supply chain.', 'bot');
+        });
+
+        chatForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const msg = messageInput.value.trim();
+            if (!msg) return;
+            messageInput.value = '';
+            addMessage(msg, 'user');
+            showTyping();
+            await getAIReply(msg);
+        });
+    })();
+    </script>
 
 </body>
 
