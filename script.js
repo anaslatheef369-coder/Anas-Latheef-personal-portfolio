@@ -130,8 +130,11 @@ tsParticles.load("tsparticles", {
 });
 
 /* =========================================
-   Popup AI Chatbot Logic
+   Popup AI Chatbot Logic (DeepSeek via Pollinations - Free)
 ========================================= */
+
+// Conversation history for context
+const conversationHistory = [];
 
 const chatbotToggler = document.getElementById('chatbot-toggler');
 const closeChatBtn = document.getElementById('close-chat');
@@ -212,21 +215,33 @@ Example: If asked "20ft container capacity", answer with the actual specs (33 CB
             ...conversationHistory
         ];
 
-        // Call Pollinations OpenAI-compatible endpoint with streaming enabled
-        const response = await fetch('https://text.pollinations.ai/openai', {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                messages: messages,
-                model: "openai",
-                stream: true
-            }),
-            signal: controller.signal
-        });
+        // Try DeepSeek first, fallback to OpenAI — both free via Pollinations
+        let response;
+        const MODELS = ['deepseek', 'openai'];
+
+        for (const model of MODELS) {
+            try {
+                response = await fetch('https://text.pollinations.ai/openai', {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        messages: messages,
+                        model: model,
+                        stream: true
+                    }),
+                    signal: controller.signal
+                });
+                if (response.ok) break;
+                console.warn(`Model ${model} failed (${response.status}), trying next...`);
+            } catch (fetchErr) {
+                if (fetchErr.name === 'AbortError') throw fetchErr;
+                console.warn(`Model ${model} threw error, trying next...`);
+            }
+        }
 
         clearTimeout(timeoutId);
 
-        if (!response.ok) {
+        if (!response || !response.ok) {
             console.error("Pollinations API Error:", response.status);
             conversationHistory.pop();
             return "The AI service is currently busy. Please try again in a moment.";
@@ -327,7 +342,7 @@ function toggleChatbot() {
     if (document.body.classList.contains('show-chatbot') && !chatInitialized) {
         chatInitialized = true;
         setTimeout(() => {
-            appendMessage("⚡ LOGISTICS_MAINFRAME_V2.0_ONLINE ⚡ Access granted. I am the Advanced AI Interface for Anas Latheef. How can I optimize your supply chain today?", 'bot');
+            appendMessage("👋 Hi! I'm your DeepSeek AI assistant — a logistics & supply chain specialist. Ask me anything about inventory, warehousing, freight, ERP systems, or Anas Latheef's work!", 'bot');
         }, 600);
     }
 }
@@ -337,5 +352,6 @@ closeChatBtn.addEventListener('click', () => document.body.classList.remove('sho
 
 refreshChatBtn.addEventListener('click', () => {
     chatBox.innerHTML = '';
-    appendMessage("⚡ LOGISTICS_MAINFRAME_V2.0_ONLINE ⚡ Access granted. I am the Advanced AI Interface for Anas Latheef. How can I optimize your supply chain today?", 'bot');
+    conversationHistory.length = 0;
+    appendMessage("👋 Chat refreshed! Ask me anything about logistics, supply chain, or Anas Latheef's projects.", 'bot');
 });

@@ -384,6 +384,32 @@
             if (e.key === 'Escape') closeModal();
         });
     </script>
+    <!-- AI Chatbot (DeepSeek via Pollinations - Free) -->
+    <div class="chatbot-wrapper">
+        <button id="chatbot-toggler" class="chatbot-toggler" aria-label="Open AI Chat">
+            <span class="ai-badge">AI</span>
+            <i class='bx bx-bot'></i>
+        </button>
+
+        <div class="chat-popup" id="chat-popup">
+            <div class="chat-header">
+                <div>
+                    <h3 class="chat-title">DeepSeek AI Assistant</h3>
+                    <p>Logistics &amp; Supply Chain Expert</p>
+                </div>
+                <div class="chat-header-actions">
+                    <button id="refresh-chat" title="New Chat"><i class='bx bx-refresh'></i></button>
+                    <button id="close-chat" title="Close"><i class='bx bx-x'></i></button>
+                </div>
+            </div>
+            <div class="chat-box" id="chat-box"></div>
+            <form class="chat-input-area" id="chat-form">
+                <input type="text" id="message-input" placeholder="Ask about logistics, supply chain..." autocomplete="off" />
+                <button type="submit"><i class='bx bx-send'></i></button>
+            </form>
+        </div>
+    </div>
+
 </body>
 
 </html>
