@@ -43,9 +43,18 @@ ScrollReveal({
 });
 
 ScrollReveal().reveal('.hero-content, .heading', { origin: 'top' });
-ScrollReveal().reveal('.hero-img, .services-container, .portfolio-box, .contact form', { origin: 'bottom' });
-ScrollReveal().reveal('.hero-content h1, .about-img', { origin: 'left' });
-ScrollReveal().reveal('.hero-content p, .about-content', { origin: 'right' });
+ScrollReveal().reveal('.home-img img, .skills-container, .portfolio-box, .contact form', { origin: 'bottom' });
+ScrollReveal().reveal('.home-content h1, .about-img img', { origin: 'left' });
+ScrollReveal().reveal('.home-content h3, .home-content p, .about-content', { origin: 'right' });
+
+// --- Initialize Vanilla Tilt 3D Parallax ---
+VanillaTilt.init(document.querySelectorAll(".blob-wrapper, .portfolio-box, .skill-box, .article-card, .services-box"), {
+    max: 15,
+    speed: 400,
+    glare: true,
+    "max-glare": 0.2,
+    scale: 1.02
+});
 ScrollReveal().reveal('.skill-box', { origin: 'bottom', interval: 200 });
 
 // Typed.js
