@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Huly - Everything App for Your Teams</title>
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Huly is the everything-app for teams. Experience the future of productivity with our ultra-modern, high-performance platform for project management, virtual office, and team collaboration.">
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Umami Analytics -->
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="4d0bcc3f-a061-444b-b95b-2f3cf375ec0b"></script>
+</head>
+<body class="dark-mode">
+    <!-- Navigation Bar -->
+    <nav class="navbar glass-effect" id="mainNav">
+        <div class="container nav-content">
+            <div class="nav-left">
+                <a href="#" class="logo">
+                   <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M16 4L4 10V22L16 28L28 22V10L16 4Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="16" cy="16" r="4" fill="white"/>
+                    </svg>
+                    <span>Huly</span>
+                </a>
+            </div>
+            <div class="nav-center">
+                <ul class="nav-links">
+                    <li><a href="#">Product <i data-lucide="chevron-down"></i></a></li>
+                    <li><a href="#">Pricing</a></li>
+                    <li><a href="#">Resources <i data-lucide="chevron-down"></i></a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Docs</a></li>
+                </ul>
+            </div>
+            <div class="nav-right">
+                <div class="github-star">
+                    <i data-lucide="github"></i>
+                    <span>Star on GitHub</span>
+                    <span class="star-count">12.5k</span>
+                </div>
+                <button class="btn ghost">Sign In</button>
+                <button class="btn primary">Sign Up</button>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-section reveal">
+            <div class="container hero-container text-center">
+                <div class="badge hero-badge">Powered by Open Source</div>
+                <h1 class="hero-headline">Everything App <br> <span class="gradient-text">for your teams</span></h1>
+                <p class="hero-subheadline">The open-source platform that brings project management, communication, and automation together into a single, cohesive experience.</p>
+                <div class="hero-ctas">
+                    <button class="btn primary-large pulse">See in Action</button>
+                    <button class="btn secondary-large">Get Started <i data-lucide="arrow-right"></i></button>
+                </div>
+                <!-- Main Product Mockup -->
+                <div class="hero-mockup-wrapper">
+                    <div class="mockup-glow"></div>
+                    <img src="assets/hero_dashboard.png" alt="Sleek Dashboard UI Mockup" class="hero-mockup glass-border">
+                    <div class="mockup-mask"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Feature Navigation / Tabs -->
+        <section class="tabs-section reveal-sticky sticky-tabs-wrapper">
+            <div class="container">
+                <div class="pill-tabs glass-effect">
+                    <button class="tab-item active" data-tab="planner">Team Planner</button>
+                    <button class="tab-item" data-tab="projects">Project Management</button>
+                    <button class="tab-item" data-tab="office">Virtual Office</button>
+                    <button class="tab-item" data-tab="chat">Chat</button>
+                    <button class="tab-item" data-tab="docs">Documents</button>
+                    <button class="tab-item" data-tab="inbox">Inbox</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bento Box Feature Grid -->
+        <section class="bento-section reveal" id="features">
+            <div class="container">
+                <div class="bento-grid">
+                    <div class="bento-card large glass-border hover-glow">
+                        <div class="card-content">
+                            <i data-lucide="zap" class="accent-purple"></i>
+                            <h3>Performance First</h3>
+                            <p>Built with high-frequency traders' speed in mind. Instant task updates and global search.</p>
+                        </div>
+                        <div class="card-bg-glow"></div>
+                    </div>
+                    <div class="bento-card medium glass-border hover-glow">
+                        <div class="card-content">
+                            <i data-lucide="command" class="accent-blue"></i>
+                            <h3>Keyboard Shortcuts</h3>
+                            <p>Productivity at your fingertips. Command Bar for everything.</p>
+                        </div>
+                        <div class="card-bg-glow"></div>
+                    </div>
+                    <div class="bento-card medium glass-border hover-glow">
+                        <div class="card-content">
+                            <i data-lucide="bell" class="accent-pink"></i>
+                            <h3>Quiet Notifications</h3>
+                            <p>Focused flow without the noise. Intelligent grouping and delivery.</p>
+                        </div>
+                        <div class="card-bg-glow"></div>
+                    </div>
+                    <div class="bento-card wide glass-border hover-glow">
+                        <div class="card-content">
+                            <i data-lucide="calendar" class="accent-orange"></i>
+                            <h3>Time-blocking</h3>
+                            <p>Sync your calendar with your tasks directly inside the planner view.</p>
+                        </div>
+                        <div class="card-bg-glow"></div>
+                    </div>
+                    <div class="bento-card small glass-border hover-glow">
+                        <div class="card-content">
+                            <i data-lucide="git-merge" class="accent-cyan"></i>
+                            <h3>Linear Sync</h3>
+                            <p>Two-way sync with Linear.</p>
+                        </div>
+                        <div class="card-bg-glow"></div>
+                    </div>
+                    <div class="bento-card small glass-border hover-glow">
+                        <div class="card-content">
+                            <i data-lucide="shield-check" class="accent-green"></i>
+                            <h3>Enterprise Auth</h3>
+                            <p>SSO ready.</p>
+                        </div>
+                        <div class="card-bg-glow"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Deep Dive Sections -->
+        <section class="deep-dive-section reveal alternate">
+            <div class="container split-layout">
+                <div class="content reveal-left">
+                    <div class="badge">Virtual Office</div>
+                    <h2>The workspace that <br> <span class="gradient-text-blue">feels alive</span></h2>
+                    <p>Experience seamless collaboration with integrated video calls, spatial audio, and presence indicators. Know who is around without the intrusive pings.</p>
+                    <ul class="feature-list">
+                        <li><i data-lucide="check" class="check"></i> 1-click video huddles</li>
+                        <li><i data-lucide="check" class="check"></i> Spatial audio awareness</li>
+                        <li><i data-lucide="check" class="check"></i> Shared cursor presence</li>
+                    </ul>
+                </div>
+                <div class="visual reveal-right">
+                    <img src="assets/virtual_office.png" alt="Virtual Office Mockup" class="deep-dive-img glass-border">
+                </div>
+            </div>
+        </section>
+
+        <section class="deep-dive-section reveal">
+            <div class="container split-layout reverse">
+                <div class="content reveal-right">
+                    <div class="badge">Integrations</div>
+                    <h2>Bi-directional <br> <span class="gradient-text-purple">Synchronization</span></h2>
+                    <p>Integrate with your favorite tools. Data flows everywhere, so you can work anywhere. Full GitHub, Slack, and Figma support.</p>
+                    <div class="integration-visual glass-border">
+                        <div class="icon-node"><i data-lucide="github"></i></div>
+                        <div class="flow-line">
+                            <div class="flow-particle"></div>
+                        </div>
+                        <div class="icon-node center"><img src="favicon.png" alt="" width="32"></div>
+                        <div class="flow-line reverse">
+                            <div class="flow-particle"></div>
+                        </div>
+                        <div class="icon-node"><i data-lucide="slack"></i></div>
+                    </div>
+                </div>
+                <div class="visual reveal-left text-center">
+                    <div class="code-editor-mockup glass-border">
+                        <div class="editor-header">
+                            <div class="dots"><span class="red"></span><span class="yellow"></span><span class="green"></span></div>
+                            <div class="title">Sync.config.js</div>
+                        </div>
+                        <div class="editor-content">
+                            <pre><code><span class="keyword">const</span> <span class="variable">config</span> = {
+  <span class="property">sync</span>: <span class="string">'bi-directional'</span>,
+  <span class="property">platforms</span>: [<span class="string">'github'</span>, <span class="string">'slack'</span>],
+  <span class="property">frequency</span>: <span class="string">'real-time'</span>
+};</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="deep-dive-section reveal alternate">
+            <div class="container split-layout">
+                <div class="content reveal-left">
+                    <div class="badge">Knowledge Base</div>
+                    <h2>Rich-text editor <br> <span class="gradient-text-pink">without limits</span></h2>
+                    <p>Create beautiful documentation, team wikis, and project briefs with a powerful slash-command editor.</p>
+                    <div class="editor-toolbar-mockup glass-border">
+                        <button class="active">B</button>
+                        <button>I</button>
+                        <button>U</button>
+                        <span class="sep"></span>
+                        <button><i data-lucide="link"></i></button>
+                        <button><i data-lucide="at-sign"></i></button>
+                    </div>
+                </div>
+                <div class="visual reveal-right">
+                    <div class="doc-mockup glass-border">
+                        <div class="doc-line h1-placeholder">Project Roadmap 2024</div>
+                        <div class="doc-line p-placeholder">We are building the future of work by...</div>
+                        <div class="doc-line p-placeholder">Integrating with <span class="mention">@anas</span> and <span class="mention">@team</span></div>
+                        <div class="floating-mention glass-effect">
+                            <div class="mention-item active">Anas Latheef</div>
+                            <div class="mention-item">Sarah Wilson</div>
+                            <div class="mention-item">Marketing Team</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final CTA -->
+        <section class="final-cta reveal container">
+            <div class="cta-box glass-border text-center overflow-hidden">
+                <div class="cta-bg-glow"></div>
+                <h2>Join the Movement</h2>
+                <p>Unlock the future of productivity today. Experience the power of Huly.</p>
+                <div class="cta-actions">
+                    <button class="btn primary-large">See in Action</button>
+                    <button class="btn ghost-large">View Documentation</button>
+                </div>
+                <div class="stats-footer">
+                    <div><strong>2M+</strong> Actions performed daily</div>
+                    <div><strong>50k+</strong> Teams trust Huly</div>
+                    <div><strong>100%</strong> Open Source</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="#" class="logo">
+                        <svg width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16 4L4 10V22L16 28L28 22V10L16 4Z" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>Huly</span>
+                    </a>
+                    <p>The everything-app for teams.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="#">Planner</a></li>
+                        <li><a href="#">Projects</a></li>
+                        <li><a href="#">Office</a></li>
+                        <li><a href="#">Inbox</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">API Reference</a></li>
+                        <li><a href="#">Community</a></li>
+                        <li><a href="#">GitHub</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Press</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Security</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="copyright">&copy; 2026 Huly Labs. All rights reserved.</div>
+                <div class="social-links">
+                    <a href="#"><i data-lucide="twitter"></i></a>
+                    <a href="#"><i data-lucide="linkedin"></i></a>
+                    <a href="#"><i data-lucide="youtube"></i></a>
+                    <a href="#"><i data-lucide="slack"></i></a>
+                    <a href="#"><i data-lucide="github"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

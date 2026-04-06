@@ -556,8 +556,21 @@ span.multiple-text {
 }
 
 /* =========================================================
+   ARTICLES SECTION
+   ========================================================= */
+.articles {
+    background: var(--bg-color);
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* =========================================================
    SERVICES SECTION
    ========================================================= */
+.services {
+    background: var(--second-bg-color);
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
 .services-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(32rem, 1fr));
