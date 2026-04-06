@@ -456,73 +456,80 @@ span.multiple-text {
 
 .portfolio-box {
     position: relative;
-    border-radius: 10px;
-    box-shadow: var(--shadow);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
     overflow: hidden;
     display: flex;
-    border: 1px solid rgba(124, 58, 237, 0.08);
-    transition: all 0.4s ease;
-    aspect-ratio: 4/3;
+    border: none;
+    transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    aspect-ratio: 16/10;
+    background: #111;
 }
 
 .portfolio-box:hover {
-    border-color: rgba(124, 58, 237, 0.35);
-    box-shadow: 0 20px 50px rgba(124, 58, 237, 0.18);
-    transform: translateY(-6px);
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(124, 58, 237, 0.2);
 }
 
 .portfolio-box img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: 0.5s ease;
-    filter: brightness(0.95);
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    opacity: 0.85;
 }
 
 .portfolio-box:hover img {
     transform: scale(1.08);
-    filter: brightness(0.5);
+    opacity: 0.6;
 }
 
 .portfolio-layer {
     position: absolute;
-    bottom: 0; left: 0;
-    width: 100%; height: 100%;
-    background: linear-gradient(
-        to top,
-        rgba(28, 28, 30, 0.96) 0%,
-        rgba(124, 58, 237, 0.45) 70%,
-        transparent 100%
-    );
+    inset: 0;
+    background: linear-gradient(to right, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
     display: flex;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
-    text-align: center;
-    padding: 0 2rem;
-    transform: translateY(100%);
-    transition: all 0.4s ease;
-    opacity: 0;
+    justify-content: flex-end;
+    align-items: flex-start;
+    text-align: left;
+    padding: 3.5rem;
+    transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .portfolio-box:hover .portfolio-layer {
-    transform: translateY(0);
-    opacity: 1;
+    background: linear-gradient(to right, rgba(0,0,0,0.95) 0%, rgba(124, 58, 237, 0.6) 60%, rgba(0,0,0,0.3) 100%);
 }
 
 .portfolio-layer h4 {
-    font-size: 2.2rem;
+    font-size: 2.8rem;
     font-family: 'DM Sans', sans-serif;
     color: #fff;
     margin-bottom: 1rem;
-    letter-spacing: 1px;
-    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 800;
+    transform: translateY(40px);
+    transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.portfolio-box:hover .portfolio-layer h4 {
+    transform: translateY(0);
 }
 
 .portfolio-layer p {
-    font-size: 1.4rem;
-    margin-bottom: 1.5rem;
-    color: rgba(255,255,255,0.8);
+    font-size: 1.5rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    color: rgba(255,255,255,0.85);
+    max-width: 85%;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.3s ease 0.05s, transform 0.3s cubic-bezier(0.25, 1, 0.5, 1) 0.05s;
+}
+
+.portfolio-box:hover .portfolio-layer p {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .portfolio-layer a {
@@ -530,29 +537,38 @@ span.multiple-text {
     justify-content: center;
     align-items: center;
     gap: 0.8rem;
-    padding: 1rem 2.4rem;
+    padding: 1rem 2.8rem;
     background: var(--main-color);
-    border: 1.5px solid var(--main-color);
-    border-radius: 50px;
-    transition: 0.3s;
+    border: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
     font-family: 'DM Sans', sans-serif;
     font-size: 1.4rem;
-    font-weight: 600;
+    font-weight: 700;
     color: #fff;
     letter-spacing: 1px;
     text-transform: uppercase;
+    opacity: 0;
+    transform: translateY(20px);
+    box-shadow: 0 4px 15px rgba(124, 58, 237, 0.4);
+}
+
+.portfolio-box:hover .portfolio-layer a {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.1s;
 }
 
 .portfolio-layer a:hover {
-    background: var(--accent-color);
-    border-color: var(--accent-color);
-    transform: scale(1.05);
-    color: #fff;
+    background: #fff;
+    color: var(--main-color);
+    transform: scale(1.05) translateY(0);
+    box-shadow: 0 8px 25px rgba(255, 255, 255, 0.4);
 }
 
 .portfolio-layer a i {
     font-size: 1.8rem;
-    color: #fff;
+    color: inherit;
 }
 
 /* =========================================================
