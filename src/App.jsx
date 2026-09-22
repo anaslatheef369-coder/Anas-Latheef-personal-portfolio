@@ -7,19 +7,26 @@ import { ElementalUniverse } from './components/ElementalUniverse';
 import { Button } from './components/Button';
 import { CustomCursor } from './components/CustomCursor';
 
-const DockNav = () => (
-  <motion.div 
-    initial={{ y: 100, opacity: 0 }}
-    animate={{ y: 0, opacity: 1 }}
-    transition={{ delay: 1, duration: 0.5 }}
-    className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-surface/80 border border-border rounded-full px-4 sm:px-6 py-3 flex items-center gap-4 sm:gap-6 shadow-2xl shadow-status-red/20 backdrop-blur-xl w-max max-w-[90vw]"
-  >
-    {['Home', 'About', 'Skills', 'Projects', 'Articles'].map((item) => (
-      <a key={item} href={`#${item.toLowerCase()}`} className="text-xs sm:text-sm font-display font-medium text-text-muted hover:text-white transition-colors">
-        {item}
-      </a>
-    ))}
-  </motion.div>
+import { Menu } from 'lucide-react';
+
+const TopNav = () => (
+  <header className="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-6 md:px-12 py-6 bg-gradient-to-b from-canvas/80 to-transparent pointer-events-auto">
+    <a href="#home" className="text-3xl font-display font-black text-white hover:scale-105 transition-transform drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">
+      A<span className="text-status-red">L</span>
+    </a>
+    
+    <nav className="hidden md:flex items-center gap-8 bg-surface/50 px-8 py-3 rounded-full border border-border backdrop-blur-md shadow-[0_0_15px_rgba(0,0,0,0.5)]">
+      {['Home', 'About', 'Skills', 'Projects', 'Articles', 'Contact'].map((item) => (
+        <a key={item} href={`#${item.toLowerCase()}`} className="text-sm font-display font-bold text-text-muted hover:text-status-green transition-colors uppercase tracking-widest">
+          {item}
+        </a>
+      ))}
+    </nav>
+    
+    <div className="md:hidden p-2 bg-surface/50 rounded-md border border-border backdrop-blur-md">
+      <Menu className="h-6 w-6 text-white" />
+    </div>
+  </header>
 );
 
 const Hero = () => {
@@ -293,7 +300,7 @@ export default function App() {
       </div>
 
       <CustomCursor />
-      <DockNav />
+      <TopNav />
       
       {/* Content Layers */}
       <Hero />
