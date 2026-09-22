@@ -7,20 +7,20 @@ export default {
   theme: {
     extend: {
       colors: {
-        canvas: "#FFFFFF", // White background
-        surface: "rgba(255, 255, 255, 0.6)", // Glassy white surface
-        border: "rgba(0, 0, 0, 0.1)", // Light border
+        canvas: "#030308", // Dark space background
+        surface: "rgba(10, 10, 15, 0.4)", // Dark glass
+        border: "rgba(255, 255, 255, 0.1)", // Light border for dark glass
         primary: {
-          DEFAULT: "#000000",
+          DEFAULT: "#FFFFFF",
           gradient: "#FF007F",
         },
         status: {
-          green: "#00C0D0", // slightly darker cyan for white bg
+          green: "#00F0FF", // vibrant cyan
           red: "#FF007F" // Vibrant pink/red
         },
         text: {
-          main: "#111111", // Dark text
-          muted: "#666666", // Grey text
+          main: "#FFFFFF", // White text
+          muted: "#9CB4D8", // Grey/Blue text
         }
       },
       fontFamily: {
