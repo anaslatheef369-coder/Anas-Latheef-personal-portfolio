@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Grotesk:wght@300;400;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,25 +6,17 @@
 
 @layer base {
   body {
-    @apply bg-canvas text-text-main font-sans antialiased selection:bg-primary selection:text-white;
+    @apply bg-canvas text-text-main font-sans antialiased selection:bg-status-red selection:text-white;
   }
   
   h1, h2, h3, h4, h5, h6 {
-    @apply font-heading tracking-tight;
+    @apply font-display tracking-tight;
   }
 }
 
 @layer utilities {
   .glass-panel {
     @apply bg-surface backdrop-blur-[16px] border border-border;
-  }
-  
-  .text-gradient {
-    @apply bg-clip-text text-transparent bg-primary-gradient;
-  }
-
-  .glow-effect {
-    box-shadow: 0 0 20px rgba(99, 102, 241, 0.2);
   }
   
   /* Abstract noise texture */

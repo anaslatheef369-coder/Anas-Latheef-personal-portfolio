@@ -1,80 +1,61 @@
-import React, { useRef, useMemo, useEffect } from 'react';
+import React, { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Points, PointMaterial, Float } from '@react-three/drei';
 import * as random from 'maath/random/dist/maath-random.esm';
 
 export const ElementalUniverse = () => {
   const particlesRef = useRef();
-  const torusRef = useRef();
-  const isoRef1 = useRef();
-  const isoRef2 = useRef();
-  const isoRef3 = useRef();
+  const ringRef1 = useRef();
+  const ringRef2 = useRef();
 
-  // Antimatter particle field
-  const sphere = useMemo(() => random.inSphere(new Float32Array(5000 * 3), { radius: 4 }), []);
+  // White ball graphics all over the website area (larger radius)
+  const sphere = useMemo(() => random.inSphere(new Float32Array(15000 * 3), { radius: 15 }), []);
 
   useFrame((state, delta) => {
-    const time = state.clock.getElapsedTime();
-    
-    // 4D Time-based Volatility (Francium/Astatine)
+    // Rotation of the white particle universe
     if (particlesRef.current) {
-      particlesRef.current.rotation.x -= delta / 20;
-      particlesRef.current.rotation.y -= delta / 30;
-    }
-    
-    // 5D Complex Geometry (Antimatter Core Structure)
-    if (torusRef.current) {
-      torusRef.current.rotation.x = time * 0.15;
-      torusRef.current.rotation.y = time * 0.2;
-    }
-    
-    // Iridium Dense Metallic Shards rotation
-    if (isoRef1.current) isoRef1.current.rotation.y += delta * 0.4;
-    if (isoRef2.current) isoRef2.current.rotation.x -= delta * 0.6;
-    if (isoRef3.current) {
-      isoRef3.current.rotation.z += delta * 0.3;
-      isoRef3.current.rotation.x += delta * 0.2;
+      particlesRef.current.rotation.x -= delta / 30;
+      particlesRef.current.rotation.y -= delta / 40;
     }
 
-    // Scroll-based 4D movement (Camera moves through the elements)
+    // Moving 3D Graphics (Red and Green Rings)
+    if (ringRef1.current) {
+      ringRef1.current.rotation.x += delta * 0.2;
+      ringRef1.current.rotation.y += delta * 0.3;
+    }
+    if (ringRef2.current) {
+      ringRef2.current.rotation.x -= delta * 0.3;
+      ringRef2.current.rotation.y -= delta * 0.4;
+    }
+
+    // Camera movement based on scroll
     const scrollY = window.scrollY;
-    // As you scroll down, the camera sinks into the void
     state.camera.position.y = -scrollY * 0.003;
-    state.camera.position.z = 3 - scrollY * 0.001;
+    state.camera.position.z = 5 - scrollY * 0.001;
   });
 
   return (
     <group>
-      {/* Antimatter Particles (Astatine/Francium energy) */}
+      {/* Background Deep Blue Fog */}
+      <fog attach="fog" args={['#00102A', 2, 20]} />
+
+      {/* White Particles Everywhere */}
       <Points ref={particlesRef} positions={sphere} stride={3} frustumCulled={false}>
-        <PointMaterial transparent color="#8B5CF6" size={0.015} sizeAttenuation={true} depthWrite={false} blending={2} />
+        <PointMaterial transparent color="#FFFFFF" size={0.02} sizeAttenuation={true} depthWrite={false} blending={2} />
       </Points>
 
-      {/* 5D Antimatter/Polonium Core (Wireframe Torus Knot) */}
-      <mesh ref={torusRef} position={[0, -1, -2]}>
-        <torusKnotGeometry args={[2, 0.08, 300, 32, 4, 9]} />
-        <meshStandardMaterial color="#39FF14" wireframe emissive="#39FF14" emissiveIntensity={2} transparent opacity={0.15} />
-      </mesh>
-
-      {/* Iridium Solid Metallic Structures (Dense, reflective shards) */}
+      {/* Moving 3D Graphics (Red and Green Rings) */}
       <Float speed={2} rotationIntensity={2} floatIntensity={2}>
-        <mesh ref={isoRef1} position={[3, 1, -1]}>
-          <icosahedronGeometry args={[0.6, 0]} />
-          <meshStandardMaterial color="#1F1F24" metalness={1} roughness={0.05} />
+        <mesh ref={ringRef1} position={[-4, 2, -3]}>
+          <torusGeometry args={[1.5, 0.02, 16, 100]} />
+          <meshStandardMaterial color="#FF003C" emissive="#FF003C" emissiveIntensity={2} wireframe />
         </mesh>
       </Float>
 
-      <Float speed={3} rotationIntensity={3} floatIntensity={3}>
-        <mesh ref={isoRef2} position={[-3, -3, -1.5]}>
-          <octahedronGeometry args={[0.5, 0]} />
-          <meshStandardMaterial color="#1F1F24" metalness={0.9} roughness={0.1} />
-        </mesh>
-      </Float>
-
-      <Float speed={1.5} rotationIntensity={1} floatIntensity={4}>
-        <mesh ref={isoRef3} position={[2.5, -6, -2]}>
-          <tetrahedronGeometry args={[0.7, 0]} />
-          <meshStandardMaterial color="#1F1F24" metalness={1} roughness={0.15} />
+      <Float speed={3} rotationIntensity={3} floatIntensity={2}>
+        <mesh ref={ringRef2} position={[4, -3, -4]}>
+          <torusGeometry args={[2, 0.02, 16, 100]} />
+          <meshStandardMaterial color="#00FF41" emissive="#00FF41" emissiveIntensity={2} wireframe />
         </mesh>
       </Float>
     </group>
