@@ -28,7 +28,7 @@ export const IridiumCard = ({ children, className, glowColor = "rgba(139, 92, 24
       viewport={{ once: true }}
       transition={{ type: "spring", stiffness: 400, damping: 30 }}
       className={cn(
-        "relative overflow-hidden rounded-xl bg-surface border border-border p-6 sm:p-8 transition-colors duration-300 shadow-2xl",
+        "relative overflow-hidden rounded-xl bg-surface/80 backdrop-blur-xl border border-border p-6 sm:p-8 transition-all duration-300 shadow-2xl",
         className
       )}
       {...props}
