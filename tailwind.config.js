@@ -7,19 +7,19 @@ export default {
   theme: {
     extend: {
       colors: {
-        canvas: "#090D16",
-        surface: "rgba(255, 255, 255, 0.03)",
-        border: "rgba(255, 255, 255, 0.08)",
+        canvas: "#000000",
+        surface: "#0A0A0C", // Iridium dark base
+        border: "#1F1F24", // Iridium reflection
         primary: {
-          DEFAULT: "#6366F1",
+          DEFAULT: "#8B5CF6", // Promethium Violet
           gradient: "#06B6D4",
         },
         status: {
-          green: "#10B981",
+          green: "#39FF14", // Radioactive Polonium Green
         },
         text: {
           main: "#FFFFFF",
-          muted: "#94A3B8",
+          muted: "#A1A1AA",
         }
       },
       fontFamily: {
