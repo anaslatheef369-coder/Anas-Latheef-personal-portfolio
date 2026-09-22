@@ -28,26 +28,6 @@ const Hero = () => {
       {/* Hero Content */}
       <div className="relative z-10 text-center pointer-events-none flex flex-col items-center justify-center max-w-5xl mx-auto mt-10 md:mt-0">
         
-        {/* Profile Image with 4D Iridium/Promethium Styling */}
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.5, rotateY: 90 }}
-          animate={{ opacity: 1, scale: 1, rotateY: 0 }}
-          transition={{ duration: 1, type: "spring", bounce: 0.4 }}
-          className="relative w-32 h-32 md:w-48 md:h-48 mb-8"
-        >
-          {/* Radioactive glowing rings */}
-          <div className="absolute inset-[-10%] rounded-full border border-primary/40 animate-ping" style={{ animationDuration: '3s' }}></div>
-          <div className="absolute inset-[-5%] rounded-full border border-status-green/30 animate-spin" style={{ animationDuration: '10s' }}></div>
-          
-          <div className="w-full h-full rounded-full overflow-hidden border-4 border-surface shadow-[0_0_30px_rgba(139,92,246,0.6)] relative z-10 bg-canvas">
-            <img 
-              src="/legacy/profile.jpg" 
-              alt="Anas Latheef" 
-              className="w-full h-full object-cover filter contrast-125 saturate-50"
-            />
-          </div>
-        </motion.div>
-
         <motion.h1 
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
@@ -88,23 +68,48 @@ const Hero = () => {
 
 const SkillsAndAbout = () => (
   <section id="about" className="py-24 relative z-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-    <div className="mb-16 md:mb-20 max-w-3xl">
-      <motion.h2 
-        initial={{ opacity: 0, x: -50 }}
-        whileInView={{ opacity: 1, x: 0 }}
+    <div className="mb-16 md:mb-24 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+      
+      {/* Profile Image with 4D Iridium/Promethium Styling */}
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.8, rotateY: 45 }}
+        whileInView={{ opacity: 1, scale: 1, rotateY: 0 }}
         viewport={{ once: true }}
-        className="text-3xl md:text-5xl font-bold mb-6 text-white"
+        transition={{ duration: 1, type: "spring", bounce: 0.4 }}
+        className="relative w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 mx-auto md:mx-0"
       >
-        The <span className="text-primary filter drop-shadow-[0_0_10px_rgba(139,92,246,0.8)]">Core</span>
-      </motion.h2>
-      <motion.p 
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="text-text-muted text-base md:text-lg leading-relaxed border-l-2 border-primary/50 pl-4 md:pl-6 bg-surface/30 backdrop-blur-sm p-4 rounded-r-xl"
-      >
-        As a self-taught Inventory Leader, I've mastered the art of organizing, scaling, and optimizing complex supply chains. Bridging the gap between traditional logistics and cutting-edge artificial intelligence to build smarter, faster, and highly reactive systems.
-      </motion.p>
+        {/* Radioactive glowing rings */}
+        <div className="absolute inset-[-10%] rounded-2xl border border-primary/40 animate-pulse" style={{ animationDuration: '3s' }}></div>
+        <div className="absolute inset-[-5%] rounded-2xl border border-status-green/30"></div>
+        
+        <div className="w-full h-full rounded-2xl overflow-hidden border-2 border-surface shadow-[0_0_30px_rgba(139,92,246,0.5)] relative z-10 bg-canvas">
+          <img 
+            src="/legacy/profile.jpg" 
+            alt="Anas Latheef" 
+            className="w-full h-full object-cover filter contrast-125 saturate-50 hover:saturate-100 transition-all duration-500"
+          />
+        </div>
+      </motion.div>
+
+      {/* About Content */}
+      <div>
+        <motion.h2 
+          initial={{ opacity: 0, x: 50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          className="text-3xl md:text-5xl font-bold mb-6 text-white"
+        >
+          About <span className="text-primary filter drop-shadow-[0_0_10px_rgba(139,92,246,0.8)]">Me</span>
+        </motion.h2>
+        <motion.p 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-text-muted text-base md:text-lg leading-relaxed border-l-2 border-primary/50 pl-4 md:pl-6 bg-surface/30 backdrop-blur-sm p-4 rounded-r-xl"
+        >
+          As a self-taught Inventory Leader, I've mastered the art of organizing, scaling, and optimizing complex supply chains. Bridging the gap between traditional logistics and cutting-edge artificial intelligence to build smarter, faster, and highly reactive systems.
+        </motion.p>
+      </div>
     </div>
 
     <div id="skills" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-auto md:auto-rows-[250px]">
