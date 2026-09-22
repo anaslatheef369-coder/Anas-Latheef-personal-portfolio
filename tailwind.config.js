@@ -7,16 +7,16 @@ export default {
   theme: {
     extend: {
       colors: {
-        canvas: "#00102A", // Deep Imperial Blue dark base
-        surface: "#001B44", // Deep Imperial Blue surface
-        border: "#003380", // Lighter imperial blue for borders
+        canvas: "#030308",
+        surface: "rgba(10, 10, 15, 0.4)",
+        border: "rgba(255, 255, 255, 0.1)",
         primary: {
-          DEFAULT: "#FFFFFF", // White
-          gradient: "#FF003C", // Red
+          DEFAULT: "#FFFFFF",
+          gradient: "#FF007F",
         },
         status: {
-          green: "#00FF41", // Green
-          red: "#FF003C" // Red
+          green: "#00F0FF", // Re-purposed to a vibrant cyan
+          red: "#FF007F" // Vibrant pink/red
         },
         text: {
           main: "#FFFFFF",
@@ -24,8 +24,8 @@ export default {
         }
       },
       fontFamily: {
-        sans: ['"Space Grotesk"', 'sans-serif'],
-        display: ['"Orbitron"', 'sans-serif'],
+        sans: ['"Inter"', 'sans-serif'],
+        display: ['"Outfit"', 'sans-serif'],
       }
     },
   },

@@ -10,10 +10,7 @@ import { CustomCursor } from './components/CustomCursor';
 import { Menu } from 'lucide-react';
 
 const TopNav = () => (
-  <header className="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-6 md:px-12 py-6 bg-gradient-to-b from-canvas/80 to-transparent pointer-events-auto">
-    <a href="#home" className="text-3xl font-display font-black text-white hover:scale-105 transition-transform drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]">
-      A<span className="text-status-red">L</span>
-    </a>
+  <header className="fixed top-0 left-0 w-full z-50 flex items-center justify-end px-6 md:px-12 py-6 bg-gradient-to-b from-canvas/80 to-transparent pointer-events-auto">
     
     <nav className="hidden md:flex items-center gap-8 bg-surface/50 px-8 py-3 rounded-full border border-border backdrop-blur-md shadow-[0_0_15px_rgba(0,0,0,0.5)]">
       {['Home', 'About', 'Skills', 'Projects', 'Articles', 'Contact'].map((item) => (
