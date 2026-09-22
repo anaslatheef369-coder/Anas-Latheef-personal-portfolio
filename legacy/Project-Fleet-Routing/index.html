@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Fleet Routing & Telemetry | Anas Latheef</title>
+    <!-- Box Icons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Share+Tech+Mono&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Leaflet CSS for Maps -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <style>
+        :root {
+            --bg-color: #060a10;
+            --main-color: #1e90ff;
+            --accent-color: #00c8ff;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --text-color: #e8f4ff;
+            --glass-bg: rgba(8, 14, 26, 0.85);
+            --glass-border: rgba(30, 144, 255, 0.2);
+            --panel-bg: rgba(15, 23, 42, 0.8);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 200, 255, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(30, 144, 255, 0.05) 0%, transparent 40%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        .header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--glass-border);
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+
+        .header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            color: white;
+            text-shadow: 0 0 10px var(--main-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--main-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 0.6rem 1.2rem;
+            border: 1px solid var(--main-color);
+            border-radius: 4px;
+            background: rgba(30, 144, 255, 0.1);
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            background: var(--main-color);
+            color: var(--bg-color);
+            box-shadow: 0 0 15px var(--main-color);
+        }
+
+        .app-container {
+            display: flex;
+            flex: 1;
+            width: 100%;
+            height: calc(100vh - 75px);
+        }
+
+        /* Map Area */
+        .map-container {
+            flex: 1;
+            position: relative;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+            background: #000;
+        }
+
+        /* Side Panels */
+        .side-panel {
+            width: 350px;
+            background: var(--glass-bg);
+            border-left: 1px solid var(--glass-border);
+            border-right: 1px solid var(--glass-border);
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(10px);
+            z-index: 500;
+        }
+
+        .panel-header {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            font-family: 'Orbitron', sans-serif;
+            color: var(--main-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .panel-content {
+            padding: 1rem;
+            overflow-y: auto;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .panel-content::-webkit-scrollbar { width: 4px; }
+        .panel-content::-webkit-scrollbar-thumb { background: var(--main-color); }
+
+        /* Fleet Cards */
+        .fleet-card {
+            background: var(--panel-bg);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 6px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .fleet-card:hover, .fleet-card.active {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 15px rgba(0, 200, 255, 0.2);
+            background: rgba(30, 144, 255, 0.1);
+        }
+
+        .fleet-card::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0; width: 3px;
+            background: var(--main-color);
+        }
+
+        .fleet-card h4 {
+            color: white;
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .fleet-card p {
+            color: #94a3b8;
+            font-size: 0.8rem;
+            margin-bottom: 8px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--success-color);
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        /* Telemetry Panel */
+        .telemetry-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.8rem;
+        }
+
+        .t-box {
+            background: rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 0.8rem;
+            border-radius: 4px;
+        }
+
+        .t-box span {
+            display: block;
+            font-size: 0.7rem;
+            color: #64748b;
+            text-transform: uppercase;
+        }
+
+        .t-box strong {
+            display: block;
+            font-size: 1.1rem;
+            color: white;
+            margin-top: 4px;
+            font-family: 'Share Tech Mono', monospace;
+        }
+
+        /* Wear & Tear bars */
+        .wear-item { margin-top: 8px; }
+        .wear-label { display: flex; justify-content: space-between; font-size: 0.75rem; color: #cbd5e1; margin-bottom: 3px;}
+        .w-bar { width: 100%; height: 4px; background: #1e293b; border-radius: 2px; }
+        .w-fill { height: 100%; border-radius: 2px; }
+        .w-good { background: var(--success-color); }
+        .w-warn { background: var(--warning-color); }
+        .w-crit { background: var(--danger-color); }
+
+        /* Comms Chat */
+        .comms-box {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 6px;
+            overflow: hidden;
+            min-height: 250px;
+        }
+
+        .chat-log {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .msg {
+            max-width: 85%;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            line-height: 1.3;
+        }
+
+        .msg.sys {
+            background: rgba(30, 144, 255, 0.1);
+            border: 1px solid rgba(30, 144, 255, 0.3);
+            color: var(--accent-color);
+            align-self: center;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.75rem;
+        }
+
+        .msg.dispatcher {
+            background: var(--main-color);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 0;
+        }
+
+        .msg.driver {
+            background: #334155;
+            color: white;
+            align-self: flex-start;
+            border-bottom-left-radius: 0;
+        }
+
+        .chat-input {
+            display: flex;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            background: rgba(0,0,0,0.5);
+        }
+
+        .chat-input input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 10px;
+            color: white;
+            outline: none;
+        }
+
+        .chat-input button {
+            background: transparent;
+            border: none;
+            color: var(--main-color);
+            padding: 0 15px;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        .chat-input button:hover { color: var(--accent-color); }
+
+        .btn-dispatch {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
+            border-radius: 4px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin-top: auto;
+        }
+
+        .btn-dispatch:hover {
+            background: var(--success-color);
+            color: white;
+            box-shadow: 0 0 15px var(--success-color);
+        }
+
+        /* Marker Styles */
+        .truck-icon {
+            background: var(--accent-color);
+            border: 2px solid white;
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--accent-color);
+        }
+
+        .warehouse-icon {
+            background: var(--warning-color);
+            border: 2px solid white;
+            border-radius: 4px;
+            box-shadow: 0 0 15px var(--warning-color);
+        }
+
+        @media (max-width: 1024px) {
+            .app-container { flex-direction: column; height: auto; }
+            .side-panel { width: 100%; border: none; border-bottom: 1px solid var(--glass-border); max-height: 500px;}
+            #map { min-height: 400px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <h1><i class='bx bx-globe'></i> Global Fleet Telemetry & Dispatch</h1>
+        <a href="../index.html#projects" class="back-btn"><i class='bx bx-arrow-back'></i> Back to Portfolio</a>
+    </header>
+
+    <div class="app-container">
+        
+        <!-- Left Panel: Fleet Overview -->
+        <div class="side-panel">
+            <div class="panel-header">
+                <i class='bx bx-list-ul'></i> Active Fleet Operations
+            </div>
+            <div class="panel-content" id="fleet-list">
+                <!-- Fleet cards will be injected here -->
+            </div>
+            <div style="padding: 1rem;">
+                <button class="btn-dispatch" onclick="dispatchNewTruck()">
+                    <i class='bx bx-paper-plane'></i> Dispatch New Delivery
+                </button>
+            </div>
+        </div>
+
+        <!-- Center Map Area -->
+        <div class="map-container">
+            <div id="map"></div>
+        </div>
+
+        <!-- Right Panel: Telemetry & Comms -->
+        <div class="side-panel">
+            <div class="panel-header">
+                <i class='bx bx-radar'></i> Live Vehicle Telemetry
+            </div>
+            <div class="panel-content" id="telemetry-panel">
+                <div style="text-align:center; color:#64748b; margin-top:2rem;" id="no-sel-msg">
+                    Select a vehicle to view telemetry.
+                </div>
+                
+                <!-- Telemetry Content (Hidden by default) -->
+                <div id="tel-content" style="display:none;">
+                    <h3 style="color:white; margin-bottom: 5px;" id="t-id">TRK-000</h3>
+                    <p style="color:var(--accent-color); font-size: 0.85rem; margin-bottom: 1rem;" id="t-route">Dubai to Abu Dhabi</p>
+                    
+                    <div class="telemetry-grid">
+                        <div class="t-box">
+                            <span>Current Speed</span>
+                            <strong id="t-speed">0 km/h</strong>
+                        </div>
+                        <div class="t-box">
+                            <span>Est. Arrival</span>
+                            <strong id="t-eta">--:--</strong>
+                        </div>
+                        <div class="t-box">
+                            <span>Fuel Efficiency</span>
+                            <strong id="t-fuel-eff">0 L/100km</strong>
+                        </div>
+                        <div class="t-box">
+                            <span>Fuel Consumed</span>
+                            <strong id="t-fuel-used">0.0 L</strong>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 1.5rem;">
+                        <h4 style="color:white; font-size: 0.9rem; margin-bottom: 10px; font-family:'Orbitron', sans-serif;">
+                            <i class='bx bx-wrench'></i> Wear & Tear Analysis
+                        </h4>
+                        
+                        <div class="wear-item">
+                            <div class="wear-label"><span>Tire Degradation</span> <span id="w-tire-val">100%</span></div>
+                            <div class="w-bar"><div class="w-fill w-good" id="w-tire-bar" style="width:100%"></div></div>
+                        </div>
+                        <div class="wear-item">
+                            <div class="wear-label"><span>Brake Pad Health</span> <span id="w-brake-val">100%</span></div>
+                            <div class="w-bar"><div class="w-fill w-good" id="w-brake-bar" style="width:100%"></div></div>
+                        </div>
+                        <div class="wear-item">
+                            <div class="wear-label"><span>Engine Temp</span> <span id="w-temp-val">90°C</span></div>
+                            <div class="w-bar"><div class="w-fill w-good" id="w-temp-bar" style="width:40%"></div></div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 1.5rem; flex: 1; display: flex; flex-direction: column;">
+                        <h4 style="color:white; font-size: 0.9rem; margin-bottom: 10px; font-family:'Orbitron', sans-serif;">
+                            <i class='bx bx-message-square-dots'></i> Driver Comms
+                        </h4>
+                        <div class="comms-box">
+                            <div class="chat-log" id="chat-log">
+                                <div class="msg sys">Encrypted channel established.</div>
+                            </div>
+                            <div class="chat-input">
+                                <input type="text" id="chat-input-field" placeholder="Message driver...">
+                                <button onclick="sendComms()"><i class='bx bx-send'></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // --- 1. Map Initialization ---
+        const map = L.map('map').setView([24.9, 55.2], 8); // Centered on UAE
+        
+        // CartoDB Dark Matter tiles
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://carto.com/">CartoDB</a>',
+            subdomains: 'abcd',
+            maxZoom: 19
+        }).addTo(map);
+
+        // --- 2. Data Definitions ---
+        const warehouse = { name: "DXB Logistics Hub", lat: 25.2048, lng: 55.2708 };
+        
+        // Add Warehouse Marker
+        const whIcon = L.divIcon({ className: 'warehouse-icon', iconSize: [16, 16] });
+        L.marker([warehouse.lat, warehouse.lng], { icon: whIcon }).addTo(map)
+         .bindPopup("<strong>DXB Logistics Hub</strong><br>Main Dispatch Center");
+
+        const destinations = [
+            { name: "Abu Dhabi Facility", lat: 24.4539, lng: 54.3773 },
+            { name: "Sharjah Port", lat: 25.3463, lng: 55.4209 },
+            { name: "Al Ain Depot", lat: 24.1302, lng: 55.8023 },
+            { name: "Ras Al Khaimah", lat: 25.7895, lng: 55.9432 },
+            { name: "Fujairah Port", lat: 25.1288, lng: 56.3265 }
+        ];
+
+        // Draw destinations
+        destinations.forEach(d => {
+            L.circleMarker([d.lat, d.lng], { radius: 5, color: '#10b981', fillOpacity: 0.8 })
+             .addTo(map).bindPopup(d.name);
+        });
+
+        // --- 3. Fleet Management ---
+        let fleet = [];
+        let selectedTruckId = null;
+        let truckCounter = 0;
+
+        const driverNames = ["Ahmed", "Omar", "Tariq", "Zayed", "Khalid"];
+        const loadTypes = ["Electronics", "Perishables", "Medical Supplies", "Auto Parts", "Textiles"];
+
+        class Truck {
+            constructor(dest) {
+                truckCounter++;
+                this.id = `TRK-${truckCounter.toString().padStart(3, '0')}`;
+                this.driver = driverNames[Math.floor(Math.random() * driverNames.length)];
+                this.load = loadTypes[Math.floor(Math.random() * loadTypes.length)];
+                this.destination = dest;
+                
+                this.routeCoords = []; // Will hold LatLng points from OSRM
+                this.routeLine = null;
+                this.progressIndex = 0; // Current point in routeCoords
+                this.isMoving = false;
+                
+                // Telemetry
+                this.speed = 0;
+                this.totalDist = 0; // km
+                this.distCovered = 0;
+                this.fuelEfficiency = 28 + (Math.random() * 5 - 2.5); // L/100km
+                this.fuelUsed = 0;
+                
+                this.tireHealth = 100;
+                this.brakeHealth = 100;
+                this.engineTemp = 85;
+
+                this.messages = [];
+                
+                // Marker
+                const icon = L.divIcon({ className: 'truck-icon', iconSize: [12, 12] });
+                this.marker = L.marker([warehouse.lat, warehouse.lng], { icon: icon }).addTo(map);
+                this.marker.bindPopup(`<b>${this.id}</b><br>Driver: ${this.driver}`);
+                this.marker.on('click', () => selectTruck(this.id));
+
+                this.createCard();
+                this.fetchRoute();
+            }
+
+            async fetchRoute() {
+                try {
+                    // OSRM API Call
+                    const url = `https://router.project-osrm.org/route/v1/driving/${warehouse.lng},${warehouse.lat};${this.destination.lng},${this.destination.lat}?overview=full&geometries=geojson`;
+                    const res = await fetch(url);
+                    const data = await res.json();
+                    
+                    if(data.routes && data.routes.length > 0) {
+                        const coords = data.routes[0].geometry.coordinates;
+                        this.totalDist = data.routes[0].distance / 1000; // to km
+                        
+                        // Convert [lng, lat] to [lat, lng] for Leaflet
+                        this.routeCoords = coords.map(c => [c[1], c[0]]);
+                        
+                        // Draw line
+                        this.routeLine = L.polyline(this.routeCoords, {
+                            color: '#1e90ff', weight: 3, opacity: 0.6, dashArray: '5, 5'
+                        }).addTo(map);
+
+                        this.isMoving = true;
+                        this.addMessage('sys', `Route computed. Distance: ${this.totalDist.toFixed(1)} km`);
+                    }
+                } catch(e) {
+                    console.error("Routing error", e);
+                }
+            }
+
+            update() {
+                if(!this.isMoving || this.routeCoords.length === 0) return;
+
+                if (this.progressIndex < this.routeCoords.length - 1) {
+                    // Move marker to next point
+                    this.progressIndex++;
+                    const currentPos = this.routeCoords[this.progressIndex];
+                    this.marker.setLatLng(currentPos);
+                    
+                    // Simulate physics/telemetry
+                    this.speed = 60 + Math.random() * 30; // 60-90 km/h
+                    const progressPercent = this.progressIndex / this.routeCoords.length;
+                    this.distCovered = this.totalDist * progressPercent;
+                    
+                    // Fuel: (dist/100) * efficiency + random variance
+                    this.fuelUsed = (this.distCovered / 100) * this.fuelEfficiency;
+                    
+                    // Wear and Tear
+                    this.tireHealth = 100 - (progressPercent * 2.5); // Degrades by 2.5% per trip
+                    this.brakeHealth = 100 - (progressPercent * 1.8);
+                    
+                    // Engine Temp variance
+                    this.engineTemp = 85 + (this.speed / 10) + (Math.random() * 4 - 2);
+
+                    this.updateCard();
+                    if(selectedTruckId === this.id) updateTelemetryUI();
+                } else {
+                    // Reached destination
+                    this.isMoving = false;
+                    this.speed = 0;
+                    this.routeLine.setStyle({ color: '#10b981', opacity: 1, dashArray: null });
+                    this.addMessage('sys', `Arrived at ${this.destination.name}. Goods delivered.`);
+                    this.updateCard();
+                    if(selectedTruckId === this.id) updateTelemetryUI();
+                }
+            }
+
+            createCard() {
+                const list = document.getElementById('fleet-list');
+                const card = document.createElement('div');
+                card.className = 'fleet-card';
+                card.id = `card-${this.id}`;
+                card.onclick = () => selectTruck(this.id);
+                
+                card.innerHTML = `
+                    <h4>${this.id} <span style="font-size:0.7rem; background:var(--main-color); padding:2px 6px; border-radius:10px;">${this.driver}</span></h4>
+                    <p><i class='bx bx-right-arrow-alt'></i> ${this.destination.name}</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="prog-${this.id}"></div>
+                    </div>
+                `;
+                list.appendChild(card);
+            }
+
+            updateCard() {
+                const progFill = document.getElementById(`prog-${this.id}`);
+                if(progFill) {
+                    const pct = (this.progressIndex / this.routeCoords.length) * 100 || 0;
+                    progFill.style.width = `${pct}%`;
+                    if(pct >= 100) progFill.style.background = 'var(--success-color)';
+                    else progFill.style.background = 'var(--accent-color)';
+                }
+            }
+
+            addMessage(sender, text) {
+                this.messages.push({ sender, text });
+                if(selectedTruckId === this.id) renderChat();
+            }
+        }
+
+        // --- 4. System Functions ---
+        function dispatchNewTruck() {
+            if(fleet.length >= 5) {
+                alert("Maximum fleet capacity reached for demo.");
+                return;
+            }
+            const dest = destinations[Math.floor(Math.random() * destinations.length)];
+            const t = new Truck(dest);
+            fleet.push(t);
+            
+            // Auto select if first
+            if(fleet.length === 1) selectTruck(t.id);
+        }
+
+        function selectTruck(id) {
+            selectedTruckId = id;
+            
+            // Update Cards UI
+            document.querySelectorAll('.fleet-card').forEach(c => c.classList.remove('active'));
+            document.getElementById(`card-${id}`).classList.add('active');
+
+            // Show Telemetry Panel
+            document.getElementById('no-sel-msg').style.display = 'none';
+            document.getElementById('tel-content').style.display = 'flex';
+            document.getElementById('tel-content').style.flexDirection = 'column';
+
+            updateTelemetryUI();
+            renderChat();
+        }
+
+        function updateTelemetryUI() {
+            if(!selectedTruckId) return;
+            const t = fleet.find(f => f.id === selectedTruckId);
+            if(!t) return;
+
+            document.getElementById('t-id').innerText = `${t.id} - ${t.driver}`;
+            document.getElementById('t-route').innerText = `Dubai to ${t.destination.name} | Load: ${t.load}`;
+            
+            document.getElementById('t-speed').innerText = `${t.speed.toFixed(0)} km/h`;
+            
+            const remDist = t.totalDist - t.distCovered;
+            if(!t.isMoving && t.routeCoords.length > 0) {
+                document.getElementById('t-eta').innerText = "Arrived";
+                document.getElementById('t-eta').style.color = "var(--success-color)";
+            } else {
+                const hrs = remDist / (t.speed || 60);
+                const mins = Math.round(hrs * 60) || 0;
+                document.getElementById('t-eta').innerText = `${mins} mins`;
+                document.getElementById('t-eta').style.color = "white";
+            }
+
+            document.getElementById('t-fuel-eff').innerText = `${t.fuelEfficiency.toFixed(1)} L/100km`;
+            document.getElementById('t-fuel-used').innerText = `${t.fuelUsed.toFixed(1)} L`;
+
+            // Wear UI
+            updateWearBar('tire', t.tireHealth);
+            updateWearBar('brake', t.brakeHealth);
+            
+            // Engine temp maps 70-110 to 0-100%
+            const tempPct = ((t.engineTemp - 70) / 40) * 100;
+            updateWearBar('temp', tempPct, `${t.engineTemp.toFixed(1)}°C`);
+        }
+
+        function updateWearBar(id, val, textOverride = null) {
+            document.getElementById(`w-${id}-val`).innerText = textOverride || `${val.toFixed(1)}%`;
+            const bar = document.getElementById(`w-${id}-bar`);
+            bar.style.width = `${Math.min(100, Math.max(0, val))}%`;
+            
+            // Colors
+            bar.className = 'w-fill';
+            if(id === 'temp') {
+                if(val > 80) bar.classList.add('w-crit');
+                else if(val > 60) bar.classList.add('w-warn');
+                else bar.classList.add('w-good');
+            } else {
+                if(val < 70) bar.classList.add('w-crit');
+                else if(val < 85) bar.classList.add('w-warn');
+                else bar.classList.add('w-good');
+            }
+        }
+
+        // --- 5. Comms ---
+        function renderChat() {
+            if(!selectedTruckId) return;
+            const t = fleet.find(f => f.id === selectedTruckId);
+            const log = document.getElementById('chat-log');
+            log.innerHTML = ''; // Clear
+            
+            t.messages.forEach(m => {
+                const div = document.createElement('div');
+                div.className = `msg ${m.sender}`;
+                div.innerText = m.text;
+                log.appendChild(div);
+            });
+            log.scrollTop = log.scrollHeight;
+        }
+
+        function sendComms() {
+            const input = document.getElementById('chat-input-field');
+            const text = input.value.trim();
+            if(!text || !selectedTruckId) return;
+
+            const t = fleet.find(f => f.id === selectedTruckId);
+            t.addMessage('dispatcher', text);
+            input.value = '';
+
+            // Auto reply logic
+            setTimeout(() => {
+                const replies = [
+                    "Copy that, dispatch. Adjusting.",
+                    "Received. Traffic is clear ahead.",
+                    "Understood. Will update upon arrival.",
+                    "10-4. Monitoring engine temps."
+                ];
+                t.addMessage('driver', replies[Math.floor(Math.random() * replies.length)]);
+            }, 1500);
+        }
+
+        document.getElementById('chat-input-field').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') sendComms();
+        });
+
+        // --- 6. Simulation Loop ---
+        setInterval(() => {
+            fleet.forEach(t => t.update());
+        }, 1000); // Update every second
+
+        // Start with one truck
+        setTimeout(dispatchNewTruck, 500);
+
+    </script>
+</body>
+</html>
