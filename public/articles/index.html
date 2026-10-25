@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Articles | Anas Latheef - Supply Chain & Inventory Planning</title>
+    <meta name="description" content="Expert articles on supply chain management, inventory planning, logistics optimization, and global trade strategy for 2025-2026.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Outfit:wght@300;400;600;800&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', -apple-system, sans-serif; background: #f8f9fb; color: #1a1a2e; line-height: 1.8; }
+        a { text-decoration: none; color: inherit; }
+
+        .article-header { background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%); padding: 16px 5%; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 20px rgba(0,0,0,0.15); display: flex; align-items: center; justify-content: space-between; }
+        .article-header .logo-back { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 1.5rem; color: #fff; }
+        .article-header .logo-back span { color: #38bdf8; }
+        .article-header a { text-decoration: none; color: rgba(255,255,255,0.8); font-weight: 500; font-size: 0.95rem; transition: color 0.2s; }
+        .article-header a:hover { color: #38bdf8; }
+
+        .hero-section { background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #0f5132 100%); padding: 80px 5% 100px; text-align: center; position: relative; overflow: hidden; }
+        .hero-section::before { content: ''; position: absolute; inset: 0; opacity: 0.03; background-image: radial-gradient(circle, #fff 1px, transparent 1px); background-size: 40px 40px; }
+        .hero-section .badge { display: inline-block; background: rgba(56,189,248,0.15); border: 1px solid rgba(56,189,248,0.3); color: #38bdf8; padding: 6px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; margin-bottom: 20px; position: relative; }
+        .hero-section h1 { font-family: 'Playfair Display', 'Orbitron', serif; font-size: 3.2rem; color: #fff; margin-bottom: 16px; position: relative; }
+        .hero-section h1 span { color: #fff; }
+        .hero-section p { font-size: 1.2rem; color: rgba(255,255,255,0.75); max-width: 680px; margin: 0 auto; position: relative; }
+
+        .filter-bar { max-width: 1200px; margin: 30px auto 0; padding: 0 5%; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+        .filter-btn { padding: 8px 18px; border-radius: 20px; border: 1.5px solid #e5e7eb; background: #fff; font-size: 0.88rem; font-weight: 500; cursor: pointer; transition: all 0.2s; color: #374151; font-family: 'Inter', sans-serif; }
+        .filter-btn:hover, .filter-btn.active { background: #0f5132; color: #fff; border-color: #0f5132; }
+
+        .articles-grid { max-width: 1200px; margin: 40px auto 80px; padding: 0 5%; display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 28px; }
+        .article-card { background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 15px rgba(0,0,0,0.06); transition: transform 0.25s, box-shadow 0.25s; text-decoration: none; color: inherit; display: flex; flex-direction: column; }
+        .article-card:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,0,0,0.12); }
+        .card-image { height: 200px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; font-size: 3.5rem; }
+        .card-body { padding: 24px; flex: 1; display: flex; flex-direction: column; text-align: left; }
+        .card-category { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; width: fit-content; }
+        
+        .cat-supply-chain { background: #ecfdf5; color: #059669; }
+        .cat-inventory { background: #eff6ff; color: #2563eb; }
+        .cat-logistics { background: #fef3c7; color: #d97706; }
+        .cat-sustainability { background: #f0fdf4; color: #16a34a; }
+        .cat-risk { background: #fef2f2; color: #dc2626; }
+        .cat-technology { background: #f5f3ff; color: #7c3aed; }
+        .cat-global-trade { background: #ecfeff; color: #0891b2; }
+        
+        .bg-supply-chain { background: linear-gradient(135deg, #ecfdf5, #d1fae5); }
+        .bg-inventory { background: linear-gradient(135deg, #eff6ff, #dbeafe); }
+        .bg-logistics { background: linear-gradient(135deg, #fef3c7, #fde68a); }
+        .bg-sustainability { background: linear-gradient(135deg, #f0fdf4, #dcfce7); }
+        .bg-risk { background: linear-gradient(135deg, #fef2f2, #fee2e2); }
+        .bg-technology { background: linear-gradient(135deg, #f5f3ff, #ede9fe); }
+        .bg-global-trade { background: linear-gradient(135deg, #ecfeff, #cffafe); }
+
+        .card-title { font-size: 1.2rem; font-weight: 700; line-height: 1.4; margin-bottom: 10px; }
+        .card-excerpt { font-size: 0.92rem; line-height: 1.6; color: #6b7280; flex: 1; }
+        .card-footer { padding: 16px 24px; border-top: 1px solid #f3f4f6; display: flex; align-items: center; justify-content: space-between; }
+        .card-date { font-size: 0.82rem; color: #9ca3af; }
+        .card-read { font-size: 0.82rem; color: #0f5132; font-weight: 600; }
+
+        footer { background: #0f172a; text-align: center; padding: 40px 5%; color: rgba(255,255,255,0.5); font-size: 0.85rem; border-top: none; }
+        footer a { color: #38bdf8; text-decoration: none; }
+        
+        @media (max-width: 768px) {
+            .hero-section h1 { font-size: 2.2rem; }
+            .articles-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="article-header">
+    <a href="../" class="logo-back">A<span>L</span></a>
+    <a href="../">&#8592; Back to Portfolio</a>
+</div>
+
+<section class="hero-section">
+    <div class="badge">2025-2026 Edition</div>
+    <h1>Supply Chain & <span>Inventory</span><br>Planning Intelligence</h1>
+    <p>Expert insights on tariffs, AI forecasting, geopolitical shifts, sustainability mandates, and the future of global supply chains.</p>
+</section>
+
+<section class="filter-bar">
+    <button class="filter-btn active" onclick="filterArt('all',this)">All</button>
+    <button class="filter-btn" onclick="filterArt('supply-chain',this)">Supply Chain</button>
+    <button class="filter-btn" onclick="filterArt('inventory',this)">Inventory</button>
+    <button class="filter-btn" onclick="filterArt('logistics',this)">Logistics</button>
+    <button class="filter-btn" onclick="filterArt('sustainability',this)">Sustainability</button>
+    <button class="filter-btn" onclick="filterArt('risk',this)">Risk</button>
+    <button class="filter-btn" onclick="filterArt('technology',this)">Technology</button>
+    <button class="filter-btn" onclick="filterArt('global-trade',this)">Global Trade</button>
+</section>
+
+<section class="articles-grid" id="grid"></section>
+
+<footer>
+    <p>&copy; 2026 Anas Latheef. All rights reserved. | <a href="../">anaslatheef.com</a></p>
+</footer>
+
+<script>
+const articles=[
+{slug:"tariff-wars-supply-chain-reshaping",title:"Tariff Wars in 2026: How Supply Chains Are Being Reshaped",category:"global-trade",label:"Global Trade",emoji:"\ud83c\udf0d\ud83d\udce6",excerpt:"The cascading impact of escalating tariffs on global supply networks and how companies respond.",date:"March 15, 2026",read:"12 min read"},
+{slug:"ai-demand-forecasting-revolution",title:"AI-Powered Demand Forecasting: The 2026 Revolution",category:"technology",label:"Technology",emoji:"\ud83e\udd16\ud83d\udcca",excerpt:"How AI and ML are transforming forecasting accuracy and reducing excess inventory by up to 40%.",date:"March 20, 2026",read:"15 min read"},
+{slug:"digital-inventory-twin-strategy",title:"Building a Digital Twin of Your Inventory",category:"technology",label:"Technology",emoji:"\ud83c\udfd7\ufe0f\ud83d\udcbb",excerpt:"Creating digital twins for real-time visibility and what-if scenario planning.",date:"March 28, 2026",read:"13 min read"},
+{slug:"nearshoring-mexico-playbook",title:"The Nearshoring Playbook: Mexico, the 2025-2026 Winner",category:"global-trade",label:"Global Trade",emoji:"\ud83c\uddf2\ud83c\uddfd\ud83c\udfed",excerpt:"How Mexico emerged as the top nearshoring destination for US-bound supply chains.",date:"April 2, 2026",read:"11 min read"},
+{slug:"real-time-inventory-visibility",title:"Real-Time Inventory Visibility: End-to-End Transparency",category:"supply-chain",label:"Supply Chain",emoji:"\ud83d\udc41\ufe0f\ud83d\udce6",excerpt:"Achieving complete real-time visibility across the entire supply chain network.",date:"April 5, 2026",read:"10 min read"},
+{slug:"safety-stock-optimization-uncertainty-era",title:"Safety Stock Optimization in the Era of Uncertainty",category:"inventory",label:"Inventory",emoji:"\ud83d\udee1\ufe0f\ud83d\udcca",excerpt:"Reimagining safety stock for a world of constant disruption.",date:"March 10, 2026",read:"11 min read"},
+{slug:"carbon-border-adjustment-mechanism-impact",title:"The EU Carbon Border Tax: Impact on Supply Chains",category:"sustainability",label:"Sustainability",emoji:"\ud83c\udf31\ud83c\uddea\ud83c\uddfa",excerpt:"How CBAM is reshaping global trade, carbon reporting, and sourcing decisions.",date:"March 18, 2026",read:"12 min read"},
+{slug:"circular-economy-supply-chain-2026",title:"Circular Economy in Supply Chain: Business Imperative",category:"sustainability",label:"Sustainability",emoji:"\u267b\ufe0f\ud83d\udd04",excerpt:"Reverse logistics and closed-loop supply chains as competitive advantages.",date:"April 1, 2026",read:"11 min read"},
+{slug:"multi-echelon-inventory-optimization-guide",title:"Multi-Echelon Inventory Optimization: Complete Guide",category:"inventory",label:"Inventory",emoji:"\ud83c\udfe2\ud83d\udce6",excerpt:"Optimizing inventory across your entire network from raw material to customer.",date:"March 25, 2026",read:"14 min read"},
+{slug:"resilient-supply-chain-strategies-2026",title:"Building Resilient Supply Chain Strategies for 2026",category:"risk",label:"Risk Management",emoji:"\ud83d\udee1\ufe0f\ud83c\udf10",excerpt:"Proactive frameworks turning supply chain risk into competitive advantage.",date:"March 5, 2026",read:"13 min read"},
+{slug:"end-to-end-supply-chain-visibility",title:"End-to-End Supply Chain Visibility: Beyond Tier 1",category:"supply-chain",label:"Supply Chain",emoji:"\ud83d\udd0d\ud83c\udf10",excerpt:"Why most companies do not know their Tier 3 suppliers and how to fix it.",date:"March 22, 2026",read:"10 min read"},
+{slug:"route-optimization-last-mile-delivery",title:"Route Optimization & Last-Mile Delivery for 2026",category:"logistics",label:"Logistics",emoji:"\ud83d\ude9a\ud83d\uddfa\ufe0f",excerpt:"Mastering the most expensive delivery leg with AI and micro-fulfillment.",date:"March 12, 2026",read:"12 min read"},
+{slug:"blockchain-supply-chain-traceability",title:"Blockchain in Supply Chain: Real Traceability in 2026",category:"technology",label:"Technology",emoji:"\ud83d\udd17\ud83d\udce6",excerpt:"Where blockchain actually delivers traceability, transparency, and trust.",date:"March 8, 2026",read:"10 min read"},
+{slug:"warehousing-automation-robotics-2026",title:"Warehousing Automation & Robotics: 2026 State of Play",category:"technology",label:"Technology",emoji:"\ud83e\udd16\ud83c\udfec",excerpt:"AMRs, ASRS, and AI-powered warehouse management transforming DC operations.",date:"March 30, 2026",read:"14 min read"},
+{slug:"inventory-turnover-vs-service-level",title:"Inventory Turnover vs. Service Level: Getting the Balance",category:"inventory",label:"Inventory",emoji:"\u2696\ufe0f\ud83d\udcca",excerpt:"The fundamental tension in inventory management with modern approaches.",date:"April 3, 2026",read:"11 min read"},
+{slug:"esg-supply-chain-compliance",title:"ESG Compliance: Navigating the New Regulatory Landscape",category:"sustainability",label:"Sustainability",emoji:"\ud83c\udf0d\ud83d\udccb",excerpt:"From CSRD to CSDDD to SEC climate rules - the complete compliance guide.",date:"March 27, 2026",read:"13 min read"},
+{slug:"supplier-relationship-management-2026",title:"Strategic Supplier Relationship Management",category:"supply-chain",label:"Supply Chain",emoji:"\ud83e\udd1d\ud83d\udcc8",excerpt:"Moving from transactional relationships to strategic partnerships.",date:"March 14, 2026",read:"10 min read"},
+{slug:"sustainable-packaging-supply-chain",title:"Sustainable Packaging in the Supply Chain for 2026",category:"sustainability",label:"Sustainability",emoji:"\ud83d\udce6\ud83c\udf3f",excerpt:"EU PPWR, US state EPR laws, and sustainable material science innovations.",date:"April 4, 2026",read:"11 min read"},
+{slug:"demand-sensing-machine-learning",title:"Demand Sensing vs. Traditional Forecasting: ML Approach",category:"technology",label:"Technology",emoji:"\ud83d\udca1\ud83d\udcc9",excerpt:"Signal-driven demand sensing achieving 10-30% better accuracy.",date:"March 29, 2026",read:"12 min read"},
+{slug:"cyber-risk-third-party-vendors",title:"Cyber Risk: Protecting Your Third-Party Network",category:"risk",label:"Risk Management",emoji:"\ud83d\udd12\ud83d\udda5\ufe0f",excerpt:"From MOVEit to SolarWinds - how supply chain cyber attacks work.",date:"April 6, 2026",read:"12 min read"},
+{slug:"sustainable-sourcing-guide-2026",title:"Sustainable Sourcing: Ethical Procurement Guide 2026",category:"sustainability",label:"Sustainability",emoji:"\ud83c\udf3e\ud83d\uded2",excerpt:"Building ethical, transparent, and sustainable supply chains from the ground up.",date:"April 7, 2026",read:"13 min read"},
+{slug:"digital-procurement-transformation",title:"Digital Procurement: From Spreadsheets to AI-Driven Sourcing",category:"technology",label:"Technology",emoji:"\ud83d\udcbb\ud83d\udd0d",excerpt:"AI platforms transforming procurement from back-office to strategic capability.",date:"April 8, 2026",read:"12 min read"},
+{slug:"global-freight-forwarding-strategies",title:"Global Freight Management: Ocean, Air, Rail in 2026",category:"logistics",label:"Logistics",emoji:"\ud83d\udea2\u2708\ufe0f",excerpt:"Red Sea disruptions, Panama Canal droughts, and freight rate volatility.",date:"March 16, 2026",read:"11 min read"},
+{slug:"ai-supplier-risk-scoring",title:"AI Supplier Risk Scoring: Proactive Risk Management",category:"risk",label:"Risk Management",emoji:"\ud83e\udd16\ud83d\udd0d",excerpt:"Continuous monitoring across financial, geopolitical, and cyber dimensions.",date:"April 9, 2026",read:"11 min read"},
+{slug:"supply-chain-finance-strategies",title:"Supply Chain Finance: Optimizing Working Capital",category:"supply-chain",label:"Supply Chain",emoji:"\ud83d\udcb0\ud83d\udd04",excerpt:"Reverse factoring, dynamic discounting, and blockchain innovations in SCF.",date:"April 10, 2026",read:"12 min read"}
+];
+
+function render(f){
+    const g=document.getElementById('grid');g.innerHTML='';
+    const items=f==='all'?articles:articles.filter(a=>a.category===f);
+    items.forEach(a=>{
+        const c=document.createElement('a');
+        c.href=a.slug+'.html';c.className='article-card';
+        c.innerHTML='<div class="card-image bg-'+a.category+'">'+a.emoji+'</div><div class="card-body"><span class="card-category cat-'+a.category+'">'+a.label+'</span><h3 class="card-title">'+a.title+'</h3><p class="card-excerpt">'+a.excerpt+'</p></div><div class="card-footer"><span class="card-date">'+a.date+'</span><span class="card-read">'+a.read+'</span></div>';
+        g.appendChild(c);
+    });
+}
+
+function filterArt(c,b){
+    document.querySelectorAll('.filter-btn').forEach(x=>x.classList.remove('active'));
+    if(b)b.classList.add('active');
+    render(c);
+}
+
+render('all');
+</script>
+</body>
+</html>

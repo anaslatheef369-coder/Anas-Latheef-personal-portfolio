@@ -154,12 +154,12 @@ const SkillsAndAbout = () => (
 
 const ProjectsSlideshow = () => {
   const projects = [
-    { title: "Predictive Analytics AI", desc: "Designed a forecasting model predicting inventory shortages 3 weeks in advance.", img: "/legacy/project2_enhanced.png" },
-    { title: "Executive Freight Dashboard", desc: "Interactive data suite tracking transit times, bottlenecks, and shrinkage.", img: "/legacy/project_kpi_dashboard.png" },
-    { title: "Zero-Stock Automation Trigger", desc: "Webhook system monitoring IMS to proactively alert procurement before stockouts.", img: "/legacy/project_automation_alert.png" },
-    { title: "Dynamic Fleet Routing Engine", desc: "Predictive model to optimize multi-stop routes and minimize fuel consumption.", img: "/legacy/project_fleet_routing.png" },
-    { title: "Velocity-Based Warehouse Slotting", desc: "Strategic planning tool reorganizing SKUs based on pick-velocity.", img: "/legacy/project_warehouse_slotting.png" },
-    { title: "WealthSync", desc: "Smart personal finance application to sync and track wealth portfolios.", img: "/legacy/project_wealthsync.png" }
+    { title: "Predictive Analytics AI", desc: "Designed a forecasting model predicting inventory shortages 3 weeks in advance.", img: "/legacy/project2_enhanced.png", link: "/Project-Freight-Dashboard/index.html" },
+    { title: "Executive Freight Dashboard", desc: "Interactive data suite tracking transit times, bottlenecks, and shrinkage.", img: "/legacy/project_kpi_dashboard.png", link: "/Project-Freight-Dashboard/index.html" },
+    { title: "Zero-Stock Automation Trigger", desc: "Webhook system monitoring IMS to proactively alert procurement before stockouts.", img: "/legacy/project_automation_alert.png", link: "/Project-Automation-Trigger/index.html" },
+    { title: "Dynamic Fleet Routing Engine", desc: "Predictive model to optimize multi-stop routes and minimize fuel consumption.", img: "/legacy/project_fleet_routing.png", link: "/Project-Fleet-Routing/index.html" },
+    { title: "Velocity-Based Warehouse Slotting", desc: "Strategic planning tool reorganizing SKUs based on pick-velocity.", img: "/legacy/project_warehouse_slotting.png", link: "/Project-Warehouse-Slotting/index.html" },
+    { title: "WealthSync", desc: "Smart personal finance application to sync and track wealth portfolios.", img: "/legacy/project_wealthsync.png", link: "/Project-Wealthsync/index.html" }
   ];
 
   const scrollRef = React.useRef(null);
@@ -176,10 +176,10 @@ const ProjectsSlideshow = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8 flex justify-between items-end">
         <h2 className="text-3xl md:text-5xl font-display font-bold uppercase text-white">Systems <span className="text-status-red filter drop-shadow-[0_0_10px_rgba(255,0,127,0.8)]">Deployed</span></h2>
         <div className="flex gap-4">
-          <button onClick={() => scroll('left')} className="p-3 rounded-full bg-surface/80 border border-border hover:bg-white/10 transition-colors text-white">
+          <button onClick={() => scroll('left')} className="p-3 rounded-full bg-surface/80 border border-border hover:bg-white/10 transition-colors text-white" aria-label="Previous project">
             <ChevronLeft className="h-6 w-6" />
           </button>
-          <button onClick={() => scroll('right')} className="p-3 rounded-full bg-surface/80 border border-border hover:bg-white/10 transition-colors text-white">
+          <button onClick={() => scroll('right')} className="p-3 rounded-full bg-surface/80 border border-border hover:bg-white/10 transition-colors text-white" aria-label="Next project">
             <ChevronRight className="h-6 w-6" />
           </button>
         </div>
@@ -201,8 +201,13 @@ const ProjectsSlideshow = () => {
                 <h3 className="text-lg md:text-xl font-display font-bold mb-2 group-hover:text-status-red transition-colors text-white">{proj.title}</h3>
                 <p className="text-white text-sm md:text-base mb-6">{proj.desc}</p>
               </div>
-              <a href="#" className="inline-flex items-center text-sm font-bold text-status-green hover:text-white transition-colors mt-auto uppercase tracking-widest">
-                Initialize Sequence <ExternalLink className="ml-2 h-4 w-4" />
+              <a 
+                href={proj.link} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="inline-flex items-center text-sm font-bold text-status-green hover:text-white transition-colors mt-auto uppercase tracking-widest"
+              >
+                Launch System <ExternalLink className="ml-2 h-4 w-4" />
               </a>
             </div>
           </IridiumCard>
@@ -214,27 +219,39 @@ const ProjectsSlideshow = () => {
 
 const Articles = () => {
   const articles = [
-    { cat: "Global Trade", title: "Tariff Wars in 2026: How Supply Chains Are Being Reshaped", read: "12 min read" },
-    { cat: "Technology", title: "AI-Powered Demand Forecasting: The 2026 Revolution", read: "15 min read" },
-    { cat: "Technology", title: "Building a Digital Twin of Your Inventory: Strategy", read: "13 min read" },
-    { cat: "Supply Chain", title: "Sustainable Logistics: Optimizing Routes for Lower Emissions", read: "10 min read" }
+    { cat: "Global Trade", title: "Tariff Wars in 2026: How Supply Chains Are Being Reshaped", read: "12 min read", link: "/articles/tariff-wars-supply-chain-reshaping.html" },
+    { cat: "Technology", title: "AI-Powered Demand Forecasting: The 2026 Revolution", read: "15 min read", link: "/articles/ai-demand-forecasting-revolution.html" },
+    { cat: "Technology", title: "Building a Digital Twin of Your Inventory: Strategy", read: "13 min read", link: "/articles/digital-inventory-twin-strategy.html" },
+    { cat: "Supply Chain", title: "Sustainable Logistics: Optimizing Routes for Lower Emissions", read: "10 min read", link: "/articles/route-optimization-last-mile-delivery.html" }
   ];
 
   return (
     <section id="articles" className="py-24 relative z-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-      <div className="mb-12">
-        <h2 className="text-3xl md:text-5xl font-display font-bold uppercase text-white">Latest <span className="text-status-green filter drop-shadow-[0_0_10px_rgba(0,240,255,0.8)]">Articles</span></h2>
+      <div className="mb-12 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
+        <div>
+          <h2 className="text-3xl md:text-5xl font-display font-bold uppercase text-white">Latest <span className="text-status-green filter drop-shadow-[0_0_10px_rgba(0,240,255,0.8)]">Articles</span></h2>
+        </div>
+        <a 
+          href="/articles/index.html" 
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center text-sm font-bold text-status-green hover:text-white uppercase tracking-wider transition-colors border border-status-green/30 px-5 py-2.5 rounded-full hover:bg-status-green/10"
+        >
+          View All 25 Articles <ChevronRight className="ml-1 h-4 w-4" />
+        </a>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {articles.map((art, i) => (
-          <IridiumCard key={i} className="group cursor-pointer hover:-translate-y-2 transition-transform duration-300" glowColor="rgba(255, 255, 255, 0.2)">
-            <span className="text-xs font-mono font-bold text-status-red mb-3 block uppercase tracking-widest">{art.cat}</span>
-            <h3 className="text-xl font-display font-bold text-white mb-4 group-hover:text-status-green transition-colors">{art.title}</h3>
-            <div className="flex items-center justify-between mt-6 pt-4 border-t border-border">
-              <span className="text-sm text-text-muted">{art.read}</span>
-              <ExternalLink className="h-5 w-5 text-text-muted group-hover:text-white transition-colors" />
-            </div>
-          </IridiumCard>
+          <a key={i} href={art.link} target="_blank" rel="noopener noreferrer" className="block group">
+            <IridiumCard className="cursor-pointer hover:-translate-y-2 transition-transform duration-300 h-full" glowColor="rgba(255, 255, 255, 0.2)">
+              <span className="text-xs font-mono font-bold text-status-red mb-3 block uppercase tracking-widest">{art.cat}</span>
+              <h3 className="text-xl font-display font-bold text-white mb-4 group-hover:text-status-green transition-colors">{art.title}</h3>
+              <div className="flex items-center justify-between mt-6 pt-4 border-t border-border">
+                <span className="text-sm text-text-muted">{art.read}</span>
+                <ExternalLink className="h-5 w-5 text-text-muted group-hover:text-white transition-colors" />
+              </div>
+            </IridiumCard>
+          </a>
         ))}
       </div>
     </section>

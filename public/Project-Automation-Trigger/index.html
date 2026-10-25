@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Management System | Anas Latheef</title>
+    
+    <!-- SEO Best Practices -->
+    <meta name="description" content="Automated Inventory Management System and real-time webhook alerting. A project showcase blending deep logistics expertise with modern technical execution.">
+    <meta name="author" content="Anas Latheef">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Umami Analytics -->
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="4d0bcc3f-a061-444b-b95b-2f3cf375ec0b"></script>
+</head>
+<body>
+
+    <!-- Header / Nav -->
+    <header class="navbar glass-effect">
+        <div class="container navbar-content">
+            <div class="logo">
+                <span class="logo-light">AL</span><span class="logo-divider"> | </span><span class="logo-text">Projects</span>
+            </div>
+            <nav class="nav-links">
+                <a href="#overview" class="nav-link">Overview</a>
+                <a href="#architecture" class="nav-link">Architecture</a>
+                <a href="#live-dashboard" class="nav-link">Live Dashboard</a>
+                <a href="#contact" class="nav-link btn-secondary-sm">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero-section">
+        <!-- Background Grid Pattern -->
+        <div class="bg-grid"></div>
+        <div class="glow-orb orb-primary"></div>
+        
+        <div class="container hero-container">
+            <div class="hero-content">
+                <p class="eyebrow">Project Showcase: Inventory Management System</p>
+                <h1 class="main-headline">Stop Stockouts Before <br><span class="text-gradient">They Happen.</span></h1>
+                <p class="sub-headline">
+                    An automated, real-time webhook alerting system bridging the gap between raw warehouse data and proactive procurement. Built to ensure continuous stock inventory control and zero supply chain disruptions.
+                </p>
+                <div class="cta-group">
+                    <a href="#architecture" class="btn btn-primary">View Project Architecture</a>
+                    <a href="#live-dashboard" class="btn btn-secondary">See the Power BI Dashboard</a>
+                </div>
+                
+                <div class="tech-stack">
+                    <span class="badge badge-python">Python</span>
+                    <span class="badge badge-webhook">Webhooks</span>
+                    <span class="badge badge-powerbi">Power BI</span>
+                    <span class="badge badge-dax">DAX</span>
+                    <span class="badge badge-logistics">Logistics</span>
+                </div>
+            </div>
+
+            <!-- Hero Mockup Images / Visuals -->
+            <div class="hero-visual">
+                <div class="mockup-container">
+                    <div class="dashboard-mockup glass-card glowing-border">
+                        <!-- We will embed an image here later -->
+                        <div class="browser-bar">
+                            <span class="dot close"></span>
+                            <span class="dot minimize"></span>
+                            <span class="dot expand"></span>
+                        </div>
+                        <img src="dashboard_mockup.png" alt="Dashboard Mockup" class="mockup-img" id="hero-img">
+                    </div>
+                    <div class="code-snippet-mockup glass-card floating">
+                        <pre><code class="language-json">{
+  "event": "stockout_alert",
+  "sku": "WH-909-BX",
+  "current_stock": 14,
+  "reorder_point": 25,
+  "lead_time": "12 days",
+  "status": "CRITICAL"
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- The Problem & Solution Section -->
+    <section id="overview" class="problem-solution-section">
+        <div class="container">
+            <div class="split-layout">
+                <div class="problem-col">
+                    <div class="icon-wrapper red">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                    </div>
+                    <h2 class="section-title">The High Cost of Reactive Inventory</h2>
+                    <p class="body-text">
+                        Traditional supply chains rely on manual reports and delayed metrics. By the time a critical SKU is flagged, the stockout has already occurred, halting operations and costing money.
+                    </p>
+                </div>
+                
+                <div class="solution-col glass-card glowing-border-blue">
+                    <div class="icon-wrapper blue">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
+                    </div>
+                    <h3 class="callout-title">The Solution: Proactive Webhook Alerting</h3>
+                    <p class="body-text">
+                        This system continuously monitors daily consumption rates against dynamic lead times. The moment current stock dips below the mathematical Reorder Point (ROP), an automated payload is fired directly to the procurement team&mdash;days before the bin goes empty.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technical Architecture Section -->
+    <section id="architecture" class="architecture-section">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="section-title">Under the Hood: How It Works</h2>
+            </div>
+            
+            <div class="feature-grid">
+                <!-- Grid Item 1 -->
+                <div class="feature-card glass-card hover-glow">
+                    <div class="feature-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
+                    </div>
+                    <h3 class="feature-title">Dynamic Data Simulation</h3>
+                    <p class="feature-text">
+                        A Python-driven engine generating live, fluctuating consumption metrics across 50+ critical SKUs to stress-test the alerting logic.
+                    </p>
+                </div>
+
+                <!-- Grid Item 2 -->
+                <div class="feature-card glass-card hover-glow">
+                    <div class="feature-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#eab308" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>
+                    </div>
+                    <h3 class="feature-title">Real-Time Webhooks</h3>
+                    <p class="feature-text">
+                        Node.js listeners calculate dynamic safety stocks and trigger instant JSON payloads the millisecond an item hits its custom Reorder Point.
+                    </p>
+                </div>
+
+                <!-- Grid Item 3 -->
+                <div class="feature-card glass-card hover-glow">
+                    <div class="feature-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                    </div>
+                    <h3 class="feature-title">Power BI Integration</h3>
+                    <p class="feature-text">
+                        Live streaming datasets translated through advanced DAX formulas to provide a bird's-eye view of 'Total Value at Risk' and 'Days Until Stockout'.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Live Demo / Metrics Section -->
+    <section id="live-dashboard" class="live-demo-section">
+        <div class="container container-sm">
+            <div class="demo-wrapper glass-card">
+                <div class="demo-header">
+                    <h3>Live System Simulation - SKU: WH-909-BX</h3>
+                    <div class="status-indicator" id="system-status">System Active</div>
+                </div>
+                
+                <div class="metrics-display">
+                    <div class="metric-box">
+                        <span class="metric-label">Current Stock</span>
+                        <span class="metric-value font-mono" id="current-stock">105</span>
+                    </div>
+                    <div class="metric-box">
+                        <span class="metric-label">Reorder Point (ROP)</span>
+                        <span class="metric-value font-mono">25</span>
+                    </div>
+                    <div class="metric-box">
+                        <span class="metric-label">Daily Consumption</span>
+                        <span class="metric-value font-mono">~10/day</span>
+                    </div>
+                </div>
+
+                <div class="gauge-container">
+                    <div class="gauge-track">
+                        <div class="gauge-fill" id="gauge-fill" style="width: 100%;"></div>
+                        <div class="rop-marker" style="left: 25%;"></div>
+                    </div>
+                </div>
+                
+                <!-- Simulated Alert Payload -->
+                <div class="alert-box" id="alert-box" style="display: none;">
+                    <div class="alert-header">
+                        <span class="alert-icon">âš ï¸</span>
+                        <span>CRITICAL: STOCKOUT ALERT FIRED</span>
+                    </div>
+                    <pre><code class="language-json" id="live-payload"></code></pre>
+                </div>
+
+                <button class="btn btn-primary demo-btn" id="run-sim-btn">Run Time-Lapse Simulation</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Code Highlight Section -->
+    <section class="code-highlight-section">
+        <div class="container">
+            <div class="split-layout code-split">
+                <div class="text-col">
+                    <h2 class="section-title">Clean, Modular, and Scalable Logic</h2>
+                    <p class="body-text">
+                        A look at the automated webhook trigger logic bridging the warehouse to the buyers.
+                    </p>
+                </div>
+                
+                <div class="code-col">
+                    <div class="terminal-window glass-card">
+                        <div class="browser-bar">
+                            <span class="dot close"></span>
+                            <span class="dot minimize"></span>
+                            <span class="dot expand"></span>
+                            <span class="filename">webhook_trigger.py</span>
+                        </div>
+                        <pre><code class="language-python"># Automated Webhook Trigger Logic
+import requests
+import json
+
+def check_stock_levels(sku_data):
+    for item in sku_data:
+        if item['current_stock'] <= item['reorder_point']:
+            payload = {
+                "event": "stockout_alert",
+                "sku": item['sku'],
+                "current_stock": item['current_stock'],
+                "reorder_point": item['reorder_point'],
+                "lead_time": f"{item['lead_time_days']} days",
+                "status": "CRITICAL"
+            }
+            # Fire webhook to procurement channel
+            response = requests.post(WEBHOOK_URL, json=payload)
+            print(f"Alert sent for {item['sku']}: {response.status_code}")
+
+# Execution bridging warehouse data to buyers
+check_stock_levels(warehouse_inventory_stream)</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer / Final CTA -->
+    <footer id="contact" class="footer-cta glass-effect">
+        <div class="container text-center">
+            <h2 class="section-title">Ready to Optimize Your Operations?</h2>
+            <p class="body-text cta-sub">
+                This system is just one example of how I blend deep logistics expertise with modern technical execution to solve complex supply chain bottlenecks.
+            </p>
+            <div class="footer-actions">
+                <!-- Assuming standard LinkedIn placeholder -->
+                <a href="https://linkedin.com/in/anaslatheef" target="_blank" class="btn btn-primary btn-lg">Let's Connect on LinkedIn</a>
+            </div>
+            <div class="footer-links">
+                <a href="../index.html" class="text-link">&larr; Return to www.anaslatheef.com</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Alert Modal Structure -->
+    <div class="modal-overlay" id="alert-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-icon">âœ“</div>
+                <h3 class="modal-title">Success: Alert Configured</h3>
+            </div>
+            <div class="modal-body">
+                <p>The system has successfully dispatched a webhook payload to the procurement channel. A new purchase order has been automatically generated.</p>
+                <a href="https://docs.google.com/spreadsheets/d/1U4l7Z9232JmK6k_GZz5994Lp4pUKiV4TzWqO3u944Y/edit?usp=sharing" target="_blank" class="modal-link">
+                    View Live Spreadsheet
+                </a>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-outline" onclick="closeModalAndReset()">Acknowledge & Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
